@@ -1,0 +1,23 @@
+body {
+  background-color: rgb(64, 75, 128);
+}
+
+h1 {
+  color: red;
+  text-align: center;
+}
+
+p {
+  color: red;
+  font-family: verdana;
+  font-size: 40px;
+  text-align: center;
+}
+
+input[type=text]{
+  width: 20%;
+}
+
+div {
+  text-align: center;
+}
