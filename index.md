@@ -1,1 +1,14 @@
-<!DOCTYPE html><html lang="en-ca">  <head>    <meta http-equiv="content-type" content="text/html; charset=UTF-8">    <title>Sean's page of coding examples</title>    <meta name="author" content="Sean Barry">    <meta name="description" content="Learning to code new stuff">    <meta name="keywords" content="javascript code html css etc">  </head>  <body><a href="index.html">calculator </a>    <p><br>    </p>  </body></html>
+<!DOCTYPE html>
+<html lang="en-ca">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Sean's page of coding examples</title>
+    <meta name="author" content="Sean Barry">
+    <meta name="description" content="Learning to code new stuff">
+    <meta name="keywords" content="javascript code html css etc">
+  </head>
+  <body><a href="calc.html">calculator </a>
+    <p><br>
+    </p>
+  </body>
+</html>
