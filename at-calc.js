@@ -10,25 +10,31 @@ function calculate() {
     let inMM=document.forms["at-calc"]["inMM"].value;
     
     let outMM60 = (outMM / 60);
-    outMM60 = outMM60.toFixed(1);
+    //outMM60 = outMM60.toFixed(1);
     let outTime = Number(outHH) + Number(outMM60)
 
     let offMM60 = (offMM / 60);
-    offMM60 = offMM60.toFixed(1);
-    let offTime = Number(offHH) + Number(offMM60)
+    //offMM60 = offMM60.toFixed(1);
+    let offTime = offHH + offMM60
     
     let onMM60 = (onMM / 60);
-    onMM60 = onMM60.toFixed(1);
+    //onMM60 = onMM60.toFixed(1);
     let onTime = Number(onHH) + Number(onMM60)
     
     let inMM60 = (inMM / 60);
-    inMM60 = inMM60.toFixed(1);
+    //inMM60 = inMM60.toFixed(1);
     let inTime = Number(inHH) + Number(inMM60)
 
     let flightTime = inTime - outTime
+    if (flightTime <= 0) {
+        flightTime = 24 + flightTime;
+    }
     flightTime = flightTime.toFixed(1)
     
     let airTime = onTime - offTime
+    if (airTime <= 0) {
+        airTime = 24 + airTime;
+    }
     airTime = airTime.toFixed(1)
 
     alert("OUT " + outTime + "\n"+ 
