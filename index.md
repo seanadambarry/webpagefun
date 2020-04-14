@@ -13,6 +13,7 @@
     <div class="topnav">
       <a href="at-calc.html">Flight and Air Time Calculator</a>
       <a href="calc.html">Normal Adding Calculator</a>
+      <a href="graphs.html">Covid-19 Graphs</a>
       <a href="#">Link</a>
     </div>
     
