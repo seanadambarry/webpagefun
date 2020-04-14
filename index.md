@@ -9,12 +9,21 @@
     <link type="text/css" rel="stylesheet" href="sabstyle.css">
   </head>
   <body>
-    <div id="left">
-      <ul>
-        <li><a href="at-calc.html">Flight and Air Time Calculator</a></li>
-        <br>
-        <li><a href="calc.html">Normal Adding Calculator</a></li>
-      </ul>
+
+    <div class="topnav">
+      <a href="at-calc.html">Flight and Air Time Calculator</a>
+      <a href="calc.html">Normal Adding Calculator</a>
+      <a href="#">Link</a>
     </div>
-  </body>
-</html>
+    
+    <div class="content">
+      <h2>CSS Template</h2>
+      <p>A topnav, content and a footer.</p>
+    </div>
+    
+    <div class="footer">
+      <p>Footer</p>
+    </div>
+    
+    </body>
+    </html>

@@ -15,7 +15,7 @@ function calculate() {
 
     let offMM60 = (offMM / 60);
     //offMM60 = offMM60.toFixed(1);
-    let offTime = offHH + offMM60
+    let offTime = Number(offHH) + Number(offMM60)
     
     let onMM60 = (onMM / 60);
     //onMM60 = onMM60.toFixed(1);

@@ -6,11 +6,11 @@
     <title>Calculator</title>
     <link type="text/css" rel="stylesheet" href="tut.css">
   </head>
-  <body> <br>
-    <form id="at-calc">
-      <div>
-        Input the OOOI times in format of HH then MM<br>
-        <table align="center">
+  <body>
+    <div class="tableOOOI">
+      <form id="at-calc">
+        <h1>Input the OOOI times in format of HH then MM</h1><br>
+        <table class="tableOOOI">
         <tr>
           <td>
             OUT<br>
@@ -18,8 +18,6 @@
             OFF<br>
             <input id="offHH" type="text"> <input id="offMM" type="text">
           </td>
-        </tr>
-        <tr>
           <td>
             ON<br>
             <input id="onHH" type="text"> <input id="onMM" type="text"><br>
@@ -29,18 +27,29 @@
         </tr>
         <tr>
           <td>
-          The flight time = <p class="results" id="flightTime">Flight Time</p><br>
-          The air time = <p class ="results" id="airTime">Air Time</p>
-        </td>
+          The flight time =
+          </td>
+          <td><p class="results" id="flightTime">Flight Time</p>
+          </td>
+        </tr>  
+        <tr> 
+          <td>
+          The air time =
+          </td>
+          <td>
+          <p class ="results" id="airTime">Air Time</p>
+          </td>
+        <tr>
+          <td colspan="2">
+          <input value="Calculate Flight Time and Air Time" onclick="calculate()" type="button">
+          </td>
         </tr>
-      </table>
+        </table>
       </div>
-      
-      
-      <div><input value="Calculate Flight Time and Air Time" onclick="calculate()" type="button"><br>
-      </div>
-      <br>
     </form>
+    </div>
+    <br>
+    <br>
     <br>
     <br>
     <p id="p1">Hello World its Pickle Rick!</p>
@@ -50,6 +59,8 @@
     <p><br>
     </p>
     <script src="at-calc.js"></script>
-    
+    <div id="test1">
+      Test!
+    </div>
   </body>
 </html>
