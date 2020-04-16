@@ -1,8 +1,8 @@
 var confirmed = {
     chart: {
-        background: '#b3e0ff',
-        height: 800,
-        width: 1200,
+        background: '#b3b3b3',
+        height: 600,
+        width: 1000,
         type: 'line',
         dropShadow: {
           enabled: true,
@@ -40,8 +40,8 @@ var confirmed = {
         },
       },
     xaxis: {
-        categories: ['Jan22','Jan23','Jan24','Jan25','Jan26','Jan27','Jan28','Jan29','Jan30','Jan31','Feb01','Feb02','Feb03','Feb04','Feb05','Feb06','Feb07','Feb08','Feb09','Feb10','Feb11','Feb12','Feb13','Feb14','Feb15','Feb16','Feb17','Feb18','Feb19','Feb20','Feb21','Feb22','Feb23','Feb24','Feb25','Feb26','Feb27','Feb28','Feb29','Mar01','Mar02','Mar03','Mar04','Mar05','Mar06','Mar07','Mar08','Mar09','Mar10','Mar11','Mar12','Mar13','Mar14','Mar15','Mar16','Mar17','Mar18','Mar19','Mar20','Mar21','Mar22','Mar23','Mar24','Mar25','Mar26','Mar27','Mar28','Mar29','Mar30','Mar31','Apr01','Apr02','Apr03','Apr04','Apr05','Apr06','Apr07','Apr08','Apr09','Apr10','Apr11','Apr12','Apr13'],
-        tickAmount: 20,
+        categories: ['Jan22','Jan23','Jan24','Jan25','Jan26','Jan27','Jan28','Jan29','Jan30','Jan31','Feb01','Feb02','Feb03','Feb04','Feb05','Feb06','Feb07','Feb08','Feb09','Feb10','Feb11','Feb12','Feb13','Feb14','Feb15','Feb16','Feb17','Feb18','Feb19','Feb20','Feb21','Feb22','Feb23','Feb24','Feb25','Feb26','Feb27','Feb28','Feb29','Mar01','Mar02','Mar03','Mar04','Mar05','Mar06','Mar07','Mar08','Mar09','Mar10','Mar11','Mar12','Mar13','Mar14','Mar15','Mar16','Mar17','Mar18','Mar19','Mar20','Mar21','Mar22','Mar23','Mar24','Mar25','Mar26','Mar27','Mar28','Mar29','Mar30','Mar31','Apr01','Apr02','Apr03','Apr04','Apr05','Apr06','Apr07','Apr08','Apr09','Apr10','Apr11','Apr12','Apr13','Apr14','Apr15','Apr16','Apr17','Apr18','Apr19','Apr20'],
+        tickAmount: 10,
         title: {
             text: "DATE",
             style: {
@@ -66,7 +66,7 @@ var confirmed = {
         position: 'top',
         horizontalAlign: 'right',
         floating: true,
-        offsetY: -25,
+        offsetY: -5,
         offsetX: -5
       },
 
@@ -98,9 +98,9 @@ var confirmed = {
   //DEATHS
   var deaths = {
     chart: {
-        background: '#b3e0ff',
-        height: 800,
-        width: 1200,
+        background: '#b3b3b3',
+        height: 600,
+        width: 1000,
         type: 'line',
         dropShadow: {
           enabled: true,
@@ -128,7 +128,7 @@ var confirmed = {
         size: 2,
     },
     title: {
-        text: 'Confirmed Cases',
+        text: 'Deaths',
         align: 'center'
       },
       grid: {
@@ -138,8 +138,8 @@ var confirmed = {
         },
       },
     xaxis: {
-        categories: ['Jan22','Jan23','Jan24','Jan25','Jan26','Jan27','Jan28','Jan29','Jan30','Jan31','Feb01','Feb02','Feb03','Feb04','Feb05','Feb06','Feb07','Feb08','Feb09','Feb10','Feb11','Feb12','Feb13','Feb14','Feb15','Feb16','Feb17','Feb18','Feb19','Feb20','Feb21','Feb22','Feb23','Feb24','Feb25','Feb26','Feb27','Feb28','Feb29','Mar01','Mar02','Mar03','Mar04','Mar05','Mar06','Mar07','Mar08','Mar09','Mar10','Mar11','Mar12','Mar13','Mar14','Mar15','Mar16','Mar17','Mar18','Mar19','Mar20','Mar21','Mar22','Mar23','Mar24','Mar25','Mar26','Mar27','Mar28','Mar29','Mar30','Mar31','Apr01','Apr02','Apr03','Apr04','Apr05','Apr06','Apr07','Apr08','Apr09','Apr10','Apr11'],
-        tickAmount: 20,
+        categories: ['Jan22','Jan23','Jan24','Jan25','Jan26','Jan27','Jan28','Jan29','Jan30','Jan31','Feb01','Feb02','Feb03','Feb04','Feb05','Feb06','Feb07','Feb08','Feb09','Feb10','Feb11','Feb12','Feb13','Feb14','Feb15','Feb16','Feb17','Feb18','Feb19','Feb20','Feb21','Feb22','Feb23','Feb24','Feb25','Feb26','Feb27','Feb28','Feb29','Mar01','Mar02','Mar03','Mar04','Mar05','Mar06','Mar07','Mar08','Mar09','Mar10','Mar11','Mar12','Mar13','Mar14','Mar15','Mar16','Mar17','Mar18','Mar19','Mar20','Mar21','Mar22','Mar23','Mar24','Mar25','Mar26','Mar27','Mar28','Mar29','Mar30','Mar31','Apr01','Apr02','Apr03','Apr04','Apr05','Apr06','Apr07','Apr08','Apr09','Apr10','Apr11','Apr11','Apr12','Apr13','Apr14','Apr15','Apr16','Apr17','Apr18','Apr19','Apr20'],
+        tickAmount: 10,
         title: {
             text: "DATE",
             style: {
@@ -151,10 +151,10 @@ var confirmed = {
     yaxis: {
         logarithmic: true,
         min: 1,
-        max: 600000,
+        max: 60000,
         tickAmount: 10,
         title: {
-            text: "CONFIRMED",
+            text: "DEATHS",
             style: {
                 fontSize: '20px',
             },
@@ -164,7 +164,7 @@ var confirmed = {
         position: 'top',
         horizontalAlign: 'right',
         floating: true,
-        offsetY: -25,
+        offsetY: -5,
         offsetX: -5
       },
 
@@ -193,3 +193,114 @@ var confirmed = {
   
   
   deathschart.render();
+
+  //CONF-1000
+  var confthou = {
+    chart: {
+        background: '#b3b3b3',
+        height: 600,
+        width: 1000,
+        type: 'line',
+        dropShadow: {
+          enabled: true,
+          color: '#000',
+          top: 18,
+          left: 7,
+          blur: 10,
+          opacity: 0.2
+        },
+        toolbar: {
+          show: false
+        }
+      },
+      
+      colors: ['#cc0000', '#0066ff','#006600','#b3b300','#e600ac','#ff9900','#9900ff'], //canada, usa, italy, china, germany, ontario, spain
+      dataLabels: {
+        enabled: false,
+      },
+
+    stroke: {
+        curve:'straight'
+    },
+
+    markers: {
+        size: 2,
+    },
+    title: {
+        text: 'Confirmed Cases after reaching 1000 by day',
+        align: 'center'
+      },
+      grid: {
+        row: {
+          colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+          opacity: 0.5
+        },
+      },
+    xaxis: {
+        categories: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72],
+        tickAmount: 10,
+        title: {
+            text: "Days from 1000 Confirmed Cases",
+            style: {
+                fontSize: '20px',
+            },
+        },
+    },
+    
+    yaxis: {
+        logarithmic: true,
+        min: 1000,
+        max: 800000,
+        tickAmount: 10,
+        title: {
+            text: "Confirmed Cases",
+            style: {
+                fontSize: '20px',
+            },
+        },
+    },
+    legend: {
+        position: 'top',
+        horizontalAlign: 'right',
+        floating: true,
+        offsetY: -5,
+        offsetX: -5
+      },
+
+    series: [
+    {
+        name: 'Canada',
+        data: [1277,1469,2088,2790,3251,4042,4682,5563,6267,7385,8514,9547,11271,12424,12965,15743,16550,17859,19128,20641,22046,23303,24286,25667,27022]
+    },
+    {
+        name: 'USA',
+        data: [1281,1663,2179,2727,3499,4632,6421,7783,13677,19100,25489,33276,43847,53740,65778,83836,101657,121748,140886,161807,188172,213372,243453,275586,308850,337072,366667,396223,429052,461437,496535,526396,555313,580619,607670]
+    },
+    {
+        name: 'Italy',
+        data: [1128,1694,2036,2502,3089,3858,4636,5883,7375,9172,10149,12462,12462,17660,21157,24747,27980,31506,35713,41035,47021,53578,59138,63927,69176,74386,80589,86498,92472,97689,101739,105792,110574,115242,119827,124632,128948,132547,135586,139422,143626,147577,152271,156363,159516,162488]
+    },
+    {
+        name: 'China',
+        data: [1406,2075,2877,5509,6087,8141,9802,11891,16630,19716,23707,27440,30587,34110,36814,39829,42354,44386,44759,59895,66358,68413,70513,72434,74211,74619,75077,75550,77001,77022,77241,77754,78166,78600,78928,79356,79932,80136,80261,80386,80537,80690,80770,80823,80860,80887,80921,80932,80945,80977,81003,81033,81058,81102,81156,81250,81305,81435,81498,81591,81661,81782,81897,81999,82122,82198,82279,82361,82432,82511,82543,82602,82665,82718]
+    },
+    {
+      name: 'Germany',
+      data: [1040,1176,1457,1908,2078,3675,4585,5795,7272,9257,12327,15320,19848,22213,24873,29056,32986,37323,43938,50871,57695,62095,66885,71808,77872,84794,91159,96092,100123,103374,107663,113296,118181,122171,124908,127854,130072,131359]
+    },
+    {
+      name: 'Ontario',
+      data: [994,1144,1355,1706,1966,2392,2793,3255,3630,4354,4347,4726,5276,5759,6237,6648,7049,7470,7953]
+    },
+    {
+      name: 'Spain',
+      data: [1073,1695,2277,2277,5232,6391,7798,9942,11748,13910,17963,20410,25374,28768,35136,39885,49515,57786,65719,73235,80110,87956,95923,104118,112065,119199,126168,131646,136675,141942,148220,153222,158273,163027,166831,170099,172541]
+    }
+],
+
+  }
+  
+  var confthouchart = new ApexCharts(document.querySelector("#chart3"), confthou);
+  
+  
+  confthouchart.render();
