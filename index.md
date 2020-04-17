@@ -11,11 +11,12 @@
   <body>
 
     <div class="topnav">
-      <a href="at-calc.html">Flight and Air Time Calculator</a>
-      <a href="calc.html">Normal Adding Calculator</a>
-      <a href="graphs.html">Covid-19 Graphs</a>
-      <a href="#">Link</a>
-    </div>
+    <a href="at-calc.html">Flight and Air Time Calculator</a>
+    <a href="calc.html">Normal Adding Calculator</a>
+    <a href="graphs.html">Covid-19 Graphs-ApexCharts</a>
+    <a href="graphs2.html">Covid-19 Graphs-Zing Charts</a>
+    <a href="#">Link</a>
+  </div>
     
     <div class="content">
       <h2>CSS Template</h2>
