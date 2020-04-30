@@ -13,7 +13,10 @@
           color: '#5d7d9a'
         },
         legend: {
-          draggable: true,
+          draggable: false,
+          adjustLayout: true,
+          align: 'right',
+          verticlAlign: 'bottom',
         },
         plotarea: {
         marginLeft:'dynamic',
@@ -35,8 +38,9 @@
           }
         },
         plot: {
-          // animation docs here:
-          // https://www.zingchart.com/docs/tutorials/design-and-styling/chart-animation/#animation__effect
+          marker: {
+            size: 3,
+          }
         },
         csv: {
         url: "conf-countries.csv",
@@ -47,7 +51,7 @@
       // render chart with width and height to
       // fill the parent container CSS dimensions
       zingchart.render({
-        id: 'myChart',
+        id: 'confirmed',
         data: myConfig,
         height: 600,
         width: 1000
@@ -61,7 +65,10 @@
         color: '#5d7d9a'
       },
       legend: {
-        draggable: true,
+        draggable: false,
+        adjustLayout: true,
+        align: 'right',
+        verticlAlign: 'bottom',
       },
       plotarea: {
       marginLeft:'dynamic',
@@ -83,8 +90,9 @@
         }
       },
       plot: {
-        // animation docs here:
-        // https://www.zingchart.com/docs/tutorials/design-and-styling/chart-animation/#animation__effect
+        marker: {
+          size: 3,
+        }
       },
       csv: {
       url: "conf-1000.csv",
@@ -95,10 +103,115 @@
     // render chart with width and height to
     // fill the parent container CSS dimensions
     zingchart.render({
-      id: 'myChart2',
+      id: 'conf1000',
       data: myConfig2,
       height: 600,
       width: 1000
     });
-  });
     
+    //new chart for deaths
+    const myConfig3 = {
+      type: 'line',
+      title: {
+        text: 'Confirmed cases when cases reached 1000',
+        fontSize: 24,
+        color: '#5d7d9a'
+      },
+      legend: {
+        draggable: false,
+        adjustLayout: true,
+        align: 'right',
+        verticlAlign: 'bottom',
+      },
+      plotarea: {
+      marginLeft:'dynamic',
+      marginRight:'dynamic',
+      },
+      scaleX: {
+        // set scale label
+        label: {
+          text: 'Date'
+        },
+        // convert text on scale indices
+      },
+      scaleY: {
+        // scale label with unicode character
+        progression: "log",
+        'log-base': 10,
+        label: {
+          text: 'Deaths'
+        }
+      },
+      plot: {
+        marker: {
+          size: 3,
+        }
+      },
+      csv: {
+      url: "can-ovr.csv",
+      'vertical-labels': true
+          }
+    };
+
+    // render chart with width and height to
+    // fill the parent container CSS dimensions
+    zingchart.render({
+      id: 'deaths',
+      data: myConfig3,
+      height: 600,
+      width: 1000
+    });
+    
+  //new chart for deaths
+  const myConfig4 = {
+    type: 'line',
+    title: {
+      text: 'Confirmed cases when cases reached 1000',
+      fontSize: 24,
+      color: '#5d7d9a'
+    },
+    legend: {
+      draggable: false,
+      adjustLayout: true,
+      align: 'right',
+      verticlAlign: 'bottom',
+    },
+    plotarea: {
+    marginLeft:'dynamic',
+    marginRight:'dynamic',
+    },
+    scaleX: {
+      // set scale label
+      label: {
+        text: 'Date'
+      },
+      // convert text on scale indices
+    },
+    scaleY: {
+      // scale label with unicode character
+      progression: "log",
+      'log-base': 10,
+      label: {
+        text: 'Deaths'
+      }
+    },
+    plot: {
+      marker: {
+        size: 3,
+      }
+    },
+    csv: {
+    url: "can-ovr.csv",
+    'vertical-labels': true
+        }
+  };
+
+  // render chart with width and height to
+  // fill the parent container CSS dimensions
+  zingchart.render({
+    id: 'global',
+    data: myConfig4,
+    height: 600,
+    width: 1000
+  });
+});
