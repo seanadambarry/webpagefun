@@ -4,22 +4,22 @@ let i = 0;
 let catName;
 let catAge;
 let assholeness;
-let asschg;
+let asschg = 0;
 let cuteness;
-let cutchg;
+let cutchg = 0;
 let playfulness;
-let playchg;
+let playchg = 0;
 let sleepiness;
-let sleepchg;
+let sleepchg = 0;
 let dominance;
 let humName;
 let patience;
-let patchg;
+let patchg = 0;
 let annoyance;
-let annchg;
+let annchg = 0;
 let tiredness;
 let busyness;
-let busychg;
+let busychg = 0;
 let selfishness;
 
 //variables for number of battles and who won and max battles is out of 5
@@ -109,7 +109,7 @@ function buttonclick() {
         document.getElementById("sleepy").innerHTML = sleepiness;
         document.getElementById("dom").innerHTML = dominance;
         document.getElementById("mainbutton").innerHTML = "Enter your name and your attributes!";
-        document.getElementById("instructions").innerHTML = "Now you will enter your name and attributes. Click the button below!"
+        document.getElementById("instructions").innerHTML = "Instructions: Now you will enter your name and attributes. Click the button below!"
         whatpage += 1;
 
 
@@ -203,6 +203,9 @@ function buttonclick() {
         document.getElementById("catresulttitle").innerHTML = "Cat Battle Number! :";
         document.getElementById("humanresulttitle").innerHTML = "Human Battle Number! :";
         }
+    
+} else if (whatpage == 3) {
+    location.reload();
 }
 }
 
@@ -230,23 +233,25 @@ function buttonclick() {
         document.getElementById("b1one").innerHTML = `${catName} wins this battle!`;
         catWin +=1;
         document.getElementById("catwins").innerHTML = catWin;
-        patience -= 1;
-        patchg -= 1;
-        annoyance += 1;
-        annchg += 1;
-        busyness -= 1;
-        busyness -= 1;
-
-        document.getElementById("asschg").innerHTML = "";
-        document.getElementById("cutechg").innerHTML = "";
-        document.getElementById("playchg").innerHTML = "";
-        document.getElementById("sleepchg").innerHTML = "";
-        document.getElementById("domchg").innerHTML = "";
-
-        document.getElementById("patchg").innerHTML = "-1";
-        document.getElementById("annchg").innerHTML = "+1";
+        if (patience > 0) {
+            patience -= 1;
+            patchg -= 1;
+        }
+        
+        if (annoyance < 10) {
+            annoyance += 1;
+            annchg += 1;
+        }
+        
+        if (busyness > 0) {
+            busyness -= 1;
+            busychg -= 1;
+        }
+        
+        document.getElementById("patchg").innerHTML = patchg;
+        document.getElementById("annchg").innerHTML = `+${annchg}`;
         document.getElementById("tiredchg").innerHTML = "";
-        document.getElementById("busychg").innerHTML = "-1";
+        document.getElementById("busychg").innerHTML = busychg;
         document.getElementById("selfishchg").innerHTML = "";
 
         document.getElementById("patience").innerHTML = patience;
@@ -260,21 +265,32 @@ function buttonclick() {
         document.getElementById("b1one").innerHTML = `${humName} wins this battle!`;
         humanWin +=1;
         document.getElementById("humanwins").innerHTML = humanWin;
-        assholeness += 1;
-        cuteness -= 1;
-        playfulness -= 1;
-        sleepiness -= 1;
-        document.getElementById("asschg").innerHTML = "+1";
-        document.getElementById("cutechg").innerHTML = "-1";
-        document.getElementById("playchg").innerHTML = "-1";
-        document.getElementById("sleepchg").innerHTML = "-1";
-        document.getElementById("domchg").innerHTML = "";
+        
+        if (assholeness < 10) {
+            assholeness += 1;
+            asschg += 1;
+        }
+       
+        if (cuteness > 0) {
+            cuteness -= 1;
+            cutchg -= 1;
+        }
+        
+        if (playfulness > 0) {
+            playfulness -= 1;
+            playchg -= 1;
+        }
 
-        document.getElementById("patchg").innerHTML = "";
-        document.getElementById("annchg").innerHTML = "";
-        document.getElementById("tiredchg").innerHTML = "";
-        document.getElementById("busychg").innerHTML = "";
-        document.getElementById("selfishchg").innerHTML = "";
+        if (sleepiness > 0) {
+            sleepiness -= 1;
+            sleepchg -=1;
+        }
+        
+        document.getElementById("asschg").innerHTML = `+${asschg}`;
+        document.getElementById("cutechg").innerHTML = cutchg;
+        document.getElementById("playchg").innerHTML = playchg;
+        document.getElementById("sleepchg").innerHTML = sleepchg;
+        document.getElementById("domchg").innerHTML = "";
 
         document.getElementById("asshole").innerHTML = assholeness;
         document.getElementById("cute").innerHTML = cuteness;
@@ -291,11 +307,26 @@ function buttonclick() {
 
     if (numBattles == 5) {
         if (catWin > humanWin){
+            gameover("mytable")
+            document.getElementById("battle1").innerHTML = "";
+
             document.getElementById("battlesover").innerHTML = `${catName} is the over all winner and LORD OVER ALL THE HUMANNSSSS`;
-            document.getElementById("mainbutton").disabled = true;
+            whatpage += 1;
+            document.getElementById("mainbutton").innerHTML = "Do you want to play again? Click here!";
+            document.getElementById("instructions").innerHTML = `Great battles ${catName} and ${humName} ! Want to play again? `;
         } else if (catWin < humanWin){
+            gameover("mytable")
+            document.getElementById("battle1").innerHTML = "";
+            
             document.getElementById("battlesover").innerHTML = `${humName} is the overall winner and LORD OVER ALL THE CATS! And the cats will not get fed right now`;
-            document.getElementById("mainbutton").disabled = true;
+            whatpage += 1;
+            document.getElementById("mainbutton").innerHTML = "Do you want to play again? Click here!";
+            document.getElementById("instructions").innerHTML = `Great battles ${catName} and ${humName} ! Want to play again? `;
         }
     }
+ }
+
+ function gameover(elementId) {
+     let element = document.getElementById(elementId);
+     element.parentNode.removeChild(element);
  }
