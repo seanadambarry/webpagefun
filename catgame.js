@@ -179,8 +179,8 @@ function buttonclick() {
     humanbattlenumber = randomnumhuman * (patience - annoyance - tiredness + busyness);
     document.getElementById("catresult").innerHTML = catbattlenumber;
     document.getElementById("humanresult").innerHTML = humanbattlenumber;
-    console.log("total cat " + (assholeness + cuteness + playfulness + sleepiness));
-    console.log("total human" + (patience + annoyance + tiredness + busyness));
+    console.log("total cat " + (assholeness + cuteness - playfulness - sleepiness));
+    console.log("total human" + (patience - annoyance - tiredness + busyness));
     console.log("cat random number " + randomnumcat);
     console.log("human random number " + randomnumhuman);
     console.log("cat battle number" + catbattlenumber);
