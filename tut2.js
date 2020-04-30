@@ -13,4 +13,8 @@ alert(`Hello ${user.name}, you are ${user.age} years old!`);
 
 let whatKnow = prompt(`What would you like to know about ${user.name}?`, "name or age");
 
-alert( user[whatKnow]);
+if (whatKnow == 'name' || whatKnow == 'age') {
+    alert( user[whatKnow]);
+} else {
+    alert('no specific detail found');
+}
