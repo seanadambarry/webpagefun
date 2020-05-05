@@ -11,6 +11,10 @@ let cat = {
     dominance: 0
 }
 
+let catQuestAttrib = ['jerky', 'cute', 'playful', 'sleepy', 'dominant'];
+let catKeys = Object.keys(cat);
+catKeys = catKeys.slice(2);
+
 //human and its properties
 let human = {
     name: "",
@@ -20,6 +24,10 @@ let human = {
     busyness : 0,
     selfishness : 0
 }
+
+let humQuestAttrib = ['patient', 'annoyed', 'tired', 'busy','selfish'];
+let humanKeys = Object.keys(human);
+humanKeys = humanKeys.slice(1)
 
 //cat and human properties that have changes and their values
 let asschg = 0;
@@ -54,67 +62,11 @@ function buttonclick() {
         cat.name = prompt("What is your cat's name?")
         cat.age = prompt("What is your cat's age?");
 
-        cat.assholeness = Number(prompt(`How much of an jerk right now is your cat? Out of 0 to 10`));
-        let i = 0;
-        while (i != 1) {
-            if ((cat.assholeness) < 0 || cat.assholeness > 10 || isNaN(cat.assholeness)) {
-                cat.assholeness = Number(prompt(`Please enter a number from 0 to 10. How much of an jerk right now is your cat?`));
-                if ((cat.assholeness) < 0 || cat.assholeness > 10 || isNaN(cat.assholeness)) {
-                    i = 0;
-                } 
-            }
-            else i = 1;
+        for (let b = 0; b < catKeys.length; b++){
+            cat[catKeys[b]] = getPropVal(cat[catKeys[b]],catQuestAttrib[b],'is your cat');
+            console.log(cat[catKeys[b]],catQuestAttrib[b])
         }
-        i = 0;
-
-        cat.cuteness = Number(prompt(`How cute is your cat right now ? Out of 0 to 10`));
-        while (i != 1) {
-            if ((cat.cuteness) < 0 || cat.cuteness > 10 || isNaN(cat.cuteness)) {
-                cat.cuteness = Number(prompt(`Please enter a number from 0 to 10. How cute is your cat right now?`));
-                if ((cat.cuteness) < 0 || cat.cuteness > 10 || isNaN(cat.cuteness)) {
-                    i = 0;
-                } 
-            }
-            else i = 1;
-        }
-        i = 0;
-
-        cat.playfulness = Number(prompt(`How playful is your cat right now? Out of 0 to 10`));
-        while (i != 1) {
-            if ((cat.playfulness) < 0 || cat.playfulness > 10 || isNaN(cat.playfulness)) {
-                cat.playfulness = Number(prompt(`Please enter a number from 0 to 10. How playful is your cat right now?`));
-                if ((cat.playfulness) < 0 || cat.playfulness > 10 || isNaN(cat.playfulness)) {
-                    i = 0;
-                } 
-            }
-            else i = 1;
-        }
-        i = 0;
-
-        cat.sleepiness = Number(prompt(`How sleepy is your cat right now? Out of 0 to 10`));
-        while (i != 1) {
-            if ((cat.sleepiness) < 0 || cat.sleepiness > 10 || isNaN(cat.sleepiness)) {
-                cat.sleepiness = Number(prompt(`Please enter a number from 0 to 10. How sleepy is your cat right now?`));
-                if ((cat.sleepiness) < 0 || cat.sleepiness > 10 || isNaN(cat.sleepiness)) {
-                    i = 0;
-                } 
-            }
-            else i = 1;
-        }
-        i = 0;
-
-        cat.dominance = Number(prompt(`How dominant is your cat in general? Out of 0 to 10`));
-
-        while (i != 1) {
-            if ((cat.dominance) < 0 || cat.dominance > 10 || isNaN(cat.dominance)) {
-                cat.dominance = Number(prompt(`Please enter a number from 0 to 10. How dominant is your cat in general?`));
-                if ((cat.dominance) < 0 || cat.dominance > 10 || isNaN(cat.dominance)) {
-                    i = 0;
-                } 
-            }
-            else i = 1;
-        }
-        i = 0;
+        console.log(cat)
 
         document.getElementById("catname").innerHTML = cat.name;
         document.getElementById("catage").innerHTML = cat.age + " years old";
@@ -131,72 +83,15 @@ function buttonclick() {
 } else if (whatpage == 1) {
         //enter human name and attributes
         human.name = prompt("What is your name?");
-        human.patience = Number(prompt("How much patience do you have right now? From 0 to 10. "));
-        let i = 0;
-        while (i != 1) {
-            if ((human.patience) < 0 || human.patience > 10 || isNaN(human.patience)) {
-                human.patience = Number(prompt(`Please enter a number from 0 to 10. How much human.patience do you have right now?`));
-                if ((human.patience) < 0 || human.patience > 10 || isNaN(human.patience)) {
-                    i = 0;
-                } 
-            }
-            else i = 1;
+
+        //cat keys and human keys hold the key names and they are in an array and are called with the human[humanKeys[b]]
+
+        for (let b = 0; b < humanKeys.length; b++){
+            human[humanKeys[b]] = getPropVal(human[humanKeys[b]],humQuestAttrib[b],'are you');
+            console.log(human[humanKeys[b]],humQuestAttrib[b])
         }
-        i = 0;
-
-        human.annoyance = Number(prompt("How annoyed are you right now? From 0 to 10. "));
- 
-        while (i != 1) {
-            if ((human.annoyance) < 0 || human.annoyance > 10 || isNaN(human.annoyance)) {
-                human.annoyance = Number(prompt(`Please enter a number from 0 to 10. How annoyed are you right now?`));
-                if ((human.annoyance) < 0 || human.annoyance > 10 || isNaN(human.annoyance)) {
-                    i = 0;
-                } 
-            }
-            else i = 1;
-        }
-        i = 0;
-
-        human.tiredness = Number(prompt("How tired are you right now? From 0 to 10. "));
-
-        while (i != 1) {
-            if ((human.tiredness) < 0 || human.tiredness > 10 || isNaN(human.tiredness)) {
-                human.tiredness = Number(prompt(`Please enter a number from 0 to 10. How tired are you right now?`));
-                if ((human.tiredness) < 0 || human.tiredness > 10 || isNaN(human.tiredness)) {
-                    i = 0;
-                } 
-            }
-            else i = 1;
-        }
-        i = 0;
-
-        human.busyness = Number(prompt("How busy are you right now? From 0 to 10."));
-
-        while (i != 1) {
-            if ((human.busyness) < 0 || human.busyness > 10 || isNaN(human.busyness)) {
-                human.busyness = Number(prompt(`Please enter a number from 0 to 10. How busy are you right now?`));
-                if ((human.busyness) < 0 || human.busyness > 10 || isNaN(human.busyness)) {
-                    i = 0;
-                } 
-            }
-            else i = 1;
-        }
-        i = 0;
-
-        human.selfishness = Number(prompt("How selfish are you in general? From 0 to 10."));
-
-        while (i != 1) {
-            if ((human.selfishness) < 0 || human.selfishness > 10 || isNaN(human.selfishness)) {
-                human.selfishness = Number(prompt(`Please enter a number from 0 to 10. How selfish are you in general?`));
-                if ((human.selfishness) < 0 || human.selfishness > 10 || isNaN(human.selfishness)) {
-                    i = 0;
-                } 
-            }
-            else i = 1;
-        }
-        i = 0;
-
-
+        console.log(human)
+        
         document.getElementById("humname").innerHTML = human.name;
         document.getElementById("patience").innerHTML = human.patience;
         document.getElementById("annoyance").innerHTML = human.annoyance;
@@ -341,5 +236,24 @@ function buttonclick() {
  function gameover(elementId) {
     let element = document.getElementById(elementId);
     element.parentNode.removeChild(element);
+}
+
+
+
+function getPropVal(propName,stringQuest,catOrHum) {
+    let i = 0;
+    propName = Number(prompt(`Please enter a number from 0 to 10. How ${stringQuest} ${catOrHum}?`));
+    while (i != 1) {
+        if ((propName) < 0 || propName > 10 || isNaN(propName)) {
+            propName = Number(prompt(`Please enter a number from 0 to 10. How ${stringQuest} ${catOrHum}?`));
+            if ((propName) < 0 || propName > 10 || isNaN(propName)) {
+                i = 0;
+            } 
+        }
+        else {i = 1;
+            return propName;
+        }
+    }
+    i = 0;
 }
 
