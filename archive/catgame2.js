@@ -31,8 +31,8 @@ let patchg = 0;
 let annchg = 0;
 let busychg = 0;
 
-//forthe battle function
-let i = 0;
+//for the battle function
+
 
 //variables for number of battles and who won and max battles is out of 5
 
@@ -55,6 +55,7 @@ function buttonclick() {
         cat.age = prompt("What is your cat's age?");
 
         cat.assholeness = Number(prompt(`How much of an jerk right now is your cat? Out of 0 to 10`));
+        let i = 0;
         while (i != 1) {
             if ((cat.assholeness) < 0 || cat.assholeness > 10 || isNaN(cat.assholeness)) {
                 cat.assholeness = Number(prompt(`Please enter a number from 0 to 10. How much of an jerk right now is your cat?`));
@@ -103,6 +104,7 @@ function buttonclick() {
         i = 0;
 
         cat.dominance = Number(prompt(`How dominant is your cat in general? Out of 0 to 10`));
+
         while (i != 1) {
             if ((cat.dominance) < 0 || cat.dominance > 10 || isNaN(cat.dominance)) {
                 cat.dominance = Number(prompt(`Please enter a number from 0 to 10. How dominant is your cat in general?`));
@@ -130,6 +132,7 @@ function buttonclick() {
         //enter human name and attributes
         human.name = prompt("What is your name?");
         human.patience = Number(prompt("How much patience do you have right now? From 0 to 10. "));
+        let i = 0;
         while (i != 1) {
             if ((human.patience) < 0 || human.patience > 10 || isNaN(human.patience)) {
                 human.patience = Number(prompt(`Please enter a number from 0 to 10. How much human.patience do you have right now?`));
@@ -142,6 +145,7 @@ function buttonclick() {
         i = 0;
 
         human.annoyance = Number(prompt("How annoyed are you right now? From 0 to 10. "));
+ 
         while (i != 1) {
             if ((human.annoyance) < 0 || human.annoyance > 10 || isNaN(human.annoyance)) {
                 human.annoyance = Number(prompt(`Please enter a number from 0 to 10. How annoyed are you right now?`));
@@ -154,6 +158,7 @@ function buttonclick() {
         i = 0;
 
         human.tiredness = Number(prompt("How tired are you right now? From 0 to 10. "));
+
         while (i != 1) {
             if ((human.tiredness) < 0 || human.tiredness > 10 || isNaN(human.tiredness)) {
                 human.tiredness = Number(prompt(`Please enter a number from 0 to 10. How tired are you right now?`));
@@ -166,6 +171,7 @@ function buttonclick() {
         i = 0;
 
         human.busyness = Number(prompt("How busy are you right now? From 0 to 10."));
+
         while (i != 1) {
             if ((human.busyness) < 0 || human.busyness > 10 || isNaN(human.busyness)) {
                 human.busyness = Number(prompt(`Please enter a number from 0 to 10. How busy are you right now?`));
@@ -178,6 +184,7 @@ function buttonclick() {
         i = 0;
 
         human.selfishness = Number(prompt("How selfish are you in general? From 0 to 10."));
+
         while (i != 1) {
             if ((human.selfishness) < 0 || human.selfishness > 10 || isNaN(human.selfishness)) {
                 human.selfishness = Number(prompt(`Please enter a number from 0 to 10. How selfish are you in general?`));
@@ -230,21 +237,11 @@ function buttonclick() {
     document.getElementById("catresult").innerHTML = catbattlenumber;
     document.getElementById("humanresult").innerHTML = humanbattlenumber;
 
-    console.log("total cat " + (cat.assholeness + cat.cuteness - cat.playfulness - cat.sleepiness + cat.dominance));
-    console.log("total human " + (human.patience - human.annoyance - human.tiredness + human.busyness + human.selfishness));
-    console.log("cat random number " + randomnumcat);
-    console.log("human random number " + randomnumhuman);
-    console.log("cat battle number " + catbattlenumber);
-    console.log("human battle number " + humanbattlenumber);
-
-    console.log("number of battles " + numBattles);
+  
 
     if (catbattlenumber > humanbattlenumber) {
         document.getElementById("b1one").innerHTML = `${cat.name} wins this battle!`;
         catWin +=1;
-
-        console.log("cat wins " + catWin);
-        console.log("human wins" + humanWin);
 
         document.getElementById("catwins").innerHTML = catWin;
         if (human.patience > 0) {
@@ -273,14 +270,11 @@ function buttonclick() {
         document.getElementById("tired").innerHTML = human.tiredness;
         document.getElementById("busy").innerHTML = human.busyness;
 
-        threewins()
+        threewins();
     }
     else if (catbattlenumber < humanbattlenumber) {
         document.getElementById("b1one").innerHTML = `${human.name} wins this battle!`;
         humanWin +=1;
-
-        console.log("cat wins " + catWin);
-        console.log("human wins" + humanWin);
         
         document.getElementById("humanwins").innerHTML = humanWin;
         
@@ -315,7 +309,7 @@ function buttonclick() {
         document.getElementById("playful").innerHTML = cat.playfulness;
         document.getElementById("sleepy").innerHTML = cat.sleepiness;
 
-        threewins()
+        threewins();
     }
     else if (catbattlenumber == humanbattlenumber) {
         document.getElementById("b1one").innerHTML = `${human.name} and ${cat.name} it was a TIE ! Do over!`
@@ -345,21 +339,7 @@ function buttonclick() {
  }
 
  function gameover(elementId) {
-     let element = document.getElementById(elementId);
-     element.parentNode.removeChild(element);
- }
-
- //canvas graphics stuff canvas size is 500 x 400
- function startGame() {
-    myGameArea.start();
+    let element = document.getElementById(elementId);
+    element.parentNode.removeChild(element);
 }
 
-var myGameArea = {
-    canvas : document.createElement("canvas"),
-    start : function() {
-        this.canvas.width = 480;
-        this.canvas.height = 270;
-        this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-    }
-}
