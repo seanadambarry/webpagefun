@@ -20,5 +20,6 @@ let spaceShip = {
 
 
 for ( key in spaceShip) {
-    console.log(`${key}: ${spaceShip[key]}: ${key}`);
+    console.log(key, spaceShip[key])
+    
 }
