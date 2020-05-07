@@ -53,13 +53,26 @@ let myself = {
 
 let lastCommand = '';
 
+/*
 for (let key in spaceShip) {
     console.log(key, spaceShip[key])
     
 };  
+*/
+
+const monsterTypes = [
+    'Ollie', 'Andi', 'Sypereka', 'Panda', 'Flirt'
+]
+const monsterStrength = [
+    90, 70, 88, 77, 66
+]
+console.log(monsterStrength)
 
 
+//monster generator
+for (let m = 0; m < monsterTypes.length; m++){
 
+}
 
 
 function userCommand() {
