@@ -60,20 +60,30 @@ for (let key in spaceShip) {
 };  
 */
 
+//monster attributes
 const monsterTypes = [
     'Ollie', 'Andi', 'Sypereka', 'Panda', 'Flirt'
 ]
 const monsterStrength = [
     90, 70, 88, 77, 66
 ]
-console.log(monsterStrength)
-
-
 //monster generator
-for (let m = 0; m < monsterTypes.length; m++){
-
+let monsters = [];
+for (let m = 0; m < 100; m++){
+    monsters[m] = {
+        //randomize type and strength
+        type : monsterTypes[Math.floor(Math.random() * monsterTypes.length)],
+        strength : monsterStrength[Math.floor(Math.random() * monsterTypes.length)],
+        health : Math.floor(Math.random() * 50) + 50
+    }
+    
 }
+console.log(monsters)
 
+//current enemy and it is random from the monsters array
+let currentenemy;
+currentenemy = monsters[Math.floor(Math.random() * 100)]
+console.log(currentenemy)
 
 function userCommand() {
     let entCom;
@@ -92,6 +102,9 @@ function userCommand() {
         document.getElementById("strength").innerHTML = myself.strength;
     } else if (entCom === 'change age'){
         myself.age = Number(prompt("What is your new age?"));
+    } else if (entCom === 'enemy'){
+        document.getElementById("etype").innerHTML = currentenemy.type;
+        document.getElementById("estrength").innerHTML = currentenemy.strength;
     }
 };
 
