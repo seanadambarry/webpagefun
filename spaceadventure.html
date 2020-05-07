@@ -4,9 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="spaceadventure.js"></script>
+
 </head>
 <body>
-    
+<p id="displayArea">Display Area</p>
+<br>
+<br>
+<br>
+<p>Enter a command below to find out where or what you are!</p>
+<br>
+<input type="text" id="userInput" value ="">
+<button id="userCommandButton" onclick="userCommand()">Enter!</button>
+<br>
+<table>
+<tr>
+    <td>
+        <p>The last command was: </p>
+    </td>
+    <td>
+        <p id="lastcommand1">last command1</p>
+    </td>
+</tr>
+</table>
+<h2>
+    Player Stats!
+</h2>
+<table>
+    <tr>
+        <td>
+            Name
+        </td>
+        <td>
+            Age
+        </td>
+        <td>
+            Health
+        </td>
+        <td>
+            Hunger
+        </td>
+        <td>
+            Strength
+        </td>
+    </tr>
+    <tr>
+        <td id="name">
+            Name
+        </td>
+        <td id="age">
+            Age
+        </td>
+        <td id="health">
+            Health
+        </td>
+        <td id="hunger">
+            Hunger
+        </td>
+        <td id="strength">
+            Strength
+        </td>
+    </tr>
+</table>
+<br>
+
+
+
+<script src="spaceadventure.js"></script>
 </body>
 </html>
