@@ -15,10 +15,10 @@
     <div class="header">
         Hello this is a game
       </div>
-    <div class="row">
-        <div class="column" style="background-color:#aaa;">Column1
+    <div class="col-container">
+        <div class="col" style="background-color:#c1d7c0;">Action Station!
         </div>
-        <div class="column" style="background-color:#bbb;">
+        <div class="col" style="background-color:#9cd4d5;">
             <p id="displayArea">Display Area</p>
             <br>
             <p id="story area">
@@ -26,24 +26,9 @@
             </p>
             <br>
             <br>
-            <p>Enter a command below to find out where or what you are! You can press the up key for the last command. You can press the ESC key to clear what you are entering.</p>
-            <br>
-            <input type="text" id="userInput" class="userinput" value ="">
-            <br>
-            <button id="userCommandButton" onclick="userCommand()">Enter!</button>
-            <table>
-                <tr>
-                    <td>
-                        <p>The last command was: </p>
-                    </td>
-                    <td>
-                    <p id="lastcommand1">last command1</p>
-                    </td>
-                </tr>
-            </table>
+            
             </div>
-        <div class="column" style="background-color:#ccc;">
-            Column3
+        <div class="col" style="background-color:#c1d7c0;">
             <h2>
                 Player Stats!
             </h2>
@@ -67,19 +52,19 @@
                 </tr>
                 <tr>
                     <td id="name">
-                        Name
+                        BLNK
                     </td>
                     <td id="age">
-                        Age
+                        BLNK
                     </td>
                     <td id="health">
-                        Health
+                        BLNK
                     </td>
                     <td id="hunger">
-                        Hunger
+                        BLNK
                     </td>
                     <td id="strength">
-                        Strength
+                        BLNK
                     </td>
                </tr>
             </table>
@@ -106,19 +91,19 @@
                 </tr>
                 <tr>
                     <td id="ename">
-                        NU
+                        BLNK
                     </td>
                     <td id="etype">
-                        NU
+                        BLNK
                     </td>
                     <td id="ehealth">
-                        NU
+                        BLNK
                     </td>
                     <td id="ehunger">
-                        NU
+                        BLNK
                     </td>
                     <td id="estrength">
-                        Strength
+                        BLNK
                     </td>
                </tr>
             </table>
@@ -129,7 +114,20 @@
       
       
       <div class="footer">
-        <p>Footer</p>
+        <p>Enter a command below to find out where or what you are! You can press the up key for the last command. You can press the ESC key to clear what you are entering.</p>
+            <input type="text" id="userInput" class="userinput" value ="">
+            <br>
+            <button id="userCommandButton" onclick="userCommand()">Enter!</button>
+            <table>
+                <tr>
+                    <td>
+                        <p>The last command was: </p>
+                    </td>
+                    <td>
+                    <p id="lastcommand1">last command1</p>
+                    </td>
+                </tr>
+            </table>
       </div>
 <script src="spaceadventure.js"></script>
 </body>
