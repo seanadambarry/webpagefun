@@ -54,10 +54,10 @@ let myself = {
     set strength(newStrength){
 
     },
-    universeLocation : '',
-    set universeLocation(newUniverseLocation){
+    currentUniverse : [],
+    //set currentUniverse(newCurrentUniverse){
 
-    },
+    //},
     //what the active storyline is
     actStoryLine : '',
     //story progress number, increments by 0.1 but may not be 10 sections
@@ -206,12 +206,21 @@ monsterGenerator();
 
 //make universe generator last after other elements are creates
 universeGenerator()
+//set a random universe to my current location for startup
+myself.currentUniverse = universes[Math.floor(Math.random()* 1001)]
+//show universe data for an example
+document.getElementById("currentUniverse").innerHTML = myself.currentUniverse.name
+document.getElementById("currentNumHabPlanets").innerHTML = myself.currentUniverse.habPlanetsInRange
+
+
 document.getElementById("storyTitle").innerHTML = storyLine[0];
 document.getElementById("storyArea1").innerHTML = story[0];
 document.getElementById("storyArea2").innerHTML = '';
 //show hunger stat since you would feel hungry even if you didn't know anything else
 document.getElementById("health").innerHTML = myself._health;
 document.getElementById("hunger").innerHTML = myself._hunger;
+
+console.log(myself)
 
 // Get the input field
 let inputField = document.getElementById("userInput");
@@ -280,6 +289,8 @@ function userCommand() {
     } else if (entCom === 'look'){
     
     } else if (entCom === 'fight'){
+
+    } else if (entCom === 'where am i?' || entCom === 'where am i'){
 
     } else if (entCom === 'new enemy'){
         currentenemy = getNewEnemy()
