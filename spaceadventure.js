@@ -26,8 +26,23 @@ let spaceShip = {
 }
 
 let myself = {
-    name : 'Rick',
+    //name is blank for now but your name is Rick Sanchez
+    _name : '',
+    set name(newName){
+        myself._name = newName;
+        document.getElementById("name").innerHTML = newName;
+    },
     _age : 41,
+    set age(newAge){
+        //check to see if the prompt from userCommand() !isNaN
+        if (!isNaN(newAge)){
+          this._age = newAge;
+        } else {
+            alert('You must assign a number to age');
+            console.log('You must assign a number to age');
+            myself.age = Number(prompt("What is your new age?"));
+        }
+    },
     _health : 70,
     get health(){
         //if health is lower than 20, just say it's 'low'
@@ -39,16 +54,10 @@ let myself = {
     },
     hunger : 'I could eat something',
     strength : 50,
-    set age(newAge){
-        //check to see if the prompt from userCommand() !isNaN
-        if (!isNaN(newAge)){
-          this._age = newAge;
-        } else {
-            alert('You must assign a number to age');
-            console.log('You must assign a number to age');
-            myself.age = Number(prompt("What is your new age?"));
-        }
-      }
+    location : 'In a tent that smells like peanut butter and farts',
+    actStoryLine : '',
+    storyProgNum : 0
+    
 }
 
 let lastCommand = '';
@@ -121,17 +130,38 @@ for (let m = 0; m < 100; m++){
     }
     
 }
-console.log(monsters)
-console.log(monsterName)
 
 let currentenemy;
 
+let storyLine = [
+    'The Beginning',
+    'Now that we know who we are and where we are'
+]
+
+let story = [
+    'You wake up and find yourself in a bed, in a tent, and it smells like peanut butter and farts',
+    "You call out, 'Hello? Hellooooooo.' A doctor with a stethescope comes through the tent entrance and says 'Hello Rick.' He looks like Mr. Peanut! Except with a stethescope and scrubs instead of a cane and glasses. He must have just left the room when you woke up! Your name is Rick! You want to know what your last name is and you see it on your chart."
+]
+
+let lastStory = '';
+
+
+//----STARTUP STUFF----
+//the active story determines the answers to the users commands and where rick is etc.
+myself.actStoryLine = storyLine[0]
+console.log(myself.actStoryLine)
+
+
+//show startup stuff seg-title, story area and declare variables for such
+document.getElementById("storyTitle").innerHTML = storyLine[0];
+document.getElementById("storyArea1").innerHTML = story[0];
+document.getElementById("storyArea2").innerHTML = '';
 //show hunger stat since you would feel hungry even if you didn't know anything else
 document.getElementById("health").innerHTML = myself.health;
 document.getElementById("hunger").innerHTML = myself.hunger;
 
 // Get the input field
-var inputField = document.getElementById("userInput");
+let inputField = document.getElementById("userInput");
 // Execute a function when the user releases a key on the keyboard
 inputField.addEventListener("keyup", function(event) {
   // Number 13 is the "Enter" key on the keyboard
@@ -155,25 +185,49 @@ function getNewEnemy() {
     return monsters[Math.floor(Math.random() * 100)]
 }
 
+//this is the main user interface where the user enters commands.
 function userCommand() {
     let entCom;
+    //make the lastStory line show in StoryArea1
+    document.getElementById("storyArea1").innerHTML = lastStory
     //make value from text entry box all lowercase
     entCom = (document.getElementById("userInput").value).toLowerCase();
     lastCommand = entCom
     console.log(entCom)
-    document.getElementById("lastcommand1").innerHTML = entCom;
     if (entCom === 'my stats'){
         //displays the persons stats from the myself object
-        document.getElementById("displayArea").innerHTML = `Your stats are to the right`;
-        document.getElementById("name").innerHTML = myself.name;
+        document.getElementById("name").innerHTML = myself._name;
         document.getElementById("age").innerHTML = myself._age;
         document.getElementById("health").innerHTML = myself.health;
         document.getElementById("hunger").innerHTML = myself.hunger;
         document.getElementById("strength").innerHTML = myself.strength;
-    } else if (entCom === 'change age'){
+    } else if (entCom === 'change'){
         myself.age = Number(prompt("What is your new age?"));
-    } else if (entCom === 'who am i'){
-        document.getElementById("name").innerHTML = myself.name;
+       
+        
+    } else if (entCom === 'who am i' || entCom === 'who am i?'){
+        //find out who you are. Generally one the first questions to ask
+        if (myself._name === ''){
+            document.getElementById("storyArea2").innerHTML = "Huh. You don't remember who you are. Someone around here should know. Maybe I should call out! You sit up at the edge of your bed and think of a PB&J sandwich";    
+            lastStory = "Huh. You don't remember who you are. Someone around here should know. Maybe I should call out! You sit up at the edge of your bed and think of a PB&J sandwich";    
+        } else if (myself._name === 'Rick'){
+            document.getElementById("storyArea2").innerHTML = "You already know your own name, idiot! You are Rick!"
+            lastStory = "You already know your own name, idiot! You are! Rick!"
+        }
+    } else if (entCom === 'talk'){
+        console.log('talk command entered and talkProgNum is :' + myself.storyProgNum + myself.actStoryLine)
+        if (myself.actStoryLine === storyLine[0] && myself.storyProgNum === 0){
+            document.getElementById("storyArea2").innerHTML = story[1]
+             //setting rick's name and using the method
+            myself.name = 'Rick';
+            lastStory = story[1]
+            myself.storyProgNum = 0.1
+            console.log(myself.storyProgNum)
+        }
+    } else if (entCom === 'look'){
+    
+    } else if (entCom === 'fight'){
+
     } else if (entCom === 'new enemy'){
         currentenemy = getNewEnemy()
         document.getElementById("ename").innerHTML = currentenemy.name;
@@ -181,5 +235,7 @@ function userCommand() {
         document.getElementById("ehealth").innerHTML = currentenemy.health;
         document.getElementById("estrength").innerHTML = currentenemy.strength;
         console.log(currentenemy)
+    } else {
+        document.getElementById("errorinput").innerHTML = 'Command not recognized'
     }
 };

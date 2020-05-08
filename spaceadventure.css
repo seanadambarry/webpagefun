@@ -2,7 +2,9 @@
     box-sizing: border-box;
   }
   
-  body {
+  #body {
+    height: 100%;
+    width: 100%;
     font-family: Arial, Helvetica, sans-serif;
   }
   
@@ -50,11 +52,13 @@
 .col-container {
     display: table; /* Make the container element behave like a table */
     width: 100%; /* Set full-width to expand the whole page */
+    height: 100%;
 }
 
 .col {
     display: table-cell; /* Make elements inside the container behave like table cells */
     width: 33.33%;
+    height: 1000px;
 }
 
   /* Clear floats after the columns */
@@ -67,14 +71,36 @@
   /* Style the footer */
   .footer {
     background-color: #7a6339;
-    padding: 10px;
+    padding: 5px;
     text-align: center;
+    position: fixed; 
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
   }
 
+.footertable{
+  margin: auto;
+  border: black 5px solid;
+}
+
+td {
+  width: 100px;
+}
   .userinput {
-    width: 50%;
+    width: 500px;
   }
   
+  .footertd {
+    width : 200px;
+  }
+  .errorinput {
+    color: red;
+    background-color: darkturquoise;
+    width : 20%;
+    margin: auto;
+  }
   /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
   @media (max-width: 600px) {
     .column {

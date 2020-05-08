@@ -19,10 +19,13 @@
         <div class="col" style="background-color:#c1d7c0;">Action Station!
         </div>
         <div class="col" style="background-color:#9cd4d5;">
-            <p id="displayArea">Display Area</p>
+            <p id="storyTitle">Display Area</p>
             <br>
-            <p id="story area">
-                The cat is similar in anatomy to the other felid species: it has a strong flexible body, quick reflexes, sharp teeth and retractable claws adapted to killing small prey. Its night vision and sense of smell are well developed. Cat communication includes vocalizations like meowing, purring, trilling, hissing, growling and grunting as well as cat-specific body language. It is a solitary hunter but a social species. It can hear sounds too faint or too high in frequency for human ears, such as those made by mice and other small mammals. It is a predator that is most active at dawn and dusk.[7] It secretes and perceives pheromones.[8]
+            <p id="storyArea1">
+                Story Area 
+            </p>
+            <p id="storyArea2">
+                Afer User Command
             </p>
             <br>
             <br>
@@ -114,20 +117,16 @@
       
       
       <div class="footer">
-        <p>Enter a command below to find out where or what you are! You can press the up key for the last command. You can press the ESC key to clear what you are entering.</p>
-            <input type="text" id="userInput" class="userinput" value ="">
-            <br>
-            <button id="userCommandButton" onclick="userCommand()">Enter!</button>
-            <table>
-                <tr>
+        <table class="footertable">
+                <tr></tr>
                     <td>
-                        <p>The last command was: </p>
-                    </td>
-                    <td>
-                    <p id="lastcommand1">last command1</p>
+                        <input type="text" id="userInput" class="userinput" value ="">
+                        <div class="errorinput" id="errorinput"></div>
+                        <button id="userCommandButton" onclick="userCommand()">Enter!</button>
                     </td>
                 </tr>
             </table>
+            <p>Enter a command above to find out where or what you are! You can press the up key for the last command. You can press the ESC key to clear what you are entering.</p>
       </div>
 <script src="spaceadventure.js"></script>
 </body>
