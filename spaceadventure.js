@@ -32,106 +32,158 @@ let myself = {
         myself._name = newName;
         document.getElementById("name").innerHTML = newName;
     },
-    _age : 41,
+    //it will be between 60-70
+    _age : '',
     set age(newAge){
-        //check to see if the prompt from userCommand() !isNaN
-        if (!isNaN(newAge)){
-          this._age = newAge;
-        } else {
-            alert('You must assign a number to age');
-            console.log('You must assign a number to age');
-            myself.age = Number(prompt("What is your new age?"));
-        }
+        myself._age = newAge;
+        document.getElementById("age").innerHTML = newAge;
     },
     _health : 70,
-    get health(){
-        //if health is lower than 20, just say it's 'low'
+    set health(newHealth){
+        //if health is lower than 20, just display 'low' on page
         if (this._health < 20){
-            return 'Low'
+            document.getElementById("health").innerHTML = 'Low'
+            this._health = newHealth
         } else {
-            return this._health;
+            document.getElementById("health").innerHTML = newHealth;
+            this._health = newHealth
         }
     },
-    hunger : 'I could eat something',
-    strength : 50,
-    location : 'In a tent that smells like peanut butter and farts',
+    _hunger : 'I could eat something',
+    _strength : 50,
+    set strength(newStrength){
+
+    },
+    universeLocation : '',
+    set universeLocation(newUniverseLocation){
+
+    },
+    //what the active storyline is
     actStoryLine : '',
+    //story progress number, increments by 0.1 but may not be 10 sections
     storyProgNum : 0
     
 }
 
-let lastCommand = '';
-
-//monster attributes
-const monsterTypes = [
-    'Ollie', 'Andi', 'Sypereka', 'Panda', 'Flirt'
-]
-const monsterStrength = [
-    90, 70, 88, 77, 66
-]
-
-
-
+let totAlphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
 let consonants = ['b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','y','z'];
 let vowels = ['a','e','i','o','u'];
 
-//totally randomize a monster name
-let monsterName = [];
-for (let m = 0; m < 100; m++){
-    let randomnum = Math.floor(Math.random() * 100);
-    if (randomnum <= 20){
-        //name is 5 char long
-        monsterName[m] = consonants[Math.floor(Math.random() * consonants.length)]
-        + consonants[Math.floor(Math.random() * consonants.length)]
-        + vowels[Math.floor(Math.random() * vowels.length)]
-        + consonants[Math.floor(Math.random() * consonants.length)]
-        + vowels[Math.floor(Math.random() * vowels.length)]
-    }else if (randomnum >=21 && randomnum <= 40){
-        //name is 6 char long
-        monsterName[m] = consonants[Math.floor(Math.random() * consonants.length)]
-        + consonants[Math.floor(Math.random() * consonants.length)]
-        + vowels[Math.floor(Math.random() * vowels.length)]
-        + consonants[Math.floor(Math.random() * consonants.length)]
-        + vowels[Math.floor(Math.random() * vowels.length)]
-        + consonants[Math.floor(Math.random() * consonants.length)]
-    
-    }else if (randomnum >= 41 && randomnum <= 60) {
-        //name is 3 char long
-        monsterName[m] = vowels[Math.floor(Math.random() * vowels.length)]
-        + consonants[Math.floor(Math.random() * consonants.length)]
-        + vowels[Math.floor(Math.random() * vowels.length)]
-    } else if (randomnum >= 61 && randomnum <=70){
-        //name is 4 char long plus a number from 1 to 100
-        monsterName[m] = vowels[Math.floor(Math.random() * vowels.length)]
-        + vowels[Math.floor(Math.random() * vowels.length)]
-        + consonants[Math.floor(Math.random() * consonants.length)]
-        + Math.floor(Math.random() * 100)
-    } else if (randomnum >= 71 && randomnum <= 90 ){
-        monsterName[m] = vowels[Math.floor(Math.random() * vowels.length)]
-        + 'joe'
-        + consonants[Math.floor(Math.random() * consonants.length)]
-    } else {
-        monsterName[m] = vowels[Math.floor(Math.random() * vowels.length)]
-        + 'massi'
-        + consonants[Math.floor(Math.random() * consonants.length)]
-        + vowels[Math.floor(Math.random() * vowels.length)]
-    }
-}
-
-//monster generator
+//---------------MONSTERS-they are randomized-------------
+//monster generator function
 let monsters = [];
-for (let m = 0; m < 100; m++){
-    monsters[m] = {
-        //randomize type and strength
-        name: monsterName[Math.floor(Math.random() * monsterName.length)],
-        type : monsterTypes[Math.floor(Math.random() * monsterTypes.length)],
-        strength : monsterStrength[Math.floor(Math.random() * monsterTypes.length)],
-        health : Math.floor(Math.random() * 50) + 50
-    }
+function monsterGenerator(){
+    const monsterTypes = [
+        'Ollie', 'Andi', 'Sypereka', 'Panda', 'Flirt'
+    ]
+    const monsterStrength = [
+        90, 70, 88, 77, 66
+    ]
     
+    
+    let monsterName = [];
+    let randomnum;
+    //totally randomize a monster name
+    for (let mn = 0; mn < 100; mn++){
+        randomnum = Math.floor(Math.random() * 100);
+        if (randomnum <= 20){
+            //name is 5 char long
+            monsterName[mn] = consonants[Math.floor(Math.random() * consonants.length)]
+            + consonants[Math.floor(Math.random() * consonants.length)]
+            + vowels[Math.floor(Math.random() * vowels.length)]
+            + consonants[Math.floor(Math.random() * consonants.length)]
+            + vowels[Math.floor(Math.random() * vowels.length)]
+        } else if (randomnum >=21 && randomnum <= 40){
+            //name is 6 char long
+            monsterName[mn] = consonants[Math.floor(Math.random() * consonants.length)]
+            + consonants[Math.floor(Math.random() * consonants.length)]
+            + vowels[Math.floor(Math.random() * vowels.length)]
+            + consonants[Math.floor(Math.random() * consonants.length)]
+            + vowels[Math.floor(Math.random() * vowels.length)]
+            + consonants[Math.floor(Math.random() * consonants.length)]
+        
+        } else if (randomnum >= 41 && randomnum <= 60) {
+            //name is 3 char long
+            monsterName[mn] = vowels[Math.floor(Math.random() * vowels.length)]
+            + consonants[Math.floor(Math.random() * consonants.length)]
+            + vowels[Math.floor(Math.random() * vowels.length)]
+        } else if (randomnum >= 61 && randomnum <=70){
+            //name is 4 char long plus a number from 1 to 100
+            monsterName[mn] = vowels[Math.floor(Math.random() * vowels.length)]
+            + vowels[Math.floor(Math.random() * vowels.length)]
+            + consonants[Math.floor(Math.random() * consonants.length)]
+            + Math.floor(Math.random() * 100)
+        } else if (randomnum >= 71 && randomnum <= 90 ){
+            monsterName[mn] = vowels[Math.floor(Math.random() * vowels.length)]
+            + 'joe'
+            + consonants[Math.floor(Math.random() * consonants.length)]
+        } else {
+            monsterName[mn] = vowels[Math.floor(Math.random() * vowels.length)]
+            + 'massi'
+            + consonants[Math.floor(Math.random() * consonants.length)]
+            + vowels[Math.floor(Math.random() * vowels.length)]
+        }
+    }
+    //actual generator
+    for (let m = 0; m < 100; m++){
+        monsters[m] = {
+            //randomize type and strength
+            name: monsterName[Math.floor(Math.random() * monsterName.length)],
+            type : monsterTypes[Math.floor(Math.random() * monsterTypes.length)],
+            strength : monsterStrength[Math.floor(Math.random() * monsterTypes.length)],
+            health : Math.floor(Math.random() * 50) + 50
+        }
+    
+    }
+    console.log(monsters)
 }
+//---------------MONSTERS--------------
+
+//---------------UNIVERSE - it is randomized--------------
+let universes = [];
+function universeGenerator(){
+    //call all of the creation functions in here and maybe consoldate it later
+    let universeName = [];
+    for (let un = 0; un < 1000; un++){
+        universeName[un] = totAlphabet[Math.floor(Math.random() * totAlphabet.length)] + '-' + (Math.floor(Math.random() * 1000))
+        
+    }
+    let numGalaxies;
+    let numTotalPlanets;
+    let numHabitablePlanets;
+    let numHabPlanetsHasLife;
+    let numHabPlanetLifeCiv;
+    let numHabPlanetsInRange;
+    for (let u = 0; u < 1000; u++){
+        numGalaxies = (Math.floor(Math.random() * 200000000000) + 1);
+        numTotalPlanets = Math.floor(numGalaxies * 100000000000);
+        numHabitablePlanets = Math.floor(numTotalPlanets / 11000000000);
+        numHabPlanetsHasLife = Math.floor(numHabitablePlanets / 11000000000);
+        numHabPlanetLifeCiv = Math.floor(numHabPlanetsHasLife / (Math.PI));
+        numHabPlanetsInRange = Math.floor(numHabPlanetLifeCiv / (Math.PI));
+       
+        universes[u] = {
+            name: universeName[Math.floor(Math.random() * universeName.length)],
+            galaxies: numGalaxies,
+            planets : numTotalPlanets,
+            habitablePlanets: numHabitablePlanets,
+            habPlanetsHasLife : numHabPlanetsHasLife,
+            habPlanetLifeCiv : numHabPlanetLifeCiv,
+            habPlanetsInRange: numHabPlanetsInRange
+        }
+        
+    }
+    console.log(universes)
+}
+//---------------UNIVERSE--------------
+
+
+//---------------DESTINATIONS ON PLANET - randomized--------------
+let destsOnPlanets = []
+
 
 let currentenemy;
+let lastCommand = '';
 
 let storyLine = [
     'The Beginning',
@@ -150,15 +202,16 @@ let lastStory = '';
 //the active story determines the answers to the users commands and where rick is etc.
 myself.actStoryLine = storyLine[0]
 console.log(myself.actStoryLine)
+monsterGenerator();
 
-
-//show startup stuff seg-title, story area and declare variables for such
+//make universe generator last after other elements are creates
+universeGenerator()
 document.getElementById("storyTitle").innerHTML = storyLine[0];
 document.getElementById("storyArea1").innerHTML = story[0];
 document.getElementById("storyArea2").innerHTML = '';
 //show hunger stat since you would feel hungry even if you didn't know anything else
-document.getElementById("health").innerHTML = myself.health;
-document.getElementById("hunger").innerHTML = myself.hunger;
+document.getElementById("health").innerHTML = myself._health;
+document.getElementById("hunger").innerHTML = myself._hunger;
 
 // Get the input field
 let inputField = document.getElementById("userInput");
@@ -198,9 +251,9 @@ function userCommand() {
         //displays the persons stats from the myself object
         document.getElementById("name").innerHTML = myself._name;
         document.getElementById("age").innerHTML = myself._age;
-        document.getElementById("health").innerHTML = myself.health;
-        document.getElementById("hunger").innerHTML = myself.hunger;
-        document.getElementById("strength").innerHTML = myself.strength;
+        document.getElementById("health").innerHTML = myself._health;
+        document.getElementById("hunger").innerHTML = myself._hunger;
+        document.getElementById("strength").innerHTML = myself._strength;
     } else if (entCom === 'change'){
         myself.age = Number(prompt("What is your new age?"));
        
@@ -238,4 +291,14 @@ function userCommand() {
     } else {
         document.getElementById("errorinput").innerHTML = 'Command not recognized'
     }
-};
+}
+
+/*
+function square(x) {
+    return x = x * x;
+}
+var y = 10;
+square(y);
+console.log(y); // -- no change
+console.log(result)
+*/
