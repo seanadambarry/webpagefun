@@ -2,30 +2,30 @@
 
 window.onload = function() {
     document.getElementById("userInput").focus();
+    
   };
+let myself = {};
+let totAlphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+let consonants = ['b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','y','z'];
+let vowels = ['a','e','i','o','u'];
+let monsters = [];
+let universes = [];
+let planets = [];
+let destsOnPlanets = []
+let currentenemy;
+let lastCommand = '';
+let storyLine = [
+    'The Beginning',
+    'Now that we know who we are and where we are'
+]
+let story = [
+    'You wake up and find yourself in a bed, in a tent, and it smells like peanut butter and farts',
+    "You call out, 'Hello? Hellooooooo.' A doctor with a stethescope comes through the tent entrance and says 'Hello Rick.' He looks like Mr. Peanut! Except with a stethescope and scrubs instead of a cane and glasses. He must have just left the room when you woke up! Your name is Rick! You want to know what your last name is and you see it on your chart."
+]
+let lastStory = '';
 
-let spaceShip = {
-    name: 'RickMobile',
-    systems: {
-        engineering: {
-            manager: 'Rick',
-            powerlevel: 50
-        },
-        combat: {
-            manager: 'Summer'
-        },
-        medical: {
-            manager: 'Beth',
-            assManager: 'Greg'
-        },
-        waste: {
-            manager: 'Jerry'
-        },
-    },
-    fueltype: 'green death crystals'
-}
-
-let myself = {
+function createMyself(){
+myself = {
     //name is blank for now but your name is Rick Sanchez
     _name : '',
     set name(newName){
@@ -52,26 +52,30 @@ let myself = {
     _hunger : 'I could eat something',
     _strength : 50,
     set strength(newStrength){
-
+        
     },
-    currentUniverse : [],
-    //set currentUniverse(newCurrentUniverse){
-
-    //},
+    _currentUniverse : [],
+    set currentUniverse(newCurrentUniverse){
+        this._currentUniverse = newCurrentUniverse;
+        document.getElementById("currentUniverse").innerHTML = myself._currentUniverse.name;
+        document.getElementById("currentNumHabPlanets").innerHTML = myself._currentUniverse.habPlanetsInRange;
+    },
+    _currentPlanet : [],
+    set currentPlanet(newPlanet){
+        this._currentPlanet = newPlanet;
+        document.getElementById("currentPlanet").innerHTML = myself._currentPlanet.name;
+    },
     //what the active storyline is
     actStoryLine : '',
     //story progress number, increments by 0.1 but may not be 10 sections
     storyProgNum : 0
     
 }
-
-let totAlphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
-let consonants = ['b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','y','z'];
-let vowels = ['a','e','i','o','u'];
+}
 
 //---------------MONSTERS-they are randomized-------------
 //monster generator function
-let monsters = [];
+
 function monsterGenerator(){
     const monsterTypes = [
         'Ollie', 'Andi', 'Sypereka', 'Panda', 'Flirt'
@@ -79,8 +83,6 @@ function monsterGenerator(){
     const monsterStrength = [
         90, 70, 88, 77, 66
     ]
-    
-    
     let monsterName = [];
     let randomnum;
     //totally randomize a monster name
@@ -88,7 +90,7 @@ function monsterGenerator(){
         randomnum = Math.floor(Math.random() * 100);
         if (randomnum <= 20){
             //name is 5 char long
-            monsterName[mn] = consonants[Math.floor(Math.random() * consonants.length)]
+            monsterName[mn] = consonants[Math.floor(Math.random() * consonants.length)].toUpperCase()
             + consonants[Math.floor(Math.random() * consonants.length)]
             + vowels[Math.floor(Math.random() * vowels.length)]
             + consonants[Math.floor(Math.random() * consonants.length)]
@@ -98,18 +100,18 @@ function monsterGenerator(){
             monsterName[mn] = consonants[Math.floor(Math.random() * consonants.length)]
             + consonants[Math.floor(Math.random() * consonants.length)]
             + vowels[Math.floor(Math.random() * vowels.length)]
-            + consonants[Math.floor(Math.random() * consonants.length)]
+            + consonants[Math.floor(Math.random() * consonants.length)].toUpperCase()
             + vowels[Math.floor(Math.random() * vowels.length)]
             + consonants[Math.floor(Math.random() * consonants.length)]
         
         } else if (randomnum >= 41 && randomnum <= 60) {
             //name is 3 char long
-            monsterName[mn] = vowels[Math.floor(Math.random() * vowels.length)]
+            monsterName[mn] = vowels[Math.floor(Math.random() * vowels.length)].toUpperCase()
             + consonants[Math.floor(Math.random() * consonants.length)]
             + vowels[Math.floor(Math.random() * vowels.length)]
         } else if (randomnum >= 61 && randomnum <=70){
             //name is 4 char long plus a number from 1 to 100
-            monsterName[mn] = vowels[Math.floor(Math.random() * vowels.length)]
+            monsterName[mn] = vowels[Math.floor(Math.random() * vowels.length)].toUpperCase()
             + vowels[Math.floor(Math.random() * vowels.length)]
             + consonants[Math.floor(Math.random() * consonants.length)]
             + Math.floor(Math.random() * 100)
@@ -120,7 +122,7 @@ function monsterGenerator(){
         } else {
             monsterName[mn] = vowels[Math.floor(Math.random() * vowels.length)]
             + 'massi'
-            + consonants[Math.floor(Math.random() * consonants.length)]
+            + consonants[Math.floor(Math.random() * consonants.length)].toUpperCase()
             + vowels[Math.floor(Math.random() * vowels.length)]
         }
     }
@@ -135,12 +137,11 @@ function monsterGenerator(){
         }
     
     }
-    console.log(monsters)
 }
 //---------------MONSTERS--------------
 
 //---------------UNIVERSE - it is randomized--------------
-let universes = [];
+
 function universeGenerator(){
     //call all of the creation functions in here and maybe consoldate it later
     let universeName = [];
@@ -161,6 +162,11 @@ function universeGenerator(){
         numHabPlanetsHasLife = Math.floor(numHabitablePlanets / 11000000000);
         numHabPlanetLifeCiv = Math.floor(numHabPlanetsHasLife / (Math.PI));
         numHabPlanetsInRange = Math.floor(numHabPlanetLifeCiv / (Math.PI));
+        let planetDeets = []
+        //use num of planets in range then get random planet deets and assigne the right amountof planets with deets
+        for (let p = 0; p < numHabPlanetsInRange; p++){
+            planetDeets[p] = planets[Math.floor(Math.random() * planets.length)]
+        }
        
         universes[u] = {
             name: universeName[Math.floor(Math.random() * universeName.length)],
@@ -169,49 +175,98 @@ function universeGenerator(){
             habitablePlanets: numHabitablePlanets,
             habPlanetsHasLife : numHabPlanetsHasLife,
             habPlanetLifeCiv : numHabPlanetLifeCiv,
-            habPlanetsInRange: numHabPlanetsInRange
+            habPlanetsInRange: numHabPlanetsInRange,
+            planetsInRange : planetDeets,
         }
+
         
     }
-    console.log(universes)
 }
 //---------------UNIVERSE--------------
+//---------------PLANETS randomized--------------
+
+function planetGenerator(){
+    let planetName =[];
+    let randomnum;
+    for (let pl = 0; pl < 1000; pl++){
+    randomnum = Math.floor(Math.random() * 1000);
+        if (randomnum <= 200){
+        //name is 5 char long
+        planetName[pl] = consonants[Math.floor(Math.random() * consonants.length)].toUpperCase()
+        + consonants[Math.floor(Math.random() * consonants.length)]
+        + vowels[Math.floor(Math.random() * vowels.length)]
+        + consonants[Math.floor(Math.random() * consonants.length)]
+        + vowels[Math.floor(Math.random() * vowels.length)]
+        } else if (randomnum >=21 && randomnum <= 400){
+        //name is 6 char long
+        planetName[pl] = consonants[Math.floor(Math.random() * consonants.length)].toUpperCase()
+        + consonants[Math.floor(Math.random() * consonants.length)]
+        + vowels[Math.floor(Math.random() * vowels.length)]
+        + consonants[Math.floor(Math.random() * consonants.length)]
+        + vowels[Math.floor(Math.random() * vowels.length)]
+        + consonants[Math.floor(Math.random() * consonants.length)]
+    
+        } else if (randomnum >= 41 && randomnum <= 600) {
+        //name is 3 char long
+        planetName[pl] = vowels[Math.floor(Math.random() * vowels.length)].toUpperCase()
+        + consonants[Math.floor(Math.random() * consonants.length)]
+        + vowels[Math.floor(Math.random() * vowels.length)]
+        } else if (randomnum >= 61 && randomnum <=700){
+        //name is 4 char long plus a number from 1 to 100
+        planetName[pl] = vowels[Math.floor(Math.random() * vowels.length)].toUpperCase()
+        + vowels[Math.floor(Math.random() * vowels.length)]
+        + consonants[Math.floor(Math.random() * consonants.length)]
+        + Math.floor(Math.random() * 100)
+        } else if (randomnum >= 71 && randomnum <= 950 ){
+        planetName[pl] = vowels[Math.floor(Math.random() * vowels.length)].toUpperCase()
+        + 'backho'
+        + consonants[Math.floor(Math.random() * consonants.length)]
+        + 'aa'
+        } else {
+        planetName[pl] = vowels[Math.floor(Math.random() * vowels.length)].toUpperCase()
+        + 'buffa'
+        + consonants[Math.floor(Math.random() * consonants.length)]
+        + vowels[Math.floor(Math.random() * vowels.length)]
+        }
+     planets[pl] = {
+         name : planetName[pl]
+     }   
+    }
+    
+    
+}
+
+//---------------PLANETS randomized--------------
 
 
 //---------------DESTINATIONS ON PLANET - randomized--------------
-let destsOnPlanets = []
 
-
-let currentenemy;
-let lastCommand = '';
-
-let storyLine = [
-    'The Beginning',
-    'Now that we know who we are and where we are'
-]
-
-let story = [
-    'You wake up and find yourself in a bed, in a tent, and it smells like peanut butter and farts',
-    "You call out, 'Hello? Hellooooooo.' A doctor with a stethescope comes through the tent entrance and says 'Hello Rick.' He looks like Mr. Peanut! Except with a stethescope and scrubs instead of a cane and glasses. He must have just left the room when you woke up! Your name is Rick! You want to know what your last name is and you see it on your chart."
-]
-
-let lastStory = '';
 
 
 //----STARTUP STUFF----
 //the active story determines the answers to the users commands and where rick is etc.
-myself.actStoryLine = storyLine[0]
-console.log(myself.actStoryLine)
-monsterGenerator();
+
+
+
+
 
 //make universe generator last after other elements are creates
+monsterGenerator();
+planetGenerator();
 universeGenerator()
-//set a random universe to my current location for startup
+createMyself()
 myself.currentUniverse = universes[Math.floor(Math.random()* 1001)]
-//show universe data for an example
-document.getElementById("currentUniverse").innerHTML = myself.currentUniverse.name
-document.getElementById("currentNumHabPlanets").innerHTML = myself.currentUniverse.habPlanetsInRange
+console.log(myself._currentUniverse.habPlanetsInRange)
+//if you start in a universe with no habitable planets in range, randomize the universe again
+if (myself._currentUniverse.habPlanetsInRange === 0){
+    myself.currentUniverse = universes[Math.floor(Math.random()* 1001)]
+}
+//put myself on my first planet
 
+myself.currentPlanet = myself._currentUniverse.planetsInRange[Math.floor(Math.random() * myself._currentUniverse.planetsInRange.length)]
+
+myself.actStoryLine = storyLine[0]
+console.log(myself)
 
 document.getElementById("storyTitle").innerHTML = storyLine[0];
 document.getElementById("storyArea1").innerHTML = story[0];
@@ -220,7 +275,7 @@ document.getElementById("storyArea2").innerHTML = '';
 document.getElementById("health").innerHTML = myself._health;
 document.getElementById("hunger").innerHTML = myself._hunger;
 
-console.log(myself)
+
 
 // Get the input field
 let inputField = document.getElementById("userInput");
