@@ -107,3 +107,11 @@ td {
       width: 100%;
     }
   }
+
+.spaceshiptable {
+  background-color: black;
+  border: solid 5px black;
+  margin:auto;
+  width:100%; ;
+  color: white;
+}

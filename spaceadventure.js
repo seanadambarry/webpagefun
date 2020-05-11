@@ -23,6 +23,199 @@ let story = [
     "You call out, 'Hello? Hellooooooo.' A doctor with a stethescope comes through the tent entrance and says 'Hello Rick.' He looks like Mr. Peanut! Except with a stethescope and scrubs instead of a cane and glasses. He must have just left the room when you woke up! Your name is Rick! You want to know what your last name is and you see it on your chart."
 ]
 let lastStory = '';
+let spaceShip = '';
+
+function createSpaceShip(){
+    //i hid the spaceship table on startup for now
+    spaceShip = {
+        _name : '',
+        _isRunning : false,
+        set isRunning(statusCHG){
+            this._isRunning = statusCHG;
+            if (statusCHG === true){
+                document.getElementById("ssRunningOrShutDown").style.color = "green";
+                document.getElementById("ssRunningOrShutDown").innerHTML = "RUNNING";
+                document.getElementById("ssStatusMessage").innerHTML = '';
+                document.getElementById("ssStartStop").innerHTML = 'Stop';
+                document.getElementById("ssStartStop").onclick = stopSpaceShip;
+                runStartStop = 'stop'
+            } else if (statusCHG === false) {
+                document.getElementById("ssRunningOrShutDown").style.color = "red";
+                document.getElementById("ssRunningOrShutDown").innerHTML = "SHUTDOWN";
+                document.getElementById("ssStartStop").innerHTML = 'Start';
+                document.getElementById("ssStartStop").onclick = startSpaceShip;
+                runStartStop = 'start'
+            }
+        },
+        get isRunning(){
+            return this._isRunning;
+        },
+        _fuelAmount : 0,
+        set fuelAmount(newFuelAmount){
+            this._fuelAmount = newFuelAmount;
+            document.getElementById("ssFuelAmount").innerHTML = newFuelAmount + ' Warparods';
+        },
+        get fuelAmount(){
+            return this._fuelAmount;
+        },
+        _generatorOut : 0,
+        set generatorOut(newGeneratorOut){
+            this._generatorOut = newGeneratorOut;
+            document.getElementById("ssGenOut").innerHTML = newGeneratorOut + ' %'
+        },
+        get generatorOut(){
+            return this._generatorOut
+        }
+    }
+}
+
+
+
+
+
+function startSpaceShip(){
+    if (spaceShip.isRunning === false){
+        if (spaceShip.fuelAmount <= 10){
+            document.getElementById("ssStatusMessage").innerHTML = 'Not enough fuel for start';
+            document.getElementById("ssStatusMessage").style.color = "red";
+        } else if (spaceShip.fuelAmount > 10){
+            startStopSequence()
+        }
+    } 
+}
+
+let runStartStop = 'start'
+function stopSpaceShip(){
+    startStopSequence()
+    console.log('stopping space ship and is running is: ' + spaceShip.isRunning);
+    document.getElementById("ssStatusMessage").innerHTML = 'Shutting down ship';
+    
+}
+
+let ss = 0
+let st = 0
+function startStopSequence(){
+    if (runStartStop === 'start'){
+        document.getElementById("ssRunningOrShutDown").innerHTML = "START SEQ";
+        ss++
+        if (ss === 1){
+            console.log('ss1')
+            document.getElementById("ssStatusMessage").style.color = "green";
+            document.getElementById("ssStatusMessage").innerHTML = 'Start Sequence initiated';
+            spaceShip.generatorOutput += 10
+            setTimeout (startStopSequence, 1100);
+        } else if (ss === 2){
+            document.getElementById("ssStatusMessage").innerHTML = 'Boost pumps on';
+            console.log('ss2');
+            spaceShip.fuelAmount -= 1;
+            console.log(spaceShip.fuelAmount);
+            spaceShip.generatorOut += 1;
+            setTimeout (startStopSequence, 1200);
+        } else if (ss === 3){
+            document.getElementById("ssStatusMessage").innerHTML = 'spooling';
+            console.log('ss3');
+            spaceShip.generatorOut += 1;
+            setTimeout (startStopSequence, 1300);
+        } else if (ss === 4){
+            console.log('ss4')
+            spaceShip.generatorOut += 1;
+            setTimeout (startStopSequence, 1400);
+        } else if (ss === 5){
+            document.getElementById("ssStatusMessage").innerHTML = 'Igniters on';
+            console.log('ss5');
+            spaceShip.generatorOut += 10;
+            spaceShip.fuelAmount -= 2;
+            console.log(spaceShip.fuelAmount);
+            setTimeout (startStopSequence, 1500);
+        } else if (ss === 6){
+            document.getElementById("ssStatusMessage").innerHTML = 'Positive fuel flow';
+            console.log('ss6');
+            spaceShip.generatorOutput += 10;
+            setTimeout (startStopSequence, 1600);
+        } else if (ss === 7){
+            console.log('ss7');
+            spaceShip.generatorOut += 30;
+            setTimeout (startStopSequence, 1700);
+        } else if (ss === 8){
+            document.getElementById("ssStatusMessage").innerHTML = 'We have ignition!';
+            console.log('ss8');
+            spaceShip.generatorOut += 10;
+            spaceShip.fuelAmount -= 1;
+            console.log(spaceShip.fuelAmount);
+            setTimeout (startStopSequence, 1800);
+        } else if (ss === 9){
+            console.log('ss9');
+            spaceShip.generatorOut += 10;
+            setTimeout (startStopSequence, 1900);
+        } else if (ss === 10){
+            document.getElementById("ssStatusMessage").innerHTML = 'Generators online';
+            console.log('ss10');
+            spaceShip.generatorOut += 2.3;
+            spaceShip.fuelAmount -= 1;
+            console.log(spaceShip.fuelAmount);
+            console.log(`next value for gen out is 99.8 ${spaceShip.generatorOut}`)
+            setTimeout (startStopSequence, 3000);
+        } else if (ss === 11){
+            console.log('ss11');
+            spaceShip.generatorOut = 99.8;
+            ss = 0;
+            spaceShip.isRunning = true;
+            console.log('starting space ship and is running is: ' + spaceShip.isRunning)
+            runStartStop = 'stop'
+        };
+        console.log(ss)
+    } else if (runStartStop === 'stop'){
+        document.getElementById("ssRunningOrShutDown").innerHTML = "STOP SEQ";
+        st++
+        if (st === 1){
+            console.log('st1')
+            spaceShip.generatorOut -= 10
+            setTimeout (startStopSequence, 200);
+        } else if (st === 2){
+            console.log('st2');
+            spaceShip.generatorOut -= 10
+            setTimeout (startStopSequence, 200);
+        } else if (st === 3){
+            console.log('st3');
+            spaceShip.generatorOut -= 10
+            setTimeout (startStopSequence, 300);
+        } else if (st === 4){
+            console.log('st4');
+            spaceShip.generatorOut -= 10
+            setTimeout (startStopSequence, 200);
+        } else if (st === 5){
+            console.log('st5');
+            spaceShip.generatorOut -= 10
+            setTimeout (startStopSequence, 200);
+        } else if (st === 6){
+            console.log('st6');
+            spaceShip.generatorOut -= 10
+            setTimeout (startStopSequence, 200);
+        } else if (st === 7){
+            console.log('st7');
+            spaceShip.generatorOut -= 5
+            setTimeout (startStopSequence, 200);
+        } else if (st === 8){
+            console.log('st8');
+            spaceShip.generatorOut -= 5
+            setTimeout (startStopSequence, 200);
+        } else if (st === 9){
+            console.log('st9');
+            spaceShip.generatorOut -= 10
+            setTimeout (startStopSequence, 200);
+        } else if (st === 10){
+            console.log('st10');
+            spaceShip.generatorOut = 5;
+            setTimeout (startStopSequence, 300);
+        } else if (st === 11){
+            console.log('st11');
+            spaceShip.isRunning = false;
+            spaceShip.generatorOut = 0;
+            st = 0
+        };
+    }
+}
+
 
 function createMyself(){
 myself = {
@@ -38,16 +231,18 @@ myself = {
         myself._age = newAge;
         document.getElementById("age").innerHTML = newAge;
     },
-    _health : 70,
+    _health : 0,
     set health(newHealth){
         //if health is lower than 20, just display 'low' on page
-        if (this._health < 20){
+        this._health = newHealth
+        if (newHealth <= 20){
             document.getElementById("health").innerHTML = 'Low'
-            this._health = newHealth
-        } else {
+        } else if (newHealth > 20 ){
             document.getElementById("health").innerHTML = newHealth;
-            this._health = newHealth
         }
+    },
+    get health (){
+        return this._health
     },
     _hunger : 'I could eat something',
     _strength : 50,
@@ -64,6 +259,12 @@ myself = {
     set currentPlanet(newPlanet){
         this._currentPlanet = newPlanet;
         document.getElementById("currentPlanet").innerHTML = myself._currentPlanet.name;
+        document.getElementById("ssFromInput").value = myself._currentPlanet.name;
+        document.getElementById("fromCOORD").innerHTML = myself._currentPlanet.planetCOORD;
+    },
+    //i can define my fight method here
+    fight(){
+
     },
     //what the active storyline is
     actStoryLine : '',
@@ -229,53 +430,112 @@ function planetGenerator(){
         + vowels[Math.floor(Math.random() * vowels.length)]
         }
      planets[pl] = {
-         name : planetName[pl]
+         name : planetName[pl],
+         planetCOORD : Math.floor((Math.random() * 1000000 - (Math.random() * 100000)) + 100000),
      }   
     }
     
     
 }
 
-//---------------PLANETS randomized--------------
+//----trip check distance and that they are the correct planets available in the current universe
+function checkTravel(){
+    console.log('checking travel deets: FROM : ' + document.getElementById("ssFromInput").value)
+    //console.log(myself._currentUniverse.planetsInRange.find(document.getElementById("ssFrom").value))
+    let td = 0;
+    let checkFrom = document.getElementById("ssFromInput").value
+    let checkTo = document.getElementById("ssToInput").value
+    checkFrom = checkFrom.toLowerCase()
+    checkTo = checkTo.toLowerCase()
+    console.log('check FROM field which value is : ' + checkFrom)
+    console.log('check TO field which value is : ' + checkTo)
+    //check FROM
+    while (td < myself._currentUniverse.planetsInRange.length){
+        console.log(myself._currentUniverse.planetsInRange[td].name)
+        console.log(td)
+        
+        
+        console.log(checkFrom.toLowerCase())
+        
 
-
-//---------------DESTINATIONS ON PLANET - randomized--------------
+        if (checkFrom === myself._currentUniverse.planetsInRange[td].name.toLowerCase()){
+            console.log('correct FROM: planet entered');
+            
+            document.getElementById("ssTravelMessage").style.color = "black"
+            document.getElementById("ssTravelMessage").innerHTML = "&nbsp;"
+            console.log('planet coord ' + myself._currentUniverse.planetsInRange[td].planetCOORD)
+            td = myself._currentUniverse.planetsInRange.length
+        } else if (checkFrom != myself._currentUniverse.planetsInRange[td].name.toLowerCase()){
+            td++
+            document.getElementById("ssTravelMessage").style.color = "red"
+            document.getElementById("ssTravelMessage").innerHTML = "Incorrect planet(s) entered"
+        }
+    }
+    //check TO
+    
+    td = 0;
+    while (td < myself._currentUniverse.planetsInRange.length){
+        console.log(myself._currentUniverse.planetsInRange[td].name)
+        console.log(td)
+        console.log('check TO input which is: ' + checkTo)
+        console.log('planet from list :' + myself._currentUniverse.planetsInRange[td].name.toLowerCase())
+        if (checkTo === myself._currentUniverse.planetsInRange[td].name.toLowerCase()){
+            console.log('correct TO: planet entered');
+            document.getElementById("ssTravelMessage").style.color = "black"
+            document.getElementById("ssTravelMessage").innerHTML = "&nbsp;"
+            console.log('planet coord ' + myself._currentUniverse.planetsInRange[td].planetCOORD)
+            td = myself._currentUniverse.planetsInRange.length
+        } else if (checkTo != myself._currentUniverse.planetsInRange[td].name.toLowerCase()){
+            td++
+            document.getElementById("ssTravelMessage").style.color = "red"
+            document.getElementById("ssTravelMessage").innerHTML = "Incorrect planet(s) entered"
+        }
+    }
+}
 
 
 
 //----STARTUP STUFF----
 //the active story determines the answers to the users commands and where rick is etc.
-
-
-
-
-
 //make universe generator last after other elements are creates
 monsterGenerator();
 planetGenerator();
 universeGenerator()
 createMyself()
+createSpaceShip()
 myself.currentUniverse = universes[Math.floor(Math.random()* 1001)]
-console.log(myself._currentUniverse.habPlanetsInRange)
+
 //if you start in a universe with no habitable planets in range, randomize the universe again
 if (myself._currentUniverse.habPlanetsInRange === 0){
     myself.currentUniverse = universes[Math.floor(Math.random()* 1001)]
 }
+
 //put myself on my first planet
-
 myself.currentPlanet = myself._currentUniverse.planetsInRange[Math.floor(Math.random() * myself._currentUniverse.planetsInRange.length)]
-
 myself.actStoryLine = storyLine[0]
-console.log(myself)
 
 document.getElementById("storyTitle").innerHTML = storyLine[0];
 document.getElementById("storyArea1").innerHTML = story[0];
 document.getElementById("storyArea2").innerHTML = '';
-//show hunger stat since you would feel hungry even if you didn't know anything else
-document.getElementById("health").innerHTML = myself._health;
+
+//initialize stats and vairables
+myself.health = (Math.floor(Math.random() * 30)) + 40
 document.getElementById("hunger").innerHTML = myself._hunger;
+spaceShip.isRunning = false;
+spaceShip.fuelAmount = 21;
+spaceShip.generatorOut = 0;
 
 
+
+//hide spaceshpi table for now
+//document.getElementById("spaceShipDiv").style.visibility =  "hidden";
+
+//show objects and values
+console.log(monsters)
+console.log(universes)
+console.log(myself)
+console.log(spaceShip)
+console.log(myself._currentUniverse.planetsInRange)
 
 // Get the input field
 let inputField = document.getElementById("userInput");
@@ -346,7 +606,11 @@ function userCommand() {
     } else if (entCom === 'fight'){
 
     } else if (entCom === 'where am i?' || entCom === 'where am i'){
-
+    
+    } else if (entCom === 'add fuel'){
+        spaceShip.fuelAmount += 20
+    } else if (entCom === 'space ship?' || entCom === 'spaceship?' || entCom === 'space ship'){
+        document.getElementById("spaceShipDiv").style.visibility =  "visible";
     } else if (entCom === 'new enemy'){
         currentenemy = getNewEnemy()
         document.getElementById("ename").innerHTML = currentenemy.name;
@@ -368,3 +632,4 @@ square(y);
 console.log(y); // -- no change
 console.log(result)
 */
+

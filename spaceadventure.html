@@ -140,6 +140,105 @@
                
             </table>
             </font>
+            <font size="2">
+            <table class="spaceshiptable" id="spaceShipDiv">
+                <tr>
+                    <td>
+                        Your Space Ship
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Status Message:
+                    </td>
+                    <td id="ssStatusMessage">
+
+                    </td>
+                </tr>
+               <tr>
+                   <td>
+                       Running/Shutdown:
+                   </td>
+                   <td id="ssRunningOrShutDown">
+
+                   </td>
+                   <td>
+                       <button id="ssStartStop" onclick="startSpaceShip()">Start Ship</button>
+                   </td>
+               </tr>
+               <tr>
+                   <td>
+                       Fuel Amount:
+                   </td>
+                   <td id="ssFuelAmount">
+
+                   </td>
+               </tr>
+               <tr>
+                   <td>
+                       Generator Output:
+                   </td>
+                   <td id="ssGenOut">
+
+                   </td>
+               </tr>
+               <tr>
+                   <td>
+                       FROM :
+                   </td>
+                   <td id="ssFrom">
+                       <input type="text" id="ssFromInput" onfocusout="checkTravel()">
+                   </td>
+                    <td>
+                        TO :
+                    </td>
+                    <td id="ssTo">
+                        <input type="text" id="ssToInput" onfocusout="checkTravel()">
+                    </td>
+               </tr>
+               <tr>
+                   <td>
+
+                   </td>
+                   <td id="fromCOORD">
+                       COORDINATES
+                   </td>
+                   <td>
+                       
+                </td>
+                <td id="toCOORD">
+                    COORDINATES
+                </td>   
+               </tr>
+               <tr>
+                   <td>
+                       DISTANCE :
+                   </td>
+                   <td id="ssDist">
+                       dist
+                   </td>
+                   <td>
+                       FUEL REQUIRED:
+                   </td>
+                   <td id="ssFuelReq">
+                    fuel required
+                   </td>
+               </tr>
+               <tr>
+                   <td id="ssTravelMessage">
+                    &nbsp;
+                   </td>
+                   <td>
+
+                   </td>
+               </tr>
+            </table>
+            </font>
         </div>
     </div>
         
