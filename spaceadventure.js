@@ -78,6 +78,7 @@ function createSpaceShip(){
             } else if (onOff === false){
                 this._computerRunning = onOff;
                 clearInterval(intervalID)
+                document.getElementById("ssComputerRunning").innerHTML = "OFF";
             }
         },
         get computerRunning(){
@@ -677,6 +678,8 @@ function userCommand() {
     
     } else if (entCom === 'start computer'){
         spaceShip.computerRunning = true;
+    } else if (entCom === 'stop computer'){
+        spaceShip.computerRunning = false;
 
     } else if (entCom === 'start ship' || entCom === 'start spaceship'){
         startSpaceShip()
