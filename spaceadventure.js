@@ -186,23 +186,23 @@ function startStopSequence(){
         st++
         if (st === 1){
             console.log('st1')
-            spaceShip.generatorOut.toFixed(2) -= 10
+            spaceShip.generatorOut.toFixed -= 10
             setTimeout (startStopSequence, 200);
         } else if (st === 2){
             console.log('st2');
-            spaceShip.generatorOut.toFixed(2) -= 10
+            spaceShip.generatorOut -= 10
             setTimeout (startStopSequence, 200);
         } else if (st === 3){
             console.log('st3');
-            spaceShip.generatorOut.toFixed(2) -= 10
+            spaceShip.generatorOut -= 10
             setTimeout (startStopSequence, 300);
         } else if (st === 4){
             console.log('st4');
-            spaceShip.generatorOut.toFixed(2) -= 10
+            spaceShip.generatorOut -= 10
             setTimeout (startStopSequence, 200);
         } else if (st === 5){
             console.log('st5');
-            spaceShip.generatorOut.toFixed(2) -= 10
+            spaceShip.generatorOut -= 10
             setTimeout (startStopSequence, 200);
         } else if (st === 6){
             console.log('st6');
@@ -210,19 +210,19 @@ function startStopSequence(){
             setTimeout (startStopSequence, 200);
         } else if (st === 7){
             console.log('st7');
-            spaceShip.generatorOut.toFixed(2) -= 5
+            spaceShip.generatorOut -= 5
             setTimeout (startStopSequence, 200);
         } else if (st === 8){
             console.log('st8');
-            spaceShip.generatorOut.toFixed(2) -= 5
+            spaceShip.generatorOut -= 5
             setTimeout (startStopSequence, 200);
         } else if (st === 9){
             console.log('st9');
-            spaceShip.generatorOut.toFixed(2) -= 10
+            spaceShip.generatorOut -= 10
             setTimeout (startStopSequence, 200);
         } else if (st === 10){
             console.log('st10');
-            spaceShip.generatorOut.toFixed(2) = 5;
+            spaceShip.generatorOut = 5;
             setTimeout (startStopSequence, 300);
         } else if (st === 11){
             console.log('st11');
