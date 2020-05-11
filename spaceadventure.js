@@ -13,6 +13,7 @@ let universes = [];
 let planets = [];
 let destsOnPlanets = []
 let currentenemy;
+let allCommands;
 let lastCommand = '';
 let storyLine = [
     'The Beginning',
@@ -24,6 +25,7 @@ let story = [
 ]
 let lastStory = '';
 let spaceShip = '';
+let intervalID;
 
 function createSpaceShip(){
     //i hid the spaceship table on startup for now
@@ -38,12 +40,14 @@ function createSpaceShip(){
                 document.getElementById("ssStatusMessage").innerHTML = '';
                 document.getElementById("ssStartStop").innerHTML = 'Stop';
                 document.getElementById("ssStartStop").onclick = stopSpaceShip;
+                
                 runStartStop = 'stop'
             } else if (statusCHG === false) {
                 document.getElementById("ssRunningOrShutDown").style.color = "red";
                 document.getElementById("ssRunningOrShutDown").innerHTML = "SHUTDOWN";
                 document.getElementById("ssStartStop").innerHTML = 'Start';
                 document.getElementById("ssStartStop").onclick = startSpaceShip;
+                spaceShip.computerRunning = false;
                 runStartStop = 'start'
             }
         },
@@ -65,6 +69,19 @@ function createSpaceShip(){
         },
         get generatorOut(){
             return this._generatorOut
+        },
+        _computerRunning : false,
+        set computerRunning(onOff){
+            if (onOff === true){
+                this._computerRunning = onOff;
+                intervalID = setInterval(computerRunning, 100);
+            } else if (onOff === false){
+                this._computerRunning = onOff;
+                clearInterval(intervalID)
+            }
+        },
+        get computerRunning(){
+            return this._computerRunning;
         }
     }
 }
@@ -169,23 +186,23 @@ function startStopSequence(){
         st++
         if (st === 1){
             console.log('st1')
-            spaceShip.generatorOut -= 10
+            spaceShip.generatorOut.toFixed(2) -= 10
             setTimeout (startStopSequence, 200);
         } else if (st === 2){
             console.log('st2');
-            spaceShip.generatorOut -= 10
+            spaceShip.generatorOut.toFixed(2) -= 10
             setTimeout (startStopSequence, 200);
         } else if (st === 3){
             console.log('st3');
-            spaceShip.generatorOut -= 10
+            spaceShip.generatorOut.toFixed(2) -= 10
             setTimeout (startStopSequence, 300);
         } else if (st === 4){
             console.log('st4');
-            spaceShip.generatorOut -= 10
+            spaceShip.generatorOut.toFixed(2) -= 10
             setTimeout (startStopSequence, 200);
         } else if (st === 5){
             console.log('st5');
-            spaceShip.generatorOut -= 10
+            spaceShip.generatorOut.toFixed(2) -= 10
             setTimeout (startStopSequence, 200);
         } else if (st === 6){
             console.log('st6');
@@ -193,24 +210,25 @@ function startStopSequence(){
             setTimeout (startStopSequence, 200);
         } else if (st === 7){
             console.log('st7');
-            spaceShip.generatorOut -= 5
+            spaceShip.generatorOut.toFixed(2) -= 5
             setTimeout (startStopSequence, 200);
         } else if (st === 8){
             console.log('st8');
-            spaceShip.generatorOut -= 5
+            spaceShip.generatorOut.toFixed(2) -= 5
             setTimeout (startStopSequence, 200);
         } else if (st === 9){
             console.log('st9');
-            spaceShip.generatorOut -= 10
+            spaceShip.generatorOut.toFixed(2) -= 10
             setTimeout (startStopSequence, 200);
         } else if (st === 10){
             console.log('st10');
-            spaceShip.generatorOut = 5;
+            spaceShip.generatorOut.toFixed(2) = 5;
             setTimeout (startStopSequence, 300);
         } else if (st === 11){
             console.log('st11');
             spaceShip.isRunning = false;
             spaceShip.generatorOut = 0;
+            spaceShip.computerRunning = false;
             st = 0
         };
     }
@@ -431,7 +449,8 @@ function planetGenerator(){
         }
      planets[pl] = {
          name : planetName[pl],
-         planetCOORD : Math.floor((Math.random() * 1000000 - (Math.random() * 100000)) + 100000),
+         //146900000 is one astrononmical unit
+         planetCOORD : Math.floor((Math.random() * 146900000 * (Math.random() * 10))),
      }   
     }
     
@@ -439,58 +458,108 @@ function planetGenerator(){
 }
 
 //----trip check distance and that they are the correct planets available in the current universe
+let travelDistance = 0;
+let fuelRequired = 0;
 function checkTravel(){
-    console.log('checking travel deets: FROM : ' + document.getElementById("ssFromInput").value)
     //console.log(myself._currentUniverse.planetsInRange.find(document.getElementById("ssFrom").value))
-    let td = 0;
+    
     let checkFrom = document.getElementById("ssFromInput").value
     let checkTo = document.getElementById("ssToInput").value
     checkFrom = checkFrom.toLowerCase()
     checkTo = checkTo.toLowerCase()
-    console.log('check FROM field which value is : ' + checkFrom)
-    console.log('check TO field which value is : ' + checkTo)
+    console.log('before loop check FROM field which value is : ' + checkFrom)
+    console.log('before loop check TO field which value is : ' + checkTo)
+    let fromCOORD = 0;
+    let toCOORD = 0;
+    
     //check FROM
+    let td = 0;
     while (td < myself._currentUniverse.planetsInRange.length){
-        console.log(myself._currentUniverse.planetsInRange[td].name)
-        console.log(td)
-        
-        
-        console.log(checkFrom.toLowerCase())
-        
-
+        console.log('//FROM LOOP//planet from planets in range ' + myself._currentUniverse.planetsInRange[td].name.toLowerCase())
+        console.log('//FROM LOOP//loop num: ' + td)
+        console.log('//FROM LOOP//in loop checkfrom: ' + checkFrom)
         if (checkFrom === myself._currentUniverse.planetsInRange[td].name.toLowerCase()){
-            console.log('correct FROM: planet entered');
+            fromCOORD = myself._currentUniverse.planetsInRange[td].planetCOORD
+            document.getElementById("fromCOORD").innerHTML = fromCOORD
+            console.log('//FROM LOOP////-correct-// FROM: planet entered-/-/-/-/-/-/-/-/-/-');
+            document.getElementById("ssFromMessage").style.color = "black"
+            document.getElementById("ssFromMessage").innerHTML = "&nbsp;"
             
-            document.getElementById("ssTravelMessage").style.color = "black"
-            document.getElementById("ssTravelMessage").innerHTML = "&nbsp;"
-            console.log('planet coord ' + myself._currentUniverse.planetsInRange[td].planetCOORD)
+            console.log('planet coord ' + fromCOORD)
             td = myself._currentUniverse.planetsInRange.length
         } else if (checkFrom != myself._currentUniverse.planetsInRange[td].name.toLowerCase()){
             td++
-            document.getElementById("ssTravelMessage").style.color = "red"
-            document.getElementById("ssTravelMessage").innerHTML = "Incorrect planet(s) entered"
+            document.getElementById("ssFromMessage").style.color = "red"
+            document.getElementById("ssFromMessage").innerHTML = "Incorrect FROM planet entered"
         }
     }
     //check TO
-    
     td = 0;
     while (td < myself._currentUniverse.planetsInRange.length){
         console.log(myself._currentUniverse.planetsInRange[td].name)
         console.log(td)
-        console.log('check TO input which is: ' + checkTo)
-        console.log('planet from list :' + myself._currentUniverse.planetsInRange[td].name.toLowerCase())
+        console.log('//TO LOOP// check TO input which is: ' + checkTo)
+        console.log('//TO LOOP// planet from list :' + myself._currentUniverse.planetsInRange[td].name.toLowerCase())
         if (checkTo === myself._currentUniverse.planetsInRange[td].name.toLowerCase()){
-            console.log('correct TO: planet entered');
-            document.getElementById("ssTravelMessage").style.color = "black"
-            document.getElementById("ssTravelMessage").innerHTML = "&nbsp;"
-            console.log('planet coord ' + myself._currentUniverse.planetsInRange[td].planetCOORD)
+            toCOORD = myself._currentUniverse.planetsInRange[td].planetCOORD
+            document.getElementById("toCOORD").innerHTML = toCOORD
+            console.log('//TO LOOP// //-correct-// TO: planet entered-/-/-/-/-/-/-/-/-/-');
+            document.getElementById("ssToMessage").style.color = "black"
+            document.getElementById("ssToMessage").innerHTML = "&nbsp;"
+            
+            console.log('planet coord ' + toCOORD)
             td = myself._currentUniverse.planetsInRange.length
         } else if (checkTo != myself._currentUniverse.planetsInRange[td].name.toLowerCase()){
             td++
-            document.getElementById("ssTravelMessage").style.color = "red"
-            document.getElementById("ssTravelMessage").innerHTML = "Incorrect planet(s) entered"
+            document.getElementById("ssToMessage").style.color = "red"
+            document.getElementById("ssToMessage").innerHTML = "Incorrect TO entered"
         }
     }
+    if (fromCOORD > 0 && toCOORD > 0){
+        if (fromCOORD > toCOORD){
+            travelDistance = fromCOORD - toCOORD;
+        } else if (fromCOORD <  toCOORD){
+            travelDistance = toCOORD - fromCOORD
+        }
+    }
+    console.log('the travel disance is ' + travelDistance)
+    //divide the distance by 299792 and then by 60 seconds to get light minutes travel
+    travelDistance = (travelDistance / 299792) / 60
+    console.log('the travel disance is ' + travelDistance.toFixed(2))
+    document.getElementById("ssTravelDist").innerHTML = `${travelDistance.toFixed(2)} light minutes`
+    fuelRequired = Math.floor(travelDistance * 3.145926 * 41)
+    document.getElementById("ssFuelRequired").innerHTML = fuelRequired
+}
+let cr = 0;
+
+//intervalID = setInterval(computerRunning, 200)
+//trying a computer running spinning characters
+function computerRunning(){
+    if (cr === 0){
+        document.getElementById("ssComputerRunning").innerHTML = "|"
+        cr++
+    } else if (cr === 1){
+        document.getElementById("ssComputerRunning").innerHTML = "/"
+        cr++
+    } else if (cr === 2){
+        document.getElementById("ssComputerRunning").innerHTML = "--"
+        cr++
+    } else if (cr === 3){
+        document.getElementById("ssComputerRunning").innerHTML = "\\"
+        cr++
+    } else if (cr === 4){
+        document.getElementById("ssComputerRunning").innerHTML = "|"
+        cr++
+    } else if (cr === 5){
+        document.getElementById("ssComputerRunning").innerHTML = "/"
+        cr++
+    } else if (cr === 6){
+        document.getElementById("ssComputerRunning").innerHTML = "--"
+        cr++
+    } else if (cr === 7){
+        document.getElementById("ssComputerRunning").innerHTML = "\\"
+        cr = 0;
+    } 
 }
 
 
@@ -563,6 +632,7 @@ function getNewEnemy() {
 }
 
 //this is the main user interface where the user enters commands.
+
 function userCommand() {
     let entCom;
     //make the lastStory line show in StoryArea1
@@ -604,9 +674,18 @@ function userCommand() {
     } else if (entCom === 'look'){
     
     } else if (entCom === 'fight'){
+    
+    } else if (entCom === 'start computer'){
+        spaceShip.computerRunning = true;
 
+    } else if (entCom === 'start ship' || entCom === 'start spaceship'){
+        startSpaceShip()
+    } else if (entCom === 'stop ship' || entCom === 'stop spaceship'){
+        stopSpaceShip()
     } else if (entCom === 'where am i?' || entCom === 'where am i'){
     
+    } else if (entCom === 'help' || entCom === '?'){
+        document.getElementById("storyArea2").innerHTML = 'Commands are: space ship, look, talk, who am i, start spaceship'
     } else if (entCom === 'add fuel'){
         spaceShip.fuelAmount += 20
     } else if (entCom === 'space ship?' || entCom === 'spaceship?' || entCom === 'space ship'){
