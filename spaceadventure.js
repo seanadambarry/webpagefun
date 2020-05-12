@@ -57,10 +57,10 @@ function createSpaceShip(){
         _fuelAmount : 0,
         set fuelAmount(newFuelAmount){
             this._fuelAmount = newFuelAmount;
-            document.getElementById("ssFuelAmount").innerHTML = newFuelAmount + ' Warparods';
+            document.getElementById("ssFuelAmount").innerHTML = newFuelAmount.toFixed(0) + ' Warparods';
         },
         get fuelAmount(){
-            return this._fuelAmount;
+            return Math.floor(this._fuelAmount);
         },
         _generatorOut : 0,
         set generatorOut(newGeneratorOut){
@@ -547,8 +547,9 @@ function checkTravel(){
 
 //intervalID = setInterval(computerRunning, 200)
 //trying a computer running spinning characters
+let cr = 0;
 function computerRunning(){
-    let cr = 0;
+    
     if (cr === 0){
         document.getElementById("ssComputerRunning").innerHTML = "|"
         cr++
@@ -696,25 +697,57 @@ function flyAnimation(){
     }
 }
 
-let fuelPerStage;
+
+let ssFlying;
+let ssAnimation;
 function takeOff(){
-    if (spaceShip.toFromChecked === true){
-    setInterval(flyAnimation, 200);
-    setInterval(spaceTravel, 200);
-    fuelPerStage = fuelRequired / 10
-    console.log('fuel required' + fuelRequired + ' fuel per stage ' + fuelPerStage)
-    } else if (spaceShip.toFromChecked === false) {
-        document.getElementById("storyArea2").style.color = "red"
-        document.getElementById("storyArea2").innerHTML = 'You cant go anywhere without a destination!!'
-        
+    if (fuelRequired > spaceShip.fuelAmount){
+        document.getElementById("ssFromMessage").style.color = "red"
+        document.getElementById("ssToMessage").style.color = "red"
+        document.getElementById("ssFromMessage").innerHTML = 'Not enough fuel for takeoff'
+        document.getElementById("ssToMessage").innerHTML = 'Not enough fuel for takeoff'
+    } else if (fuelRequired < spaceShip.fuelAmount){
+            if (spaceShip.isRunning === true){
+                if (spaceShip.toFromChecked === true){
+                ssAnimation =  setInterval(flyAnimation, 200);
+                ssFlying = setInterval(spaceTravel, 100);
+                document.getElementById("ssFromMessage").style.color = "black"
+                document.getElementById("ssFromMessage").innerHTML = "&nbsp;"
+                document.getElementById("ssToMessage").style.color = "black"
+                document.getElementById("ssToMessage").innerHTML = "&nbsp;"
+                console.log('fuel required' + fuelRequired + ' fuel per stage ')
+                } else if (spaceShip.toFromChecked === false) {
+                document.getElementById("ssFromMessage").style.color = "red"
+                document.getElementById("ssToMessage").style.color = "red"
+                document.getElementById("ssFromMessage").innerHTML = 'Check FROM or TO'
+                document.getElementById("ssToMessage").innerHTML = 'Check FROM or TO'
+                }
+            } else if (spaceShip.isRunning === false) {
+                document.getElementById("ssFromMessage").style.color = "red"
+                document.getElementById("ssToMessage").style.color = "red"
+                document.getElementById("ssFromMessage").innerHTML = 'Space Ship Not Running!'
+                document.getElementById("ssToMessage").innerHTML = 'Space Ship Not Running!'
+            }
     }
 }
 
 function spaceTravel(){
-    while (fuelRequired > 0){
-        spaceShip.fuelAmount -= fuelPerStage;
-        fuelRequired -= fuelPerStage;
+    if (fuelRequired > 0.1){
+        spaceShip.fuelAmount -= (fuelRequired / 20);
+        fuelRequired -= fuelRequired / 20;
+        travelDistance -= (travelDistance / 20)
+        document.getElementById("ssFuelRequired").innerHTML = fuelRequired.toFixed(2)
+        document.getElementById("ssTravelDist").innerHTML = `${travelDistance.toFixed(4)} light minutes`
+
         console.log(spaceShip.fuelAmount+ ' ' + fuelRequired)
+    } else if (fuelRequired < 0.1){
+        clearInterval(ssAnimation)
+        clearInterval(ssFlying)
+        changeTodesttoFromdest()
+        document.getElementById("ssFromMessage").style.color = "green"
+        document.getElementById("ssToMessage").style.color = "green"
+        document.getElementById("ssFromMessage").innerHTML = 'Destination Reached!'
+        document.getElementById("ssToMessage").innerHTML = 'Destination Reached!'
     }
     
 
@@ -757,6 +790,8 @@ spaceShip.generatorOut = 0;
 
 //hide spaceshpi table for now
 //document.getElementById("spaceShipDiv").style.visibility =  "hidden";
+//document.getElementById("spaceShipDiv2").style.visibility =  "hidden";
+
 
 //show objects and values
 console.log(monsters)
@@ -845,7 +880,9 @@ function userCommand() {
     } else if (entCom === 'stop ship' || entCom === 'stop spaceship'){
         stopSpaceShip()
     } else if (entCom === 'where am i?' || entCom === 'where am i'){
-    
+
+    } else if (entCom === 'fly'){
+        takeOff();
     } else if (entCom === 'planets'){
         //prints out the names of the planets in the centre page
         let textnode;
@@ -862,7 +899,7 @@ function userCommand() {
     } else if (entCom === 'help' || entCom === '?'){
         document.getElementById("storyArea2").innerHTML = 'Commands are: space ship, look, talk, who am i, start spaceship'
     } else if (entCom === 'add fuel'){
-        spaceShip.fuelAmount += 20
+        spaceShip.fuelAmount += 50000
     } else if (entCom === 'space ship?' || entCom === 'spaceship?' || entCom === 'space ship'){
         document.getElementById("spaceShipDiv").style.visibility =  "visible";
     } else if (entCom === 'new enemy'){
@@ -887,3 +924,29 @@ console.log(y); // -- no change
 console.log(result)
 */
 
+
+
+function searchPlanetIndexes(nameKey, myArray){
+    for (var i=0; i < myArray.length; i++) {
+        if (myArray[i].name === nameKey) {
+            return myArray[i];
+        }
+    }
+}
+
+function changeTodesttoFromdest(){
+    let CCFrom = document.getElementById("ssFromInput").value;
+    let CCTo = document.getElementById("ssToInput").value;
+    CCTo = CCTo.charAt(0).toUpperCase() + CCTo.slice(1)
+    let newCurrPlanetVal = searchPlanetIndexes(CCTo, myself._currentUniverse.planetsInRange)
+    console.log(CCTo.charAt(0).toUpperCase() + CCTo.slice(1))
+    myself._currentPlanet.name = newCurrPlanetVal.name
+    myself._currentPlanet.planetCOORD = newCurrPlanetVal.planetCOORD
+    document.getElementById("ssFromInput").value = myself._currentPlanet.name
+    document.getElementById("ssToInput").value = ""
+    console.log(CCFrom)
+    console.log(CCTo)
+    console.log(searchPlanetIndexes(CCFrom, myself._currentUniverse.planetsInRange))
+    console.log(searchPlanetIndexes(CCTo, myself._currentUniverse.planetsInRange))
+    checkTravel()
+}
