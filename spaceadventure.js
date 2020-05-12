@@ -83,7 +83,16 @@ function createSpaceShip(){
         },
         get computerRunning(){
             return this._computerRunning;
-        }
+        },
+        //FF is 1000 warparods per light year
+        _fuelFlow : 1000,
+        set fuelFlow (newFF){
+            this._fuelFlow = newFF;
+        },
+        get fuelFlow(){
+            return this._fuelFlow;
+        },
+        toFromChecked : false,
     }
 }
 
@@ -492,6 +501,7 @@ function checkTravel(){
             td++
             document.getElementById("ssFromMessage").style.color = "red"
             document.getElementById("ssFromMessage").innerHTML = "Incorrect FROM planet entered"
+            spaceShip.toFromChecked = false;
         }
     }
     //check TO
@@ -514,9 +524,11 @@ function checkTravel(){
             td++
             document.getElementById("ssToMessage").style.color = "red"
             document.getElementById("ssToMessage").innerHTML = "Incorrect TO entered"
+            spaceShip.toFromChecked = false;
         }
     }
     if (fromCOORD > 0 && toCOORD > 0){
+        spaceShip.toFromChecked = true;
         if (fromCOORD > toCOORD){
             travelDistance = fromCOORD - toCOORD;
         } else if (fromCOORD <  toCOORD){
@@ -528,14 +540,15 @@ function checkTravel(){
     travelDistance = (travelDistance / 299792) / 60
     console.log('the travel disance is ' + travelDistance.toFixed(2))
     document.getElementById("ssTravelDist").innerHTML = `${travelDistance.toFixed(2)} light minutes`
-    fuelRequired = Math.floor(travelDistance * 3.145926 * 41)
+    fuelRequired = Math.floor(travelDistance * spaceShip.fuelFlow) //change fuel flow later
     document.getElementById("ssFuelRequired").innerHTML = fuelRequired
 }
-let cr = 0;
+
 
 //intervalID = setInterval(computerRunning, 200)
 //trying a computer running spinning characters
 function computerRunning(){
+    let cr = 0;
     if (cr === 0){
         document.getElementById("ssComputerRunning").innerHTML = "|"
         cr++
@@ -561,6 +574,150 @@ function computerRunning(){
         document.getElementById("ssComputerRunning").innerHTML = "\\"
         cr = 0;
     } 
+}
+
+let str = 0;
+function flyAnimation(){
+    console.log
+    if (str === 0){
+        document.getElementById("spacetravel1").innerHTML = "*";
+        document.getElementById("spacetravel2").innerHTML = "\\\\";
+        document.getElementById("spacetravel3").innerHTML = "*";
+        document.getElementById("spacetravel4").innerHTML = "--";
+        document.getElementById("spacetravel5").innerHTML = "*";
+        document.getElementById("spacetravel6").innerHTML = "--";
+        document.getElementById("spacetravel7").innerHTML = "*";
+        document.getElementById("spacetravel8").innerHTML = "--";
+        document.getElementById("spacetravel9").innerHTML = "*";
+        document.getElementById("spacetravel10").innerHTML = "--";
+
+        document.getElementById("spacetravel11").innerHTML = "--";
+        document.getElementById("spacetravel12").innerHTML = "\\\\\\__";
+        document.getElementById("spacetravel13").innerHTML = "\\\\\\__";
+        document.getElementById("spacetravel14").innerHTML = "___";
+        document.getElementById("spacetravel15").innerHTML = "___";
+        document.getElementById("spacetravel16").innerHTML = "*";
+        document.getElementById("spacetravel17").innerHTML = "--";
+        document.getElementById("spacetravel18").innerHTML = "*";
+        document.getElementById("spacetravel19").innerHTML = "--";
+        document.getElementById("spacetravel10").innerHTML = "*";
+
+        document.getElementById("spacetravel21").innerHTML = "*";
+        document.getElementById("spacetravel22").innerHTML = "\\\\\\";
+        document.getElementById("spacetravel23").innerHTML = "o";
+        document.getElementById("spacetravel24").innerHTML = "o";
+        document.getElementById("spacetravel25").innerHTML = "o";
+        document.getElementById("spacetravel26").innerHTML = "\\\\";
+        document.getElementById("spacetravel27").innerHTML = "*";
+        document.getElementById("spacetravel28").innerHTML = "--";
+        document.getElementById("spacetravel29").innerHTML = "*";
+        document.getElementById("spacetravel30").innerHTML = "--";
+
+        document.getElementById("spacetravel31").innerHTML = "--";
+        document.getElementById("spacetravel32").innerHTML = "{__";
+        document.getElementById("spacetravel33").innerHTML = "___";
+        document.getElementById("spacetravel34").innerHTML = "___";
+        document.getElementById("spacetravel35").innerHTML = "___";
+        document.getElementById("spacetravel36").innerHTML = "//";
+        document.getElementById("spacetravel37").innerHTML = "--";
+        document.getElementById("spacetravel38").innerHTML = "*";
+        document.getElementById("spacetravel39").innerHTML = "--";
+        document.getElementById("spacetravel40").innerHTML = "*";
+
+        document.getElementById("spacetravel41").innerHTML = "*";
+        document.getElementById("spacetravel42").innerHTML = "--";
+        document.getElementById("spacetravel43").innerHTML = "*";
+        document.getElementById("spacetravel44").innerHTML = "--";
+        document.getElementById("spacetravel45").innerHTML = "*";
+        document.getElementById("spacetravel46").innerHTML = "--";
+        document.getElementById("spacetravel47").innerHTML = "*";
+        document.getElementById("spacetravel48").innerHTML = "--";
+        document.getElementById("spacetravel49").innerHTML = "*";
+        document.getElementById("spacetravel50").innerHTML = "--";
+
+        str++
+    } else if (str === 1){
+        document.getElementById("spacetravel1").innerHTML = "--";
+        document.getElementById("spacetravel2").innerHTML = "\\\\";
+        document.getElementById("spacetravel3").innerHTML = "--";
+        document.getElementById("spacetravel4").innerHTML = "*";
+        document.getElementById("spacetravel5").innerHTML = "--";
+        document.getElementById("spacetravel6").innerHTML = "*";
+        document.getElementById("spacetravel7").innerHTML = "--";
+        document.getElementById("spacetravel8").innerHTML = "*";
+        document.getElementById("spacetravel9").innerHTML = "--";
+        document.getElementById("spacetravel10").innerHTML = "*";
+
+        document.getElementById("spacetravel11").innerHTML = "--";
+        document.getElementById("spacetravel12").innerHTML = "\\\\\\__";
+        document.getElementById("spacetravel13").innerHTML = "\\\\\\__";
+        document.getElementById("spacetravel14").innerHTML = "___";
+        document.getElementById("spacetravel15").innerHTML = "___";
+        document.getElementById("spacetravel16").innerHTML = "--";
+        document.getElementById("spacetravel17").innerHTML = "*";
+        document.getElementById("spacetravel18").innerHTML = "--";
+        document.getElementById("spacetravel19").innerHTML = "*";
+        document.getElementById("spacetravel10").innerHTML = "--";
+
+        document.getElementById("spacetravel21").innerHTML = "--";
+        document.getElementById("spacetravel22").innerHTML = "\\\\\\";
+        document.getElementById("spacetravel23").innerHTML = "o";
+        document.getElementById("spacetravel24").innerHTML = "o";
+        document.getElementById("spacetravel25").innerHTML = "o";
+        document.getElementById("spacetravel26").innerHTML = "\\\\";
+        document.getElementById("spacetravel27").innerHTML = "--";
+        document.getElementById("spacetravel28").innerHTML = "*";
+        document.getElementById("spacetravel29").innerHTML = "--";
+        document.getElementById("spacetravel30").innerHTML = "*";
+
+        document.getElementById("spacetravel31").innerHTML = "--";
+        document.getElementById("spacetravel32").innerHTML = "{__";
+        document.getElementById("spacetravel33").innerHTML = "___";
+        document.getElementById("spacetravel34").innerHTML = "___";
+        document.getElementById("spacetravel35").innerHTML = "___";
+        document.getElementById("spacetravel36").innerHTML = "//";
+        document.getElementById("spacetravel37").innerHTML = "--";
+        document.getElementById("spacetravel38").innerHTML = "--";
+        document.getElementById("spacetravel39").innerHTML = "*";
+        document.getElementById("spacetravel40").innerHTML = "--";
+
+        document.getElementById("spacetravel41").innerHTML = "--";
+        document.getElementById("spacetravel42").innerHTML = "--";
+        document.getElementById("spacetravel43").innerHTML = "--";
+        document.getElementById("spacetravel44").innerHTML = "--";
+        document.getElementById("spacetravel45").innerHTML = "--";
+        document.getElementById("spacetravel46").innerHTML = "--";
+        document.getElementById("spacetravel47").innerHTML = "--";
+        document.getElementById("spacetravel48").innerHTML = "--";
+        document.getElementById("spacetravel49").innerHTML = "--";
+        document.getElementById("spacetravel50").innerHTML = "--";
+
+        str = 0;
+    }
+}
+
+let fuelPerStage;
+function takeOff(){
+    if (spaceShip.toFromChecked === true){
+    setInterval(flyAnimation, 200);
+    setInterval(spaceTravel, 200);
+    fuelPerStage = fuelRequired / 10
+    console.log('fuel required' + fuelRequired + ' fuel per stage ' + fuelPerStage)
+    } else if (spaceShip.toFromChecked === false) {
+        document.getElementById("storyArea2").style.color = "red"
+        document.getElementById("storyArea2").innerHTML = 'You cant go anywhere without a destination!!'
+        
+    }
+}
+
+function spaceTravel(){
+    while (fuelRequired > 0){
+        spaceShip.fuelAmount -= fuelPerStage;
+        fuelRequired -= fuelPerStage;
+        console.log(spaceShip.fuelAmount+ ' ' + fuelRequired)
+    }
+    
+
 }
 
 
@@ -592,8 +749,9 @@ document.getElementById("storyArea2").innerHTML = '';
 myself.health = (Math.floor(Math.random() * 30)) + 40
 document.getElementById("hunger").innerHTML = myself._hunger;
 spaceShip.isRunning = false;
-spaceShip.fuelAmount = 21;
+spaceShip.fuelAmount = 40000;
 spaceShip.generatorOut = 0;
+//document.getElementById("ssFromInput").readOnly = true;
 
 
 
@@ -635,6 +793,7 @@ function getNewEnemy() {
 //this is the main user interface where the user enters commands.
 
 function userCommand() {
+    document.getElementById("storyArea2").style.color = "black"
     let entCom;
     //make the lastStory line show in StoryArea1
     document.getElementById("storyArea1").innerHTML = lastStory
@@ -686,6 +845,19 @@ function userCommand() {
     } else if (entCom === 'stop ship' || entCom === 'stop spaceship'){
         stopSpaceShip()
     } else if (entCom === 'where am i?' || entCom === 'where am i'){
+    
+    } else if (entCom === 'planets'){
+        //prints out the names of the planets in the centre page
+        let textnode;
+        let node;
+        for (let p = 0; p < myself._currentUniverse.planetsInRange.length; p++){
+            console.log(myself._currentUniverse.planetsInRange[p].name)
+            node = document.createElement("P");
+            node.style.fontSize = "15px"
+            textnode = document.createTextNode(myself._currentUniverse.planetsInRange[p].name);
+            node.appendChild(textnode);
+            document.getElementById("storyArea2").appendChild(node);
+        }
     
     } else if (entCom === 'help' || entCom === '?'){
         document.getElementById("storyArea2").innerHTML = 'Commands are: space ship, look, talk, who am i, start spaceship'
