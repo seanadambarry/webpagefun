@@ -28,7 +28,7 @@ let lastStory = '';
 let spaceShip = '';
 let compIntervalID;
 let ssRunningIntervalID;
-let ssStartSeqIntervalID;
+let ssStartStopSeqIntervalID;
 
 function createSpaceShip(){
     //i hid the spaceship table on startup for now
@@ -113,7 +113,7 @@ function startSpaceShip(){
             document.getElementById("ssStatusMessage").innerHTML = 'Not enough fuel for start';
             document.getElementById("ssStatusMessage").style.color = "red";
         } else if (spaceShip.fuelAmount > 10){
-            ssStartSeqIntervalID = setInterval(startStopSequence, Math.random() * 1000 + 500)
+            ssStartStopSeqIntervalID = setInterval(startStopSequence, Math.random() * 1000 + 500)
         }
     } 
 }
@@ -122,7 +122,7 @@ function stopSpaceShip(){
     startStopSequence()
     console.log('stopping space ship and is running is: ' + spaceShip.isRunning);
     document.getElementById("ssStatusMessage").innerHTML = 'Shutting down ship';
-    
+    ssStartStopSeqIntervalID = setInterval(startStopSequence, Math.random() * 500 + 500)
 }
 
 let ss = 0
@@ -193,7 +193,7 @@ function startStopSequence(){
             ss = 0;
             spaceShip.isRunning = true;
             console.log('starting space ship and is running is: ' + spaceShip.isRunning)
-            clearInterval(ssStartSeqIntervalID)
+            clearInterval(ssStartStopSeqIntervalID)
             runStartStop = 'stop'
         };
         console.log(ss)
@@ -205,58 +205,59 @@ function startStopSequence(){
             console.log('st1')
             spaceShip.generatorOut = Math.random() * 10 + 90;
             spaceShip.fuelFlow = Math.random() * 100 + 900;
-            setTimeout (startStopSequence, 300);
+            
         } else if (st === 2){
             console.log('st2');
             spaceShip.generatorOut = Math.random() * 10 + 80;
             spaceShip.fuelFlow = Math.random() * 100 + 800;
-            setTimeout (startStopSequence, 300);
+           
         } else if (st === 3){
             console.log('st3');
             spaceShip.generatorOut = Math.random() * 10 + 70;
             spaceShip.fuelFlow = Math.random() * 100 + 700;
-            setTimeout (startStopSequence, 300);
+           
         } else if (st === 4){
             console.log('st4');
             spaceShip.generatorOut = Math.random() * 10 + 60;
             spaceShip.fuelFlow = Math.random() * 100 + 600;
-            setTimeout (startStopSequence, 300);
+            
         } else if (st === 5){
             console.log('st5');
             spaceShip.generatorOut = Math.random() * 10 + 50;
             spaceShip.fuelFlow = Math.random() * 100 + 500;
-            setTimeout (startStopSequence, 300);
+          
         } else if (st === 6){
             console.log('st6');
             spaceShip.generatorOut = Math.random() * 10 + 40;
             spaceShip.fuelFlow = Math.random() * 100 + 400;
-            setTimeout (startStopSequence, 300);
+           
         } else if (st === 7){
             console.log('st7');
             spaceShip.generatorOut = Math.random() * 10 + 30;
             spaceShip.fuelFlow = Math.random() * 100 + 300;
-            setTimeout (startStopSequence, 300);
+            
         } else if (st === 8){
             console.log('st8');
             spaceShip.generatorOut = Math.random() * 10 + 20;
             spaceShip.fuelFlow = Math.random() * 100 + 200;
-            setTimeout (startStopSequence, 300);
+            
         } else if (st === 9){
             console.log('st9');
             spaceShip.generatorOut = Math.random() * 10 + 10;
             spaceShip.fuelFlow = Math.random() * 100 + 100;
-            setTimeout (startStopSequence, 300);
+            
         } else if (st === 10){
             console.log('st10');
             spaceShip.generatorOut = Math.random() * 10;
             spaceShip.fuelFlow = Math.random() * 100;
-            setTimeout (startStopSequence, 300);
+            
         } else if (st === 11){
             console.log('st11');
             spaceShip.isRunning = false;
             spaceShip.generatorOut = 0;
             spaceShip.fuelFlow = 0;
             spaceShip.computerRunning = false;
+            clearInterval(ssStartStopSeqIntervalID)
             st = 0
         };
     }
@@ -596,7 +597,7 @@ function checkTravel(){
         fuelRequired = Math.floor(travelDistance * spaceShip.configuredFuelFlow) //change fuel flow later
         document.getElementById("ssFuelRequired").innerHTML = fuelRequired
         document.getElementById("ssTravelDist").innerHTML = `${travelDistance.toFixed(2)} light minutes`
-        
+
         console.log(travelDistance)
         console.log(fuelRequired)
     }
@@ -609,28 +610,28 @@ let cr = 0;
 function computerRunning(){
     
     if (cr === 0){
-        document.getElementById("ssComputerRunning").innerHTML = "|"
+        document.getElementById("ssComputerRunning").innerHTML = "+"
         cr++
     } else if (cr === 1){
-        document.getElementById("ssComputerRunning").innerHTML = "/"
+        document.getElementById("ssComputerRunning").innerHTML = "_+"
         cr++
     } else if (cr === 2){
-        document.getElementById("ssComputerRunning").innerHTML = "--"
+        document.getElementById("ssComputerRunning").innerHTML = "__+"
         cr++
     } else if (cr === 3){
-        document.getElementById("ssComputerRunning").innerHTML = "\\"
+        document.getElementById("ssComputerRunning").innerHTML = "___+"
         cr++
     } else if (cr === 4){
-        document.getElementById("ssComputerRunning").innerHTML = "|"
+        document.getElementById("ssComputerRunning").innerHTML = "____+"
         cr++
     } else if (cr === 5){
-        document.getElementById("ssComputerRunning").innerHTML = "/"
+        document.getElementById("ssComputerRunning").innerHTML = "_____+"
         cr++
     } else if (cr === 6){
-        document.getElementById("ssComputerRunning").innerHTML = "--"
+        document.getElementById("ssComputerRunning").innerHTML = "______+"
         cr++
     } else if (cr === 7){
-        document.getElementById("ssComputerRunning").innerHTML = "\\"
+        document.getElementById("ssComputerRunning").innerHTML = "_______+"
         cr = 0;
     } 
 }
