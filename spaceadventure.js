@@ -523,6 +523,8 @@ function planetGenerator(){
 //----trip check distance and that they are the correct planets available in the current universe
 let travelDistance = 0;
 let fuelRequired = 0;
+let fromCOORD = 0;
+let toCOORD = 0;
 function checkTravel(){
     //console.log(myself._currentUniverse.planetsInRange.find(document.getElementById("ssFrom").value))
     
@@ -530,17 +532,16 @@ function checkTravel(){
     let checkTo = document.getElementById("ssToInput").value
     checkFrom = checkFrom.toLowerCase()
     checkTo = checkTo.toLowerCase()
-    console.log('before loop check FROM field which value is : ' + checkFrom)
-    console.log('before loop check TO field which value is : ' + checkTo)
-    let fromCOORD = 0;
-    let toCOORD = 0;
+    //console.log('before loop check FROM field which value is : ' + checkFrom)
+    //console.log('before loop check TO field which value is : ' + checkTo)
+   
     
     //check FROM
     let td = 0;
     while (td < myself._currentUniverse.planetsInRange.length){
-        console.log('//FROM LOOP//planet from planets in range ' + myself._currentUniverse.planetsInRange[td].name.toLowerCase())
-        console.log('//FROM LOOP//loop num: ' + td)
-        console.log('//FROM LOOP//in loop checkfrom: ' + checkFrom)
+        //console.log('//FROM LOOP//planet from planets in range ' + myself._currentUniverse.planetsInRange[td].name.toLowerCase())
+        //console.log('//FROM LOOP//loop num: ' + td)
+        //console.log('//FROM LOOP//in loop checkfrom: ' + checkFrom)
         if (checkFrom === myself._currentUniverse.planetsInRange[td].name.toLowerCase()){
             fromCOORD = myself._currentUniverse.planetsInRange[td].planetCOORD
             document.getElementById("fromCOORD").innerHTML = fromCOORD
@@ -548,7 +549,7 @@ function checkTravel(){
             document.getElementById("ssFromMessage").style.color = "black"
             document.getElementById("ssFromMessage").innerHTML = "&nbsp;"
             
-            console.log('planet coord ' + fromCOORD)
+            
             td = myself._currentUniverse.planetsInRange.length
         } else if (checkFrom != myself._currentUniverse.planetsInRange[td].name.toLowerCase()){
             td++
@@ -560,17 +561,17 @@ function checkTravel(){
     //check TO
     td = 0;
     while (td < myself._currentUniverse.planetsInRange.length){
-        console.log(myself._currentUniverse.planetsInRange[td].name)
-        console.log(td)
-        console.log('//TO LOOP// check TO input which is: ' + checkTo)
-        console.log('//TO LOOP// planet from list :' + myself._currentUniverse.planetsInRange[td].name.toLowerCase())
+        //console.log(myself._currentUniverse.planetsInRange[td].name)
+        //console.log(td)
+        //console.log('//TO LOOP// check TO input which is: ' + checkTo)
+        //console.log('//TO LOOP// planet from list :' + myself._currentUniverse.planetsInRange[td].name.toLowerCase())
         if (checkTo === myself._currentUniverse.planetsInRange[td].name.toLowerCase()){
             toCOORD = myself._currentUniverse.planetsInRange[td].planetCOORD
             document.getElementById("toCOORD").innerHTML = toCOORD
             console.log('//TO LOOP// //-correct-// TO: planet entered-/-/-/-/-/-/-/-/-/-');
             document.getElementById("ssToMessage").style.color = "black"
             document.getElementById("ssToMessage").innerHTML = "&nbsp;"
-            console.log('planet coord ' + toCOORD)
+            
             td = myself._currentUniverse.planetsInRange.length
         } else if (checkTo != myself._currentUniverse.planetsInRange[td].name.toLowerCase()){
             td++
@@ -580,17 +581,24 @@ function checkTravel(){
         }
     }
     if (fromCOORD > 0 && toCOORD > 0){
-        spaceShip.toFromChecked = true;
-        //divide the distance by 299792 and then by 60 seconds to get light minutes travel
-        travelDistance = (travelDistance / 299792) / 60
-        fuelRequired = Math.floor(travelDistance * spaceShip.configuredFuelFlow) //change fuel flow later
-        document.getElementById("ssFuelRequired").innerHTML = fuelRequired
-        document.getElementById("ssTravelDist").innerHTML = `${travelDistance.toFixed(2)} light minutes`
         if (fromCOORD > toCOORD){
             travelDistance = fromCOORD - toCOORD;
         } else if (fromCOORD <  toCOORD){
             travelDistance = toCOORD - fromCOORD
         }
+
+        console.log('FROM planet coord ' + fromCOORD)
+        console.log('TO planet coord ' + toCOORD)
+        spaceShip.toFromChecked = true;
+        //divide the distance by 299792 and then by 60 seconds to get light minutes travel
+        travelDistance = (travelDistance / 299792) / 60
+        
+        fuelRequired = Math.floor(travelDistance * spaceShip.configuredFuelFlow) //change fuel flow later
+        document.getElementById("ssFuelRequired").innerHTML = fuelRequired
+        document.getElementById("ssTravelDist").innerHTML = `${travelDistance.toFixed(2)} light minutes`
+        
+        console.log(travelDistance)
+        console.log(fuelRequired)
     }
 }
 
