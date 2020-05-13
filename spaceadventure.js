@@ -99,6 +99,7 @@ function createSpaceShip(){
             return this._fuelFlow;
         },
         toFromChecked : false,
+        configuredFuelFlow : 1000
     }
 }
 
@@ -582,7 +583,7 @@ function checkTravel(){
         spaceShip.toFromChecked = true;
         //divide the distance by 299792 and then by 60 seconds to get light minutes travel
         travelDistance = (travelDistance / 299792) / 60
-        fuelRequired = Math.floor(travelDistance * spaceShip.fuelFlow) //change fuel flow later
+        fuelRequired = Math.floor(travelDistance * spaceShip.configuredFuelFlow) //change fuel flow later
         document.getElementById("ssFuelRequired").innerHTML = fuelRequired
         document.getElementById("ssTravelDist").innerHTML = `${travelDistance.toFixed(2)} light minutes`
         if (fromCOORD > toCOORD){
