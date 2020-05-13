@@ -948,7 +948,7 @@ function userCommand() {
         }
     
     } else if (entCom === 'help' || entCom === '?'){
-        document.getElementById("storyArea2").innerHTML = 'Commands are: space ship, look, talk, who am i, planets, start/stop space ship, start/stop computer'
+        document.getElementById("storyArea2").innerHTML = 'Commands are: fly, space ship, look, talk, who am i, planets, start/stop space ship, start/stop computer'
     } else if (entCom === 'add fuel'){
         spaceShip.fuelAmount += 50000
     } else if (entCom === 'space ship?' || entCom === 'spaceship?' || entCom === 'space ship'){
