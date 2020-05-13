@@ -14,6 +14,7 @@ let planets = [];
 let destsOnPlanets = []
 let currentenemy;
 let allCommands;
+let runStartStop = 'start'
 let lastCommand = '';
 let storyLine = [
     'The Beginning',
@@ -25,7 +26,9 @@ let story = [
 ]
 let lastStory = '';
 let spaceShip = '';
-let intervalID;
+let compIntervalID;
+let ssRunningIntervalID;
+let ssStartSeqIntervalID;
 
 function createSpaceShip(){
     //i hid the spaceship table on startup for now
@@ -40,7 +43,8 @@ function createSpaceShip(){
                 document.getElementById("ssStatusMessage").innerHTML = '';
                 document.getElementById("ssStartStop").innerHTML = 'Stop';
                 document.getElementById("ssStartStop").onclick = stopSpaceShip;
-                
+                ssRunningIntervalID = setInterval(spaceShipParaAnim, 1000)
+
                 runStartStop = 'stop'
             } else if (statusCHG === false) {
                 document.getElementById("ssRunningOrShutDown").style.color = "red";
@@ -48,6 +52,7 @@ function createSpaceShip(){
                 document.getElementById("ssStartStop").innerHTML = 'Start';
                 document.getElementById("ssStartStop").onclick = startSpaceShip;
                 spaceShip.computerRunning = false;
+                
                 runStartStop = 'start'
             }
         },
@@ -65,7 +70,7 @@ function createSpaceShip(){
         _generatorOut : 0,
         set generatorOut(newGeneratorOut){
             this._generatorOut = newGeneratorOut;
-            document.getElementById("ssGenOut").innerHTML = newGeneratorOut + ' %'
+            document.getElementById("ssGenOut").innerHTML = newGeneratorOut.toFixed(1) + ' %'
         },
         get generatorOut(){
             return this._generatorOut
@@ -74,10 +79,10 @@ function createSpaceShip(){
         set computerRunning(onOff){
             if (onOff === true){
                 this._computerRunning = onOff;
-                intervalID = setInterval(computerRunning, 100);
+                compIntervalID = setInterval(computerRunning, 100);
             } else if (onOff === false){
                 this._computerRunning = onOff;
-                clearInterval(intervalID)
+                clearInterval(compIntervalID)
                 document.getElementById("ssComputerRunning").innerHTML = "OFF";
             }
         },
@@ -88,6 +93,7 @@ function createSpaceShip(){
         _fuelFlow : 1000,
         set fuelFlow (newFF){
             this._fuelFlow = newFF;
+            document.getElementById("ssFuelFlow").innerHTML = spaceShip.fuelFlow.toFixed(1) + ' PSI'
         },
         get fuelFlow(){
             return this._fuelFlow;
@@ -106,12 +112,11 @@ function startSpaceShip(){
             document.getElementById("ssStatusMessage").innerHTML = 'Not enough fuel for start';
             document.getElementById("ssStatusMessage").style.color = "red";
         } else if (spaceShip.fuelAmount > 10){
-            startStopSequence()
+            ssStartSeqIntervalID = setInterval(startStopSequence, Math.random() * 1000 + 500)
         }
     } 
 }
 
-let runStartStop = 'start'
 function stopSpaceShip(){
     startStopSequence()
     console.log('stopping space ship and is running is: ' + spaceShip.isRunning);
@@ -130,120 +135,166 @@ function startStopSequence(){
             document.getElementById("ssStatusMessage").style.color = "green";
             document.getElementById("ssStatusMessage").innerHTML = 'Start Sequence initiated';
             spaceShip.generatorOutput += 10
-            setTimeout (startStopSequence, 1100);
         } else if (ss === 2){
             document.getElementById("ssStatusMessage").innerHTML = 'Boost pumps on';
             console.log('ss2');
             spaceShip.fuelAmount -= 1;
             console.log(spaceShip.fuelAmount);
             spaceShip.generatorOut += 1;
-            setTimeout (startStopSequence, 1200);
+            
         } else if (ss === 3){
             document.getElementById("ssStatusMessage").innerHTML = 'spooling';
             console.log('ss3');
             spaceShip.generatorOut += 1;
-            setTimeout (startStopSequence, 1300);
+            
         } else if (ss === 4){
             console.log('ss4')
             spaceShip.generatorOut += 1;
-            setTimeout (startStopSequence, 1400);
+            
         } else if (ss === 5){
             document.getElementById("ssStatusMessage").innerHTML = 'Igniters on';
             console.log('ss5');
-            spaceShip.generatorOut += 10;
+            
             spaceShip.fuelAmount -= 2;
             console.log(spaceShip.fuelAmount);
-            setTimeout (startStopSequence, 1500);
+            
         } else if (ss === 6){
             document.getElementById("ssStatusMessage").innerHTML = 'Positive fuel flow';
             console.log('ss6');
-            spaceShip.generatorOutput += 10;
-            setTimeout (startStopSequence, 1600);
+            
+            
         } else if (ss === 7){
             console.log('ss7');
-            spaceShip.generatorOut += 30;
-            setTimeout (startStopSequence, 1700);
+            spaceShip.generatorOut = Math.random() * 10 + 30;
+            
         } else if (ss === 8){
             document.getElementById("ssStatusMessage").innerHTML = 'We have ignition!';
             console.log('ss8');
-            spaceShip.generatorOut += 10;
+            spaceShip.generatorOut = Math.random() * 10 + 50;
             spaceShip.fuelAmount -= 1;
             console.log(spaceShip.fuelAmount);
-            setTimeout (startStopSequence, 1800);
+            
         } else if (ss === 9){
             console.log('ss9');
-            spaceShip.generatorOut += 10;
-            setTimeout (startStopSequence, 1900);
+            spaceShip.generatorOut = Math.random() * 10 + 70;
+            
         } else if (ss === 10){
             document.getElementById("ssStatusMessage").innerHTML = 'Generators online';
             console.log('ss10');
-            spaceShip.generatorOut += 2.3;
+            spaceShip.generatorOut = Math.random() * 10 + 80;
             spaceShip.fuelAmount -= 1;
             console.log(spaceShip.fuelAmount);
             console.log(`next value for gen out is 99.8 ${spaceShip.generatorOut}`)
-            setTimeout (startStopSequence, 3000);
+            
         } else if (ss === 11){
             console.log('ss11');
             spaceShip.generatorOut = 99.8;
             ss = 0;
             spaceShip.isRunning = true;
             console.log('starting space ship and is running is: ' + spaceShip.isRunning)
+            clearInterval(ssStartSeqIntervalID)
             runStartStop = 'stop'
         };
         console.log(ss)
     } else if (runStartStop === 'stop'){
+        clearInterval(ssRunningIntervalID)
         document.getElementById("ssRunningOrShutDown").innerHTML = "STOP SEQ";
         st++
         if (st === 1){
             console.log('st1')
-            spaceShip.generatorOut.toFixed -= 10
-            setTimeout (startStopSequence, 200);
+            spaceShip.generatorOut = Math.random() * 10 + 90;
+            spaceShip.fuelFlow = Math.random() * 100 + 900;
+            setTimeout (startStopSequence, 300);
         } else if (st === 2){
             console.log('st2');
-            spaceShip.generatorOut -= 10
-            setTimeout (startStopSequence, 200);
+            spaceShip.generatorOut = Math.random() * 10 + 80;
+            spaceShip.fuelFlow = Math.random() * 100 + 800;
+            setTimeout (startStopSequence, 300);
         } else if (st === 3){
             console.log('st3');
-            spaceShip.generatorOut -= 10
+            spaceShip.generatorOut = Math.random() * 10 + 70;
+            spaceShip.fuelFlow = Math.random() * 100 + 700;
             setTimeout (startStopSequence, 300);
         } else if (st === 4){
             console.log('st4');
-            spaceShip.generatorOut -= 10
-            setTimeout (startStopSequence, 200);
+            spaceShip.generatorOut = Math.random() * 10 + 60;
+            spaceShip.fuelFlow = Math.random() * 100 + 600;
+            setTimeout (startStopSequence, 300);
         } else if (st === 5){
             console.log('st5');
-            spaceShip.generatorOut -= 10
-            setTimeout (startStopSequence, 200);
+            spaceShip.generatorOut = Math.random() * 10 + 50;
+            spaceShip.fuelFlow = Math.random() * 100 + 500;
+            setTimeout (startStopSequence, 300);
         } else if (st === 6){
             console.log('st6');
-            spaceShip.generatorOut -= 10
-            setTimeout (startStopSequence, 200);
+            spaceShip.generatorOut = Math.random() * 10 + 40;
+            spaceShip.fuelFlow = Math.random() * 100 + 400;
+            setTimeout (startStopSequence, 300);
         } else if (st === 7){
             console.log('st7');
-            spaceShip.generatorOut -= 5
-            setTimeout (startStopSequence, 200);
+            spaceShip.generatorOut = Math.random() * 10 + 30;
+            spaceShip.fuelFlow = Math.random() * 100 + 300;
+            setTimeout (startStopSequence, 300);
         } else if (st === 8){
             console.log('st8');
-            spaceShip.generatorOut -= 5
-            setTimeout (startStopSequence, 200);
+            spaceShip.generatorOut = Math.random() * 10 + 20;
+            spaceShip.fuelFlow = Math.random() * 100 + 200;
+            setTimeout (startStopSequence, 300);
         } else if (st === 9){
             console.log('st9');
-            spaceShip.generatorOut -= 10
-            setTimeout (startStopSequence, 200);
+            spaceShip.generatorOut = Math.random() * 10 + 10;
+            spaceShip.fuelFlow = Math.random() * 100 + 100;
+            setTimeout (startStopSequence, 300);
         } else if (st === 10){
             console.log('st10');
-            spaceShip.generatorOut = 5;
+            spaceShip.generatorOut = Math.random() * 10;
+            spaceShip.fuelFlow = Math.random() * 100;
             setTimeout (startStopSequence, 300);
         } else if (st === 11){
             console.log('st11');
             spaceShip.isRunning = false;
             spaceShip.generatorOut = 0;
+            spaceShip.fuelFlow = 0;
             spaceShip.computerRunning = false;
             st = 0
         };
     }
 }
 
+//just want the spaceship diplays to fluctuate
+let ssp = 0;
+function spaceShipParaAnim(){
+    if (ssp === 0){
+        spaceShip.fuelFlow = Math.random() * 15.5 + 990;
+        spaceShip.generatorOut = Math.random() * 3.1459 + 98;
+        ssp++
+    } else if (ssp === 1){
+        spaceShip.fuelFlow = Math.random() * 15.5 + 990;
+        spaceShip.generatorOut = Math.random() * 3.1459 + 98;
+        ssp++
+    } else if (ssp === 2){
+        spaceShip.fuelFlow = Math.random() * 15.5 + 990;
+        spaceShip.generatorOut = Math.random() * 3.1459 + 98;
+        ssp++
+    } else if (ssp === 3){
+        spaceShip.fuelFlow = Math.random() * 15.5 + 990;
+        spaceShip.generatorOut = Math.random() * 3.1459 + 98;
+        ssp++
+    } else if (ssp === 4){
+        spaceShip.fuelFlow = Math.random() * 15.5 + 990;
+        spaceShip.generatorOut = Math.random() * 3.1459 + 98;
+        ssp++
+    } else if (ssp === 5){
+        spaceShip.fuelFlow = Math.random() * 15.5 + 990;
+        spaceShip.generatorOut = Math.random() * 3.1459 + 98;
+        ssp++
+    } else if (ssp === 6){
+        spaceShip.fuelFlow = Math.random() * 15.5 + 990;
+        spaceShip.generatorOut = Math.random() * 3.1459 + 98;
+        ssp = 0;
+    }
+
+}
 
 function createMyself(){
 myself = {
@@ -362,7 +413,8 @@ function monsterGenerator(){
             name: monsterName[Math.floor(Math.random() * monsterName.length)],
             type : monsterTypes[Math.floor(Math.random() * monsterTypes.length)],
             strength : monsterStrength[Math.floor(Math.random() * monsterTypes.length)],
-            health : Math.floor(Math.random() * 50) + 50
+            health : Math.floor(Math.random() * 50) + 50,
+            alive : true
         }
     
     }
@@ -517,7 +569,6 @@ function checkTravel(){
             console.log('//TO LOOP// //-correct-// TO: planet entered-/-/-/-/-/-/-/-/-/-');
             document.getElementById("ssToMessage").style.color = "black"
             document.getElementById("ssToMessage").innerHTML = "&nbsp;"
-            
             console.log('planet coord ' + toCOORD)
             td = myself._currentUniverse.planetsInRange.length
         } else if (checkTo != myself._currentUniverse.planetsInRange[td].name.toLowerCase()){
@@ -529,19 +580,17 @@ function checkTravel(){
     }
     if (fromCOORD > 0 && toCOORD > 0){
         spaceShip.toFromChecked = true;
+        //divide the distance by 299792 and then by 60 seconds to get light minutes travel
+        travelDistance = (travelDistance / 299792) / 60
+        fuelRequired = Math.floor(travelDistance * spaceShip.fuelFlow) //change fuel flow later
+        document.getElementById("ssFuelRequired").innerHTML = fuelRequired
+        document.getElementById("ssTravelDist").innerHTML = `${travelDistance.toFixed(2)} light minutes`
         if (fromCOORD > toCOORD){
             travelDistance = fromCOORD - toCOORD;
         } else if (fromCOORD <  toCOORD){
             travelDistance = toCOORD - fromCOORD
         }
     }
-    console.log('the travel disance is ' + travelDistance)
-    //divide the distance by 299792 and then by 60 seconds to get light minutes travel
-    travelDistance = (travelDistance / 299792) / 60
-    console.log('the travel disance is ' + travelDistance.toFixed(2))
-    document.getElementById("ssTravelDist").innerHTML = `${travelDistance.toFixed(2)} light minutes`
-    fuelRequired = Math.floor(travelDistance * spaceShip.fuelFlow) //change fuel flow later
-    document.getElementById("ssFuelRequired").innerHTML = fuelRequired
 }
 
 
@@ -579,7 +628,7 @@ function computerRunning(){
 
 let str = 0;
 function flyAnimation(){
-    console.log
+    
     if (str === 0){
         document.getElementById("spacetravel1").innerHTML = "*";
         document.getElementById("spacetravel2").innerHTML = "\\\\";
@@ -703,30 +752,29 @@ let ssAnimation;
 function takeOff(){
     if (fuelRequired > spaceShip.fuelAmount){
         document.getElementById("ssFromMessage").style.color = "red"
-        document.getElementById("ssToMessage").style.color = "red"
+        
         document.getElementById("ssFromMessage").innerHTML = 'Not enough fuel for takeoff'
-        document.getElementById("ssToMessage").innerHTML = 'Not enough fuel for takeoff'
+        
     } else if (fuelRequired < spaceShip.fuelAmount){
             if (spaceShip.isRunning === true){
                 if (spaceShip.toFromChecked === true){
                 ssAnimation =  setInterval(flyAnimation, 200);
                 ssFlying = setInterval(spaceTravel, 100);
-                document.getElementById("ssFromMessage").style.color = "black"
-                document.getElementById("ssFromMessage").innerHTML = "&nbsp;"
-                document.getElementById("ssToMessage").style.color = "black"
-                document.getElementById("ssToMessage").innerHTML = "&nbsp;"
+                document.getElementById("ssStatusMessage").style.color = "black"
+                document.getElementById("ssStatusMessage").innerHTML = "&nbsp;"
+              
                 console.log('fuel required' + fuelRequired + ' fuel per stage ')
                 } else if (spaceShip.toFromChecked === false) {
-                document.getElementById("ssFromMessage").style.color = "red"
-                document.getElementById("ssToMessage").style.color = "red"
-                document.getElementById("ssFromMessage").innerHTML = 'Check FROM or TO'
-                document.getElementById("ssToMessage").innerHTML = 'Check FROM or TO'
+                document.getElementById("ssStatusMessage").style.color = "red"
+                
+                document.getElementById("ssStatusMessage").innerHTML = 'Check FROM or TO'
+                
                 }
             } else if (spaceShip.isRunning === false) {
-                document.getElementById("ssFromMessage").style.color = "red"
-                document.getElementById("ssToMessage").style.color = "red"
-                document.getElementById("ssFromMessage").innerHTML = 'Space Ship Not Running!'
-                document.getElementById("ssToMessage").innerHTML = 'Space Ship Not Running!'
+                document.getElementById("ssStatusMessage").style.color = "red"
+                
+                document.getElementById("ssStatusMessage").innerHTML = 'Space Ship Not Running!'
+                
             }
     }
 }
@@ -744,10 +792,11 @@ function spaceTravel(){
         clearInterval(ssAnimation)
         clearInterval(ssFlying)
         changeTodesttoFromdest()
-        document.getElementById("ssFromMessage").style.color = "green"
-        document.getElementById("ssToMessage").style.color = "green"
-        document.getElementById("ssFromMessage").innerHTML = 'Destination Reached!'
-        document.getElementById("ssToMessage").innerHTML = 'Destination Reached!'
+        document.getElementById("ssStatusMessage").style.color = "green"
+        
+        document.getElementById("ssStatusMessage").innerHTML = 'Destination Reached!';
+        document.getElementById("ssFromMessage").innerHTML = '';
+        document.getElementById("ssToMessage").innerHTML = '';
     }
     
 
@@ -784,6 +833,8 @@ document.getElementById("hunger").innerHTML = myself._hunger;
 spaceShip.isRunning = false;
 spaceShip.fuelAmount = 40000;
 spaceShip.generatorOut = 0;
+spaceShip.fuelFlow = 0;
+
 //document.getElementById("ssFromInput").readOnly = true;
 
 
@@ -897,7 +948,7 @@ function userCommand() {
         }
     
     } else if (entCom === 'help' || entCom === '?'){
-        document.getElementById("storyArea2").innerHTML = 'Commands are: space ship, look, talk, who am i, start spaceship'
+        document.getElementById("storyArea2").innerHTML = 'Commands are: space ship, look, talk, who am i, planets, start/stop space ship, start/stop computer'
     } else if (entCom === 'add fuel'){
         spaceShip.fuelAmount += 50000
     } else if (entCom === 'space ship?' || entCom === 'spaceship?' || entCom === 'space ship'){
