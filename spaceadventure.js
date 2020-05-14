@@ -4,7 +4,7 @@ window.onload = function() {
     document.getElementById("userInput").focus();
     
   };
-let myself = {};
+let myself;
 let totAlphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
 let consonants = ['b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','y','z'];
 let vowels = ['a','e','i','o','u'];
@@ -12,7 +12,6 @@ let monsters = [];
 let universes = [];
 let planets = [];
 let destsOnPlanets = []
-let currentenemy;
 let allCommands;
 let runStartStop = 'start'
 let lastCommand = '';
@@ -29,6 +28,31 @@ let spaceShip = '';
 let compIntervalID;
 let ssRunningIntervalID;
 let ssStartStopSeqIntervalID;
+let enemyArrayNum = 0;
+let weapons = [
+    {   type : 'gun',
+        power : 50},
+    {   type : 'blaster',
+        power : 70},
+    {   type : 'deAtomzier',
+        power : 100},
+    {   type: 'BMFG',
+        power : 500
+    }
+]
+let travelDistance = 0;
+let fuelRequired = 0;
+let fromCOORD = 0;
+let toCOORD = 0;
+let ss = 0
+let st = 0
+let ssp = 0;
+let cr = 0;
+let ssFlying;
+let ssAnimation;
+
+
+
 
 function createSpaceShip(){
     //i hid the spaceship table on startup for now
@@ -125,8 +149,7 @@ function stopSpaceShip(){
     ssStartStopSeqIntervalID = setInterval(startStopSequence, Math.random() * 500 + 500)
 }
 
-let ss = 0
-let st = 0
+
 function startStopSequence(){
     if (runStartStop === 'start'){
         document.getElementById("ssRunningOrShutDown").innerHTML = "START SEQ";
@@ -264,7 +287,7 @@ function startStopSequence(){
 }
 
 //just want the spaceship diplays to fluctuate
-let ssp = 0;
+
 function spaceShipParaAnim(){
     if (ssp === 0){
         spaceShip.fuelFlow = Math.random() * 15.5 + 990;
@@ -293,6 +316,8 @@ function spaceShipParaAnim(){
     } else if (ssp === 6){
         spaceShip.fuelFlow = Math.random() * 15.5 + 990;
         spaceShip.generatorOut = Math.random() * 3.1459 + 98;
+        //space ship ilde running uses fuel too
+        spaceShip.fuelAmount--
         ssp = 0;
     }
 
@@ -328,7 +353,10 @@ myself = {
     _hunger : 'I could eat something',
     _strength : 50,
     set strength(newStrength){
-        
+        this._strength = newStrength
+    },
+    get strength(){
+        return this._strength
     },
     _currentUniverse : [],
     set currentUniverse(newCurrentUniverse){
@@ -343,15 +371,20 @@ myself = {
         document.getElementById("ssFromInput").value = myself._currentPlanet.name;
         document.getElementById("fromCOORD").innerHTML = myself._currentPlanet.planetCOORD;
     },
-    //i can define my fight method here
-    fight(){
-
+    _currentEnemy : monsters[enemyArrayNum],
+    set currentEnemy(newEnemy){
+        this._currentEnemy = newEnemy
+    },
+    get currentEnemy(){
+        return this._currentEnemy
     },
     //what the active storyline is
     actStoryLine : '',
     //story progress number, increments by 0.1 but may not be 10 sections
-    storyProgNum : 0
-    
+    storyProgNum : 0,
+    money : 500,
+    skill : 80,
+    weapon : weapons[2]
 }
 }
 
@@ -360,10 +393,7 @@ myself = {
 
 function monsterGenerator(){
     const monsterTypes = [
-        'Ollie', 'Andi', 'Sypereka', 'Panda', 'Flirt'
-    ]
-    const monsterStrength = [
-        90, 70, 88, 77, 66
+        'Humanoid', 'Alien', 'Gas', 'Pyschological', 'Bacterial', 'Android'
     ]
     let monsterName = [];
     let randomnum;
@@ -408,15 +438,18 @@ function monsterGenerator(){
             + vowels[Math.floor(Math.random() * vowels.length)]
         }
     }
-    //actual generator
+    //actual generator----------------------------------------------------------------------------------------------------------------------------------------------------
     for (let m = 0; m < 100; m++){
         monsters[m] = {
             //randomize type and strength
             name: monsterName[Math.floor(Math.random() * monsterName.length)],
             type : monsterTypes[Math.floor(Math.random() * monsterTypes.length)],
-            strength : monsterStrength[Math.floor(Math.random() * monsterTypes.length)],
+            strength : Math.floor(Math.random() * 50) + 50,
             health : Math.floor(Math.random() * 50) + 50,
-            alive : true
+            alive : true,
+            money : Math.floor(Math.random() * 1000),
+            weapon : weapons[Math.floor(Math.random() * weapons.length)],
+            skill : Math.floor(Math.random() * 30 + 50)
         }
     
     }
@@ -522,27 +555,19 @@ function planetGenerator(){
 }
 
 //----trip check distance and that they are the correct planets available in the current universe
-let travelDistance = 0;
-let fuelRequired = 0;
-let fromCOORD = 0;
-let toCOORD = 0;
+
 function checkTravel(){
-    //console.log(myself._currentUniverse.planetsInRange.find(document.getElementById("ssFrom").value))
-    
+   
     let checkFrom = document.getElementById("ssFromInput").value
     let checkTo = document.getElementById("ssToInput").value
     checkFrom = checkFrom.toLowerCase()
     checkTo = checkTo.toLowerCase()
-    //console.log('before loop check FROM field which value is : ' + checkFrom)
-    //console.log('before loop check TO field which value is : ' + checkTo)
+   
    
     
     //check FROM
     let td = 0;
     while (td < myself._currentUniverse.planetsInRange.length){
-        //console.log('//FROM LOOP//planet from planets in range ' + myself._currentUniverse.planetsInRange[td].name.toLowerCase())
-        //console.log('//FROM LOOP//loop num: ' + td)
-        //console.log('//FROM LOOP//in loop checkfrom: ' + checkFrom)
         if (checkFrom === myself._currentUniverse.planetsInRange[td].name.toLowerCase()){
             fromCOORD = myself._currentUniverse.planetsInRange[td].planetCOORD
             document.getElementById("fromCOORD").innerHTML = fromCOORD
@@ -562,10 +587,6 @@ function checkTravel(){
     //check TO
     td = 0;
     while (td < myself._currentUniverse.planetsInRange.length){
-        //console.log(myself._currentUniverse.planetsInRange[td].name)
-        //console.log(td)
-        //console.log('//TO LOOP// check TO input which is: ' + checkTo)
-        //console.log('//TO LOOP// planet from list :' + myself._currentUniverse.planetsInRange[td].name.toLowerCase())
         if (checkTo === myself._currentUniverse.planetsInRange[td].name.toLowerCase()){
             toCOORD = myself._currentUniverse.planetsInRange[td].planetCOORD
             document.getElementById("toCOORD").innerHTML = toCOORD
@@ -606,7 +627,7 @@ function checkTravel(){
 
 //intervalID = setInterval(computerRunning, 200)
 //trying a computer running spinning characters
-let cr = 0;
+
 function computerRunning(){
     
     if (cr === 0){
@@ -757,12 +778,10 @@ function flyAnimation(){
 }
 
 
-let ssFlying;
-let ssAnimation;
+
 function takeOff(){
     if (fuelRequired > spaceShip.fuelAmount){
         document.getElementById("ssFromMessage").style.color = "red"
-        
         document.getElementById("ssFromMessage").innerHTML = 'Not enough fuel for takeoff'
         
     } else if (fuelRequired < spaceShip.fuelAmount){
@@ -772,17 +791,13 @@ function takeOff(){
                 ssFlying = setInterval(spaceTravel, 100);
                 document.getElementById("ssStatusMessage").style.color = "black"
                 document.getElementById("ssStatusMessage").innerHTML = "&nbsp;"
-              
                 console.log('fuel required' + fuelRequired + ' fuel per stage ')
                 } else if (spaceShip.toFromChecked === false) {
                 document.getElementById("ssStatusMessage").style.color = "red"
-                
                 document.getElementById("ssStatusMessage").innerHTML = 'Check FROM or TO'
-                
                 }
             } else if (spaceShip.isRunning === false) {
                 document.getElementById("ssStatusMessage").style.color = "red"
-                
                 document.getElementById("ssStatusMessage").innerHTML = 'Space Ship Not Running!'
                 
             }
@@ -803,7 +818,6 @@ function spaceTravel(){
         clearInterval(ssFlying)
         changeTodesttoFromdest()
         document.getElementById("ssStatusMessage").style.color = "green"
-        
         document.getElementById("ssStatusMessage").innerHTML = 'Destination Reached!';
         document.getElementById("ssFromMessage").innerHTML = '';
         document.getElementById("ssToMessage").innerHTML = '';
@@ -812,55 +826,44 @@ function spaceTravel(){
 
 }
 
-
-
-//----STARTUP STUFF----
-//the active story determines the answers to the users commands and where rick is etc.
-//make universe generator last after other elements are creates
-monsterGenerator();
-planetGenerator();
-universeGenerator()
-createMyself()
-createSpaceShip()
-myself.currentUniverse = universes[Math.floor(Math.random()* 1001)]
-
-//if you start in a universe with no habitable planets in range, randomize the universe again
-if (myself._currentUniverse.habPlanetsInRange === 0){
-    myself.currentUniverse = universes[Math.floor(Math.random()* 1001)]
+function fightEnemy(){
+    let playerBattleNum = 0;
+    let enemyBattleNum = 0;
+    playerBattleNum = (myself.strength * myself.weapon.power * myself.skill) / 1000
+    enemyBattleNum = (myself.currentEnemy.strength * myself.currentEnemy.weapon.power * myself.currentEnemy.skill) / 1000
+    document.getElementById("battleNumber").innerHTML = playerBattleNum.toFixed(0)
+    document.getElementById("ebattleNumber").innerHTML = enemyBattleNum.toFixed(0)
+    console.log('player battle number : ' + playerBattleNum)
+    console.log('enemy battle number : ' + enemyBattleNum)
 }
 
-//put myself on my first planet
-myself.currentPlanet = myself._currentUniverse.planetsInRange[Math.floor(Math.random() * myself._currentUniverse.planetsInRange.length)]
-myself.actStoryLine = storyLine[0]
+function searchPlanetIndexes(nameKey, myArray){
+    for (var i=0; i < myArray.length; i++) {
+        if (myArray[i].name === nameKey) {
+            return myArray[i];
+        }
+    }
+}
 
-document.getElementById("storyTitle").innerHTML = storyLine[0];
-document.getElementById("storyArea1").innerHTML = story[0];
-document.getElementById("storyArea2").innerHTML = '';
-
-//initialize stats and vairables
-myself.health = (Math.floor(Math.random() * 30)) + 40
-document.getElementById("hunger").innerHTML = myself._hunger;
-spaceShip.isRunning = false;
-spaceShip.fuelAmount = 40000;
-spaceShip.generatorOut = 0;
-spaceShip.fuelFlow = 0;
-
-//document.getElementById("ssFromInput").readOnly = true;
-
-
-
-//hide spaceshpi table for now
-//document.getElementById("spaceShipDiv").style.visibility =  "hidden";
-//document.getElementById("spaceShipDiv2").style.visibility =  "hidden";
+function changeTodesttoFromdest(){
+    let CCFrom = document.getElementById("ssFromInput").value;
+    let CCTo = document.getElementById("ssToInput").value;
+    CCTo = CCTo.charAt(0).toUpperCase() + CCTo.slice(1)
+    let newCurrPlanetVal = searchPlanetIndexes(CCTo, myself._currentUniverse.planetsInRange)
+    console.log(CCTo.charAt(0).toUpperCase() + CCTo.slice(1))
+    myself._currentPlanet.name = newCurrPlanetVal.name
+    myself._currentPlanet.planetCOORD = newCurrPlanetVal.planetCOORD
+    document.getElementById("ssFromInput").value = myself._currentPlanet.name
+    document.getElementById("ssToInput").value = ""
+    console.log(CCFrom)
+    console.log(CCTo)
+    console.log(searchPlanetIndexes(CCFrom, myself._currentUniverse.planetsInRange))
+    console.log(searchPlanetIndexes(CCTo, myself._currentUniverse.planetsInRange))
+    checkTravel()
+}
 
 
-//show objects and values
-console.log(monsters)
-console.log(universes)
-console.log(myself)
-console.log(spaceShip)
-console.log(myself._currentUniverse.planetsInRange)
-
+//checking various things with the user inout field
 // Get the input field
 let inputField = document.getElementById("userInput");
 // Execute a function when the user releases a key on the keyboard
@@ -881,10 +884,6 @@ inputField.addEventListener("keyup", function(event) {
   }
 });
 
-//get a new enemy that are monsters from the monster array
-function getNewEnemy() {
-    return monsters[Math.floor(Math.random() * 100)]
-}
 
 //this is the main user interface where the user enters commands.
 
@@ -930,7 +929,23 @@ function userCommand() {
     } else if (entCom === 'look'){
     
     } else if (entCom === 'fight'){
-    
+
+        document.getElementById("name").innerHTML = myself._name;
+        document.getElementById("age").innerHTML = myself._age;
+        document.getElementById("health").innerHTML = myself._health;
+        document.getElementById("hunger").innerHTML = myself._hunger;
+        document.getElementById("strength").innerHTML = myself._strength;
+        document.getElementById("weaponANDpower").innerHTML = myself.weapon.power;
+
+        document.getElementById("ename").innerHTML = myself.currentEnemy.name;
+        document.getElementById("etype").innerHTML = myself.currentEnemy.type;
+        document.getElementById("ehealth").innerHTML = myself.currentEnemy.health;
+        document.getElementById("estrength").innerHTML = myself.currentEnemy.strength;
+        document.getElementById("eweaponANDpower").innerHTML = myself.currentEnemy.weapon.power;
+        console.log(myself.currentEnemy)
+
+        fightEnemy()
+
     } else if (entCom === 'start computer'){
         spaceShip.computerRunning = true;
     } else if (entCom === 'stop computer'){
@@ -964,12 +979,27 @@ function userCommand() {
     } else if (entCom === 'space ship?' || entCom === 'spaceship?' || entCom === 'space ship'){
         document.getElementById("spaceShipDiv").style.visibility =  "visible";
     } else if (entCom === 'new enemy'){
-        currentenemy = getNewEnemy()
-        document.getElementById("ename").innerHTML = currentenemy.name;
-        document.getElementById("etype").innerHTML = currentenemy.type;
-        document.getElementById("ehealth").innerHTML = currentenemy.health;
-        document.getElementById("estrength").innerHTML = currentenemy.strength;
-        console.log(currentenemy)
+        myself.currentEnemy = monsters[Math.floor(Math.random() * monsters.length)]
+        document.getElementById("ename").innerHTML = myself.currentEnemy.name;
+        document.getElementById("etype").innerHTML = myself.currentEnemy.type;
+        document.getElementById("ehealth").innerHTML = myself.currentEnemy.health;
+        document.getElementById("estrength").innerHTML = myself.currentEnemy.strength;
+        document.getElementById("eweaponANDpower").innerHTML = myself.currentEnemy.weapon.power;
+        console.log(myself.currentEnemy)
+    } else if (entCom === 'stats'){
+        document.getElementById("ename").innerHTML = myself.currentEnemy.name;
+        document.getElementById("etype").innerHTML = myself.currentEnemy.type;
+        document.getElementById("ehealth").innerHTML = myself.currentEnemy.health;
+        document.getElementById("estrength").innerHTML = myself.currentEnemy.strength;
+        document.getElementById("eweaponANDpower").innerHTML = myself.currentEnemy.weapon.power;
+        console.log(myself.currentEnemy)
+
+        document.getElementById("name").innerHTML = myself._name;
+        document.getElementById("age").innerHTML = myself._age;
+        document.getElementById("health").innerHTML = myself._health;
+        document.getElementById("hunger").innerHTML = myself._hunger;
+        document.getElementById("strength").innerHTML = myself._strength;
+        document.getElementById("weaponANDpower").innerHTML = myself.weapon.power;
     } else {
         document.getElementById("errorinput").innerHTML = 'Command not recognized'
     }
@@ -987,27 +1017,49 @@ console.log(result)
 
 
 
-function searchPlanetIndexes(nameKey, myArray){
-    for (var i=0; i < myArray.length; i++) {
-        if (myArray[i].name === nameKey) {
-            return myArray[i];
-        }
-    }
+//----STARTUP STUFF-------------------------------------------------------------------
+//the active story determines the answers to the users commands and where rick is etc.
+//make universe generator last after other elements are creates
+monsterGenerator();
+planetGenerator();
+universeGenerator()
+createMyself()
+createSpaceShip()
+myself.currentUniverse = universes[Math.floor(Math.random()* 1001)]
+
+//if you start in a universe with no habitable planets in range, randomize the universe again
+if (myself._currentUniverse.habPlanetsInRange === 0){
+    myself.currentUniverse = universes[Math.floor(Math.random()* 1001)]
 }
 
-function changeTodesttoFromdest(){
-    let CCFrom = document.getElementById("ssFromInput").value;
-    let CCTo = document.getElementById("ssToInput").value;
-    CCTo = CCTo.charAt(0).toUpperCase() + CCTo.slice(1)
-    let newCurrPlanetVal = searchPlanetIndexes(CCTo, myself._currentUniverse.planetsInRange)
-    console.log(CCTo.charAt(0).toUpperCase() + CCTo.slice(1))
-    myself._currentPlanet.name = newCurrPlanetVal.name
-    myself._currentPlanet.planetCOORD = newCurrPlanetVal.planetCOORD
-    document.getElementById("ssFromInput").value = myself._currentPlanet.name
-    document.getElementById("ssToInput").value = ""
-    console.log(CCFrom)
-    console.log(CCTo)
-    console.log(searchPlanetIndexes(CCFrom, myself._currentUniverse.planetsInRange))
-    console.log(searchPlanetIndexes(CCTo, myself._currentUniverse.planetsInRange))
-    checkTravel()
-}
+//put myself on my first planet
+myself.currentPlanet = myself._currentUniverse.planetsInRange[Math.floor(Math.random() * myself._currentUniverse.planetsInRange.length)]
+myself.actStoryLine = storyLine[0]
+
+document.getElementById("storyTitle").innerHTML = storyLine[0];
+document.getElementById("storyArea1").innerHTML = story[0];
+document.getElementById("storyArea2").innerHTML = '';
+
+//initialize stats and vairables
+myself.health = (Math.floor(Math.random() * 30)) + 70
+document.getElementById("hunger").innerHTML = myself._hunger;
+spaceShip.isRunning = false;
+spaceShip.fuelAmount = 40000;
+spaceShip.generatorOut = 0;
+spaceShip.fuelFlow = 0;
+
+//document.getElementById("ssFromInput").readOnly = true;
+
+
+
+//hide spaceshpi table for now
+//document.getElementById("spaceShipDiv").style.visibility =  "hidden";
+//document.getElementById("spaceShipDiv2").style.visibility =  "hidden";
+
+
+//show objects and values
+console.log(monsters)
+console.log(universes)
+console.log(myself)
+console.log(spaceShip)
+console.log(myself._currentUniverse.planetsInRange)
