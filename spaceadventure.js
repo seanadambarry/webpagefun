@@ -20,7 +20,7 @@ let storyLine = [
     'Now that we know who we are and where we are'
 ]
 let story = [
-    'You wake up and find yourself in a bed, in a tent, and it smells like peanut butter and farts',
+    'You wake up and find yourself in a bed, in a tent, and it smells like peanut butter',
     "You call out, 'Hello? Hellooooooo.' A doctor with a stethescope comes through the tent entrance and says 'Hello Rick.' He looks like Mr. Peanut! Except with a stethescope and scrubs instead of a cane and glasses. He must have just left the room when you woke up! Your name is Rick! You want to know what your last name is and you see it on your chart."
 ]
 let lastStory = '';
