@@ -15,13 +15,34 @@ table{
     text-align: center;
     margin: auto;
     background-color: black;
+    table-layout: fixed;
 }
-table td{
+.rowone {
     white-space: nowrap;
     border : 2px white solid;
     color: white;
     width: 150px;
     padding: 0px;
+    text-align: center;
+}
+
+.rowtwo {
+    white-space: nowrap;
+    border : 2px white solid;
+    color: white;
+    width: 125px;
+    padding: 0px;
+    text-align: center;
+}
+
+.nhlabel {
+    white-space: nowrap;
+    border : 2px white solid;
+    color: white;
+    width: 125px;
+    padding: 0px;
+    text-align: right;
+    vertical-align: bottom;
 }
 
 .nestTableL{

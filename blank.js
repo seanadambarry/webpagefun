@@ -1,101 +1,96 @@
+//itt2 start
+let itt2can = document.getElementById("itt2");
+let itt2Arc = itt2can.getContext("2d");
+let itt2Needle = itt2can.getContext("2d");
+let itt2Rad;
+//let nh2 = 64.2
 
-let nh2can = document.getElementById("nh2");
-let nh2Arc = nh2can.getContext("2d");
-let nh2Needle = nh2can.getContext("2d");
-let nh2Rad;
-let nh2 = 101.6
+console.log(radiusBig)
 
-console.log('nh2 radian value:' + nh2Rad)
-
-
-function nh2ARC(){
-    nh2Arc.translate(radius,radius)
-
-
-    nh2Arc.beginPath();
-    nh2Arc.arc(0, 0, radius * 0.9, 2.61799, 4.85899);
-    nh2Arc.strokeStyle = "white"
-    nh2Arc.lineWidth = radius / 25
+function itt2ARC(){
+    itt2Arc.translate(radiusBig,radiusBig)
 
 
-    nh2Arc.stroke();
+    itt2Arc.beginPath();
+    itt2Arc.arc(0, 0, radiusBig * 0.9, 2.61799, 3.66518);
+    itt2Arc.strokeStyle = "white"
+    itt2Arc.lineWidth = radiusBig / 25
 
-    nh2Arc.beginPath();
-    nh2Arc.arc(0, 0, radius * 0.9, 4.85899, 6.15061);
-    nh2Arc.strokeStyle = "#2eb82e"
-    nh2Arc.stroke();
 
-    nh2Arc.beginPath();
-    nh2Arc.arc(0, 0, radius * 0.9, 6.15061, 0.523599);
-    nh2Arc.strokeStyle = "#ffffff"
-    nh2Arc.stroke();
+    itt2Arc.stroke();
 
-    nh2Arc.beginPath();
-    nh2Arc.strokeStyle = "red";
-    nh2Arc.lineWidth = radius / 20
-    nh2Arc.moveTo((radius * 0.70),(-radius * 0.10));
-    nh2Arc.lineTo(radius * 0.98,(-radius * 0.15))
-    nh2Arc.stroke();
+    itt2Arc.beginPath();
+    itt2Arc.arc(0, 0, radiusBig * 0.9, 3.66518, 0);
+    itt2Arc.strokeStyle = "#2eb82e"
+    itt2Arc.stroke();
+
+    itt2Arc.beginPath();
+    itt2Arc.arc(0, 0, radiusBig * 0.9, 0, 1.0472);
+    itt2Arc.strokeStyle = "white"
+    itt2Arc.stroke();
+
+    itt2Arc.beginPath();
+    itt2Arc.strokeStyle = "red";
+    itt2Arc.lineWidth = radiusBig / 20
+    itt2Arc.moveTo((radiusBig * 0.85),0);
+    itt2Arc.lineTo(radiusBig * 0.98,0)
+    itt2Arc.stroke();
 }
 
-function nh2DN(){
-    //nh2 = Math.floor(Math.random() * 122)
-    nh2Rad = (nh2 * onenhInRad)
+function itt2DN(itt2){
+
+    itt2Rad = (itt2 * oneIttInRad)
    
 
     //green arc 0-100 yellow 100-106 red radial 106 over limit above 106. 0 trq = 0 rad, 122 trq = 4 rad, 106trq=3.49066
    
 
-    console.log('nh2 value : ' + nh2)
-    console.log('radian of nh2 : ' + nh2Rad)
+    console.log('trq value : ' + itt2)
+    console.log('radian of trq : ' + itt2Rad)
 
     //this line blanks out the previous line drawings of the needle and text
-    nh2Arc.beginPath()
-    nh2Arc.arc(0, 0, radius * 0.83, 0, Math.PI * 2);
-    nh2Arc.fillStyle = 'black';
-    nh2Arc.fill()
+    itt2Arc.beginPath()
+    itt2Arc.arc(0, 0, radiusBig * 0.83, 0, Math.PI * 2);
+    itt2Arc.fillStyle = 'black';
+    itt2Arc.fill()
 
-    if (nh2 > 101.2){
+    //max value is 1224
+    if (itt2 > 920){
         
-        nh2Arc.beginPath()
-        nh2Arc.font = (radius * 0.3) + "px Arial";
-        nh2Arc.textAlign = "center"
-        nh2Arc.fillStyle = "red";
-        nh2Arc.fillText(nh2.toFixed(1), 0, radius * 0.5);
+        itt2Arc.beginPath()
+        itt2Arc.font = (radiusBig * 0.3) + "px Arial";
+        itt2Arc.textAlign = "center"
+        itt2Arc.fillStyle = "red";
+        itt2Arc.fillText(itt2.toString(), (-radiusBig * 0.1) , radiusBig * 0.7);
 
-        nh2Needle.beginPath()
-        nh2Needle.lineCap = "round";
-        nh2Needle.lineWidth = radius / 20
+        itt2Needle.beginPath()
+        itt2Needle.lineCap = "round";
+        itt2Needle.lineWidth = radiusBig / 20
         //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
-        
-        nh2Needle.rotate(nh2Rad)
-        
-        nh2Needle.moveTo(0,0)
-
-        nh2Needle.strokeStyle = "red"
+        itt2Needle.rotate(itt2Rad)
+        itt2Needle.moveTo(0,0)
+        itt2Needle.strokeStyle = "red"
         //this is the initial position of the line at 0 trq
-        nh2Needle.lineTo(-(radius * 0.65),(radius * 0.38))
-        
-        nh2Needle.rotate(-nh2Rad)
-        
-        nh2Needle.stroke();
-    } else if (nh2 <= 101.2){
-        nh2Arc.beginPath()
-        nh2Arc.font = (radius * 0.3) + "px Arial";
-        nh2Arc.textAlign = "center"
-        nh2Arc.fillStyle = "white";
-        nh2Arc.fillText(nh2.toFixed(1), 0, radius * 0.5);
+        itt2Needle.lineTo(-(radiusBig * 0.67),(radiusBig * 0.37))
+        itt2Needle.rotate(-itt2Rad)
+        itt2Needle.stroke();
+    } else if (itt2 <= 920){
+        itt2Arc.beginPath()
+        itt2Arc.font = (radiusBig * 0.3) + "px Arial";
+        itt2Arc.textAlign = "center"
+        itt2Arc.fillStyle = "white";
+        itt2Arc.fillText(itt2.toString(), (-radiusBig * 0.1) , radiusBig * 0.7);
     
-        nh2Needle.beginPath()
-        nh2Needle.lineCap = "round";
-        nh2Needle.lineWidth = radius / 20
+        itt2Needle.beginPath()
+        itt2Needle.lineCap = "round";
+        itt2Needle.lineWidth = radiusBig / 20
     
-        nh2Needle.rotate(nh2Rad)
-        nh2Needle.moveTo(0,0)
-        nh2Needle.strokeStyle = "white"
+        itt2Needle.rotate(itt2Rad)
+        itt2Needle.moveTo(0,0)
+        itt2Needle.strokeStyle = "white"
         //this is the initial position of the line at 0 trq
-        nh2Needle.lineTo(-(radius * 0.65),(radius * 0.38))
-        nh2Needle.rotate(-nh2Rad)
-        nh2Needle.stroke();
+        itt2Needle.lineTo(-(radiusBig * 0.67),(radiusBig * 0.37))
+        itt2Needle.rotate(-itt2Rad)
+        itt2Needle.stroke();
     }
 }
