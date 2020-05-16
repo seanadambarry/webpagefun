@@ -824,6 +824,186 @@ function itt2DN(itt2){
 
 
 
+//--#1 OIL temp and PSI-------
+
+let oil1can = document.getElementById("oil1");
+let oil1Arc = oil1can.getContext("2d");
+let oil1Needle = oil1can.getContext("2d");
+let oil1Rad;
+//let oil1 = 101.6
+
+radiusOil = (oil1can.width / 2)
+
+console.log('oil1 radian value:' + oil1Rad)
+
+
+let oneOilTempInRad = 2.44346 / 200
+
+function oil1ARC(){
+    oil1Arc.translate((oil1can.width / 2),(oil1can.width / 2))
+
+    //oil Temp
+    oil1Arc.beginPath();
+    oil1Arc.arc(0, 0, radiusSmall * 0.9, 1.8326, 2.00713);
+    oil1Arc.strokeStyle = "white"
+    oil1Arc.lineWidth = radiusSmall / 25
+    oil1Arc.stroke();
+
+    oil1Arc.beginPath();
+    oil1Arc.arc(0, 0, radiusSmall * 0.9, 2.00713, 2.44346);
+    oil1Arc.strokeStyle = "yellow"
+    oil1Arc.lineWidth = radiusSmall / 25
+    oil1Arc.stroke();
+
+    oil1Arc.beginPath();
+    oil1Arc.arc(0, 0, radiusSmall * 0.9, 2.44346, 3.75246);
+    oil1Arc.strokeStyle = "green"
+    oil1Arc.lineWidth = radiusSmall / 25
+    oil1Arc.stroke();
+
+    oil1Arc.beginPath();
+    oil1Arc.arc(0, 0, radiusSmall * 0.9, 3.75246, 3.83972);
+    oil1Arc.strokeStyle = "yellow"
+    oil1Arc.lineWidth = radiusSmall / 25
+    oil1Arc.stroke();
+
+    oil1Arc.beginPath();
+    oil1Arc.arc(0, 0, radiusSmall * 0.9, 3.83972, 4.27606);
+    oil1Arc.strokeStyle = "white"
+    oil1Arc.lineWidth = radiusSmall / 25
+    oil1Arc.stroke();
+
+
+    //oil PSI
+    oil1Arc.beginPath();
+    oil1Arc.arc(0, 0, radiusSmall * 0.9, 4.97419, 1.309);
+    oil1Arc.strokeStyle = "white"
+    oil1Arc.lineWidth = radiusSmall / 25
+    oil1Arc.stroke();
+
+    
+
+    oil1Arc.beginPath();
+    oil1Arc.strokeStyle = "red";
+    oil1Arc.lineWidth = radiusSmall / 20
+    oil1Arc.moveTo((-radiusSmall * 0.70),(-radiusSmall * 0.7));
+    oil1Arc.lineTo(-radiusSmall * 0.60,(-radiusSmall * 0.6))
+    oil1Arc.stroke();
+
+    oil1Arc.beginPath();
+    oil1Arc.strokeStyle = "red";
+    oil1Arc.lineWidth = radiusSmall / 20
+    oil1Arc.moveTo((-radiusSmall * 0.32),(radiusSmall * 0.75));
+    oil1Arc.lineTo(-radiusSmall * 0.40,(radiusSmall * .9))
+    oil1Arc.stroke();
+
+
+    console.log('radius small : ' + radiusSmall * 0.5)
+}
+
+function oil1DN(oil1){
+    //oil1 = Math.floor(Math.random() * 122)
+    oil1CRad = (oil1 * oneOilTempInRad)
+   
+
+    //green arc 0-100 yellow 100-106 red radial 106 over limit above 106. 0 trq = 0 rad, 122 trq = 4 rad, 106trq=3.49066
+   
+
+    console.log('oil1 value : ' + oil1)
+    console.log('radian of oil1 : ' + oil1Rad)
+
+    //this line blanks out the previous line drawings of the needle and text
+    oil1Arc.beginPath()
+    oil1Arc.arc(0, 0, radiusSmall * 0.83, 0, Math.PI * 2);
+    oil1Arc.fillStyle = 'black';
+    oil1Arc.fill()
+
+    oil1Arc.beginPath()
+    oil1Arc.rect((-radiusOil * 0.9),(-radiusOil * 0.7),(radiusOil * 0.5),(radiusOil * 0.23))
+    oil1Arc.fillStyle = "black";
+    oil1Arc.fill();
+
+    oil1Arc.beginPath()
+    oil1Arc.rect((radiusOil * 0.50),(-radiusOil * 0.7),(radiusOil * 0.4),(radiusOil * 0.25))
+    oil1Arc.fillStyle = "black";
+    oil1Arc.fill();
+
+    if (oil1 > 107){
+        
+        oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
+        oil1Arc.textAlign = "center"
+        oil1Arc.fillStyle = "white";
+        oil1Arc.fillText(oil1, radiusSmall * -1.1, radiusSmall * -0.8);
+
+        oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
+        oil1Arc.textAlign = "center"
+        oil1Arc.fillStyle = "#3399ff";
+        oil1Arc.fillText('°C', radiusSmall * -1.1, radiusSmall * -1.2);
+
+        oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
+        oil1Arc.textAlign = "center"
+        oil1Arc.fillStyle = "white";
+        oil1Arc.fillText(oil1, radiusSmall * 1.1, radiusSmall * -0.8);
+
+        oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
+        oil1Arc.textAlign = "center"
+        oil1Arc.fillStyle = "#3399ff";
+        oil1Arc.fillText('PSI', radiusSmall * 1.1, radiusSmall * -1.2);
+
+        oil1Needle.beginPath()
+        oil1Needle.lineCap = "round";
+        oil1Needle.lineWidth = radiusSmall / 20
+        //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
+        
+        oil1Needle.rotate(oil1CRad)
+        
+        oil1Needle.moveTo(0,0)
+        oil1Needle.strokeStyle = "red"
+        //this is the initial position of the line at 0 trq
+        oil1Needle.lineTo(-(radiusSmall * 0.57),(radiusSmall * 0.48))
+        oil1Needle.rotate(-oil1CRad)
+        
+        oil1Needle.stroke();
+    } else if (oil1 <= 107){
+        oil1Arc.beginPath()
+
+        oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
+        oil1Arc.textAlign = "center"
+        oil1Arc.fillStyle = "white";
+        oil1Arc.fillText(oil1, radiusSmall * -1.1, radiusSmall * -0.8);
+
+        oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
+        oil1Arc.textAlign = "center"
+        oil1Arc.fillStyle = "#3399ff";
+        oil1Arc.fillText('°C', radiusSmall * -1.1, radiusSmall * -1.2);
+
+        oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
+        oil1Arc.textAlign = "center"
+        oil1Arc.fillStyle = "white";
+        oil1Arc.fillText(oil1, radiusSmall * 1.1, radiusSmall * -0.8);
+
+        oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
+        oil1Arc.textAlign = "center"
+        oil1Arc.fillStyle = "#3399ff";
+        oil1Arc.fillText('PSI', radiusSmall * 1.1, radiusSmall * -1.2);
+
+    
+        oil1Needle.beginPath()
+        oil1Needle.lineCap = "round";
+        oil1Needle.lineWidth = radiusSmall / 20
+    
+        oil1Needle.rotate(oil1CRad)
+        oil1Needle.moveTo(0,0)
+        oil1Needle.strokeStyle = "white"
+        //this is the initial position of the line at 0 trq
+        oil1Needle.lineTo(-(radiusSmall * 0.57),(radiusSmall * 0.48))
+        oil1Needle.rotate(-oil1CRad)
+        oil1Needle.stroke();
+    }
+}
+
+
+
 //-----everything runs after this
 function animateAll(){
     
@@ -911,6 +1091,7 @@ function displayAllStatic(){
     np2ARC()
     itt1ARC()
     itt2ARC()
+    oil1ARC()
 
     trq1DN(80)
     trq2DN(80)
@@ -919,11 +1100,14 @@ function displayAllStatic(){
     np1DN(850)
     np2DN(850)
     itt1DN(1196)
-    itt1DN(1196)
+    itt2DN(1196)
+    
+
+    oil1DN(107)
 }
 
-animateAll()
-//displayAllStatic()
+//animateAll()
+displayAllStatic()
 
 
 //let trqInt = setInterval(incrTrq90, 1000)

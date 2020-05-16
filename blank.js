@@ -1,96 +1,103 @@
-//itt2 start
-let itt2can = document.getElementById("itt2");
-let itt2Arc = itt2can.getContext("2d");
-let itt2Needle = itt2can.getContext("2d");
-let itt2Rad;
-//let nh2 = 64.2
+//--#1 OIL temp and PSI-------
 
-console.log(radiusBig)
-
-function itt2ARC(){
-    itt2Arc.translate(radiusBig,radiusBig)
+let oil1can = document.getElementById("oil1");
+let oil1Arc = oil1can.getContext("2d");
+let oil1Needle = oil1can.getContext("2d");
+let oil1Rad;
+//let oil1 = 101.6
 
 
-    itt2Arc.beginPath();
-    itt2Arc.arc(0, 0, radiusBig * 0.9, 2.61799, 3.66518);
-    itt2Arc.strokeStyle = "white"
-    itt2Arc.lineWidth = radiusBig / 25
+
+console.log('oil1 radian value:' + oil1Rad)
 
 
-    itt2Arc.stroke();
+let oneOilTempInRad = 4.188879 / 13
 
-    itt2Arc.beginPath();
-    itt2Arc.arc(0, 0, radiusBig * 0.9, 3.66518, 0);
-    itt2Arc.strokeStyle = "#2eb82e"
-    itt2Arc.stroke();
+function oil1ARC(){
+    oil1Arc.translate(radiusSmall,radiusSmall)
 
-    itt2Arc.beginPath();
-    itt2Arc.arc(0, 0, radiusBig * 0.9, 0, 1.0472);
-    itt2Arc.strokeStyle = "white"
-    itt2Arc.stroke();
 
-    itt2Arc.beginPath();
-    itt2Arc.strokeStyle = "red";
-    itt2Arc.lineWidth = radiusBig / 20
-    itt2Arc.moveTo((radiusBig * 0.85),0);
-    itt2Arc.lineTo(radiusBig * 0.98,0)
-    itt2Arc.stroke();
+    oil1Arc.beginPath();
+    oil1Arc.arc(0, 0, radiusSmall * 0.9, 1.8326, 4.45059);
+    oil1Arc.strokeStyle = "white"
+    oil1Arc.lineWidth = radiusSmall / 25
+    oil1Arc.stroke();
+
+    oil1Arc.beginPath();
+    oil1Arc.arc(0, 0, radiusSmall * 0.9, 4.97419, 1.309);
+    oil1Arc.strokeStyle = "white"
+    oil1Arc.lineWidth = radiusSmall / 25
+
+    oil1Arc.stroke();
+
+    
+
+    oil1Arc.beginPath();
+    oil1Arc.strokeStyle = "red";
+    oil1Arc.lineWidth = radiusSmall / 20
+    oil1Arc.moveTo((radiusSmall * 0.70),(-radiusSmall * 0.10));
+    oil1Arc.lineTo(radiusSmall * 0.98,(-radiusSmall * 0.15))
+    oil1Arc.stroke();
 }
 
-function itt2DN(itt2){
-
-    itt2Rad = (itt2 * oneIttInRad)
+function oil1DN(oil1){
+    //oil1 = Math.floor(Math.random() * 122)
+    oilCRad = (oil1 * oneOilTempInRad)
    
 
     //green arc 0-100 yellow 100-106 red radial 106 over limit above 106. 0 trq = 0 rad, 122 trq = 4 rad, 106trq=3.49066
    
 
-    console.log('trq value : ' + itt2)
-    console.log('radian of trq : ' + itt2Rad)
+    console.log('oil1 value : ' + oil1)
+    console.log('radian of oil1 : ' + oil1Rad)
 
     //this line blanks out the previous line drawings of the needle and text
-    itt2Arc.beginPath()
-    itt2Arc.arc(0, 0, radiusBig * 0.83, 0, Math.PI * 2);
-    itt2Arc.fillStyle = 'black';
-    itt2Arc.fill()
+    oil1Arc.beginPath()
+    oil1Arc.arc(0, 0, radiusSmall * 0.83, 0, Math.PI * 2);
+    oil1Arc.fillStyle = 'black';
+    oil1Arc.fill()
 
-    //max value is 1224
-    if (itt2 > 920){
+    if (oil1 > 101.2){
         
-        itt2Arc.beginPath()
-        itt2Arc.font = (radiusBig * 0.3) + "px Arial";
-        itt2Arc.textAlign = "center"
-        itt2Arc.fillStyle = "red";
-        itt2Arc.fillText(itt2.toString(), (-radiusBig * 0.1) , radiusBig * 0.7);
+        oil1Arc.beginPath()
+        oil1Arc.font = (radiusSmall * 0.3) + "px Arial";
+        oil1Arc.textAlign = "center"
+        oil1Arc.fillStyle = "red";
+        oil1Arc.fillText(oil1.toFixed(1), 0, radiusSmall * 0.5);
 
-        itt2Needle.beginPath()
-        itt2Needle.lineCap = "round";
-        itt2Needle.lineWidth = radiusBig / 20
+        oil1Needle.beginPath()
+        oil1Needle.lineCap = "round";
+        oil1Needle.lineWidth = radiusSmall / 20
         //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
-        itt2Needle.rotate(itt2Rad)
-        itt2Needle.moveTo(0,0)
-        itt2Needle.strokeStyle = "red"
+        
+        oil1Needle.rotate(oil1Rad)
+        
+        oil1Needle.moveTo(0,0)
+
+        oil1Needle.strokeStyle = "red"
         //this is the initial position of the line at 0 trq
-        itt2Needle.lineTo(-(radiusBig * 0.67),(radiusBig * 0.37))
-        itt2Needle.rotate(-itt2Rad)
-        itt2Needle.stroke();
-    } else if (itt2 <= 920){
-        itt2Arc.beginPath()
-        itt2Arc.font = (radiusBig * 0.3) + "px Arial";
-        itt2Arc.textAlign = "center"
-        itt2Arc.fillStyle = "white";
-        itt2Arc.fillText(itt2.toString(), (-radiusBig * 0.1) , radiusBig * 0.7);
+        oil1Needle.lineTo(-(radiusSmall * 0.65),(radiusSmall * 0.38))
+        
+        oil1Needle.rotate(-oil1Rad)
+        
+        oil1Needle.stroke();
+    } else if (oil1 <= 101.2){
+        oil1Arc.beginPath()
+        oil1Arc.font = (radiusSmall * 0.3) + "px Arial";
+        oil1Arc.textAlign = "center"
+        oil1Arc.fillStyle = "white";
+        oil1Arc.fillText(oil1.toFixed(1), 0, radiusSmall * 0.5);
     
-        itt2Needle.beginPath()
-        itt2Needle.lineCap = "round";
-        itt2Needle.lineWidth = radiusBig / 20
+        oil1Needle.beginPath()
+        oil1Needle.lineCap = "round";
+        oil1Needle.lineWidth = radiusSmall / 20
     
-        itt2Needle.rotate(itt2Rad)
-        itt2Needle.moveTo(0,0)
-        itt2Needle.strokeStyle = "white"
+        oil1Needle.rotate(oil1Rad)
+        oil1Needle.moveTo(0,0)
+        oil1Needle.strokeStyle = "white"
         //this is the initial position of the line at 0 trq
-        itt2Needle.lineTo(-(radiusBig * 0.67),(radiusBig * 0.37))
-        itt2Needle.rotate(-itt2Rad)
-        itt2Needle.stroke();
+        oil1Needle.lineTo(-(radiusSmall * 0.65),(radiusSmall * 0.38))
+        oil1Needle.rotate(-oil1Rad)
+        oil1Needle.stroke();
     }
 }
