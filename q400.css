@@ -1,0 +1,23 @@
+body{
+    background-color: slategrey;
+}
+
+
+
+
+canvas {
+    background-color: black;
+   
+}
+
+table{
+    width:60%;
+    text-align: center;
+    margin: auto;
+    background-color: black;
+}
+table td{
+    white-space: nowrap;
+    border : 2px white solid;
+    color: white;
+}
