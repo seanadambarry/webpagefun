@@ -11,7 +11,7 @@ canvas {
 }
 
 table{
-    width:60%;
+    width:40%;
     text-align: center;
     margin: auto;
     background-color: black;
@@ -20,4 +20,14 @@ table td{
     white-space: nowrap;
     border : 2px white solid;
     color: white;
+    width: 150px;
+    padding: 0px;
+}
+
+.nestTableL{
+    text-align: right;
+}
+
+.nestTableR{
+    text-align: left;
 }

@@ -15,7 +15,7 @@ let trq2Rad;
 //let trq2 = 106
 
 //should be the same for everywhere--------------------------
-let radiusBig = trq1can.height / 2
+let radiusBig = trq1can.width / 2
 //should be the same for everywhere-------------------------
 console.log(radiusBig)
 
@@ -209,7 +209,7 @@ let nh1Needle = nh1can.getContext("2d");
 let nh1Rad;
 //let nh1 = 101.6
 
-let radiusSmall = nh1can.height / 2
+let radiusSmall = nh1can.width / 2
 
 console.log('nh1 radian value:' + nh1Rad)
 
