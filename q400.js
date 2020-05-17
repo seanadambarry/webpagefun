@@ -4,6 +4,7 @@ let engineParameters = {
         if (change === true){
             this._mtop = true;
             this._ntop = false;
+            this._engStart = false;
             document.getElementById("mtopbutton").disabled = true;
             document.getElementById("ntopbutton").disabled = false;
             document.getElementById("startbutton").disabled = false;
@@ -11,11 +12,15 @@ let engineParameters = {
             document.getElementById("mtopntoprtop2").innerHTML = 'MTOP'
             itt1MtopARC()
             itt2MtopARC()
+            nh1MtopARC()
+            nh2MtopARC()
+
             engineParameters.itt1 = 890
             engineParameters.itt2 = 880
+            engineParameters.nh1 = 101.1
+            engineParameters.nh2 = 95
         } else if (change === false){
             this._mtop = false
-            this._ntop = true;
             document.getElementById("mtopbutton").disabled = false;
             document.getElementById("ntopbutton").disabled = true;
         }
@@ -28,6 +33,7 @@ let engineParameters = {
         if (change === true){ // if ntop is true, disable button
             this._ntop = true;
             this._mtop = false;
+            this._engStart = false;
             document.getElementById("mtopbutton").disabled = false;
             document.getElementById("ntopbutton").disabled = true;
             document.getElementById("startbutton").disabled = false;
@@ -35,12 +41,15 @@ let engineParameters = {
             document.getElementById("mtopntoprtop2").innerHTML = 'NTOP'
             itt1NtopARC()
             itt2NtopARC()
+            nh1NtopARC()
+            nh2NtopARC()
             //showing the max for now
+            engineParameters.nh1 = 98.4
+            engineParameters.nh2 = 95
             engineParameters.itt1 = 850
             engineParameters.itt2 = 839
         } else if (change === false){
             this._ntop = false;
-            this._mtop = true;
             document.getElementById("mtopbutton").disabled = true;
             document.getElementById("ntopbutton").disabled = false;
         }
@@ -52,6 +61,8 @@ let engineParameters = {
     set engStart(change){
         if (change === true){
             this._engStart = true;
+            this._mtop = false;
+            this._ntop = false;
             document.getElementById("mtopbutton").disabled = false;
             document.getElementById("ntopbutton").disabled = false;
             document.getElementById("startbutton").disabled = true;
@@ -85,6 +96,22 @@ let engineParameters = {
     },
     get trq2(){
         return this._trq2;
+    },
+    _nh1 : 0,
+    set nh1(newNh){
+        this._nh1 = newNh;
+        nh1DN(newNh);
+    },
+    get nh1(){
+        return this._nh1;
+    },
+    _nh2 : 0,
+    set nh2(newNh){
+        this._nh2 = newNh;
+        nh2DN(newNh);
+    },
+    get nh2(){
+        return this._nh2;
     },
     _itt1 : 0,
     set itt1(newItt1){
@@ -168,8 +195,8 @@ function trq1ARC(){
 
     trq1Arc.beginPath();
     trq1Arc.arc(0, 0, radiusBig * 0.9, 2.79253, -0.174533);
-    trq1Arc.strokeStyle = "#2eb82e"
-    trq1Arc.lineWidth = radiusBig / 25
+    trq1Arc.strokeStyle = "green"
+    trq1Arc.lineWidth = radiusBig / 17
 
 
     trq1Arc.stroke();
@@ -186,7 +213,7 @@ function trq1ARC(){
 
     trq1Arc.beginPath();
     trq1Arc.strokeStyle = "red";
-    trq1Arc.lineWidth = radiusBig / 20
+    trq1Arc.lineWidth = radiusBig / 17
     trq1Arc.moveTo((radiusBig * 0.85),0);
     trq1Arc.lineTo(radiusBig * 0.98,0)
     trq1Arc.stroke();
@@ -218,7 +245,7 @@ function trq1DN(trq1){
 
         trq1Needle.beginPath()
         trq1Needle.lineCap = "round";
-        trq1Needle.lineWidth = radiusBig / 20
+        trq1Needle.lineWidth = radiusBig / 17
         //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
         trq1Needle.rotate(trq1Rad)
         trq1Needle.moveTo(0,0)
@@ -236,7 +263,7 @@ function trq1DN(trq1){
     
         trq1Needle.beginPath()
         trq1Needle.lineCap = "round";
-        trq1Needle.lineWidth = radiusBig / 20
+        trq1Needle.lineWidth = radiusBig / 17
     
         trq1Needle.rotate(trq1Rad)
         trq1Needle.moveTo(0,0)
@@ -255,8 +282,8 @@ function trq2ARC(){
 
     trq2Arc.beginPath();
     trq2Arc.arc(0, 0, radiusBig * 0.9, 2.79253, -0.21198);
-    trq2Arc.strokeStyle = "#2eb82e"
-    trq2Arc.lineWidth = radiusBig / 25
+    trq2Arc.strokeStyle = "green"
+    trq2Arc.lineWidth = radiusBig / 17
 
 
     trq2Arc.stroke();
@@ -273,7 +300,7 @@ function trq2ARC(){
 
     trq2Arc.beginPath();
     trq2Arc.strokeStyle = "red";
-    trq2Arc.lineWidth = radiusBig / 20
+    trq2Arc.lineWidth = radiusBig / 17
     trq2Arc.moveTo((radiusBig * 0.85),0);
     trq2Arc.lineTo(radiusBig * 0.98,0)
     trq2Arc.stroke();
@@ -306,7 +333,7 @@ function trq2DN(trq2){
 
         trq2Needle.beginPath()
         trq2Needle.lineCap = "round";
-        trq2Needle.lineWidth = radiusBig / 20
+        trq2Needle.lineWidth = radiusBig / 17
         //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
         trq2Needle.rotate(trq2Rad)
         trq2Needle.moveTo(0,0)
@@ -324,7 +351,7 @@ function trq2DN(trq2){
     
         trq2Needle.beginPath()
         trq2Needle.lineCap = "round";
-        trq2Needle.lineWidth = radiusBig / 20
+        trq2Needle.lineWidth = radiusBig / 17
     
         trq2Needle.rotate(trq2Rad)
         trq2Needle.moveTo(0,0)
@@ -350,21 +377,25 @@ nh1Arc.translate(radiusSmall,radiusSmall)
 
 let onenhInRad = 4.188879 / 120
 
-function nh1ARC(){
+function nh1MtopARC(){
     
-
+    //blank out previous arc
+    nh1Arc.beginPath()
+    nh1Arc.rect(-radiusSmall * 1,-radiusSmall * 1,radiusSmall * 2,radiusSmall * 2)
+    nh1Arc.fillStyle = "black"
+    nh1Arc.fill(); 
 
     nh1Arc.beginPath();
     nh1Arc.arc(0, 0, radiusSmall * 0.9, 2.61799, 4.85899);
     nh1Arc.strokeStyle = "white"
-    nh1Arc.lineWidth = radiusSmall / 25
+    nh1Arc.lineWidth = radiusSmall / 17
 
 
     nh1Arc.stroke();
 
     nh1Arc.beginPath();
     nh1Arc.arc(0, 0, radiusSmall * 0.9, 4.85899, 6.15061);
-    nh1Arc.strokeStyle = "#2eb82e"
+    nh1Arc.strokeStyle = "green"
     nh1Arc.stroke();
 
     nh1Arc.beginPath();
@@ -374,9 +405,43 @@ function nh1ARC(){
 
     nh1Arc.beginPath();
     nh1Arc.strokeStyle = "red";
-    nh1Arc.lineWidth = radiusSmall / 20
+    nh1Arc.lineWidth = radiusSmall / 17
     nh1Arc.moveTo((radiusSmall * 0.70),(-radiusSmall * 0.10));
     nh1Arc.lineTo(radiusSmall * 0.98,(-radiusSmall * 0.15))
+    nh1Arc.stroke();
+}
+
+function nh1NtopARC(){
+    
+    //blank out previous arc
+    nh1Arc.beginPath()
+    nh1Arc.rect(-radiusSmall * 1,-radiusSmall * 1,radiusSmall * 2,radiusSmall * 2)
+    nh1Arc.fillStyle = "black"
+    nh1Arc.fill(); 
+
+    nh1Arc.beginPath();
+    nh1Arc.arc(0, 0, radiusSmall * 0.9, 2.61799, 4.85899);
+    nh1Arc.strokeStyle = "white"
+    nh1Arc.lineWidth = radiusSmall / 17
+
+
+    nh1Arc.stroke();
+
+    nh1Arc.beginPath();
+    nh1Arc.arc(0, 0, radiusSmall * 0.9, 4.85899, 6.05629);
+    nh1Arc.strokeStyle = "green"
+    nh1Arc.stroke();
+
+    nh1Arc.beginPath();
+    nh1Arc.arc(0, 0, radiusSmall * 0.9, 6.05629, 0.523599);
+    nh1Arc.strokeStyle = "#ffffff"
+    nh1Arc.stroke();
+
+    nh1Arc.beginPath();
+    nh1Arc.strokeStyle = "red";
+    nh1Arc.lineWidth = radiusSmall / 17
+    nh1Arc.moveTo((radiusSmall * 0.80),(-radiusSmall * 0.20));
+    nh1Arc.lineTo(radiusSmall * 0.95,(-radiusSmall * 0.25))
     nh1Arc.stroke();
 }
 
@@ -397,7 +462,7 @@ function nh1DN(nh1){
     nh1Arc.fillStyle = 'black';
     nh1Arc.fill()
 
-    if (nh1 > 101.2){
+    if (nh1 > 100 && engineParameters.mtop === true){
         
         nh1Arc.beginPath()
         nh1Arc.font = (radiusSmall * 0.3) + "px Arial";
@@ -407,7 +472,7 @@ function nh1DN(nh1){
 
         nh1Needle.beginPath()
         nh1Needle.lineCap = "round";
-        nh1Needle.lineWidth = radiusSmall / 20
+        nh1Needle.lineWidth = radiusSmall / 17
         //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
         
         nh1Needle.rotate(nh1Rad)
@@ -421,7 +486,7 @@ function nh1DN(nh1){
         nh1Needle.rotate(-nh1Rad)
         
         nh1Needle.stroke();
-    } else if (nh1 <= 101.2){
+    } else if (nh1 <= 100 && engineParameters.mtop === true){
         nh1Arc.beginPath()
         nh1Arc.font = (radiusSmall * 0.3) + "px Arial";
         nh1Arc.textAlign = "center"
@@ -430,7 +495,43 @@ function nh1DN(nh1){
     
         nh1Needle.beginPath()
         nh1Needle.lineCap = "round";
-        nh1Needle.lineWidth = radiusSmall / 20
+        nh1Needle.lineWidth = radiusSmall / 17
+    
+        nh1Needle.rotate(nh1Rad)
+        nh1Needle.moveTo(0,0)
+        nh1Needle.strokeStyle = "white"
+        //this is the initial position of the line at 0 trq
+        nh1Needle.lineTo(-(radiusSmall * 0.65),(radiusSmall * 0.38))
+        nh1Needle.rotate(-nh1Rad)
+        nh1Needle.stroke();
+    } else if (nh1 > 98.3 && engineParameters.ntop === true){
+        nh1Arc.beginPath()
+        nh1Arc.font = (radiusSmall * 0.3) + "px Arial";
+        nh1Arc.textAlign = "center"
+        nh1Arc.fillStyle = "red";
+        nh1Arc.fillText(nh1.toFixed(1), 0, radiusSmall * 0.5);
+    
+        nh1Needle.beginPath()
+        nh1Needle.lineCap = "round";
+        nh1Needle.lineWidth = radiusSmall / 17
+    
+        nh1Needle.rotate(nh1Rad)
+        nh1Needle.moveTo(0,0)
+        nh1Needle.strokeStyle = "red"
+        //this is the initial position of the line at 0 trq
+        nh1Needle.lineTo(-(radiusSmall * 0.65),(radiusSmall * 0.38))
+        nh1Needle.rotate(-nh1Rad)
+        nh1Needle.stroke();
+    } else if (nh1 <= 98.3 && engineParameters.ntop === true){
+        nh1Arc.beginPath()
+        nh1Arc.font = (radiusSmall * 0.3) + "px Arial";
+        nh1Arc.textAlign = "center"
+        nh1Arc.fillStyle = "white";
+        nh1Arc.fillText(nh1.toFixed(1), 0, radiusSmall * 0.5);
+    
+        nh1Needle.beginPath()
+        nh1Needle.lineCap = "round";
+        nh1Needle.lineWidth = radiusSmall / 17
     
         nh1Needle.rotate(nh1Rad)
         nh1Needle.moveTo(0,0)
@@ -450,21 +551,25 @@ nh2Arc.translate(radiusSmall,radiusSmall)
 let nh2Rad;
 //let nh2 = 64.2
 
-function nh2ARC(){
+function nh2MtopARC(){
     
-
+    //blank out previous arc
+    nh2Arc.beginPath()
+    nh2Arc.rect(-radiusSmall * 1,-radiusSmall * 1,radiusSmall * 2,radiusSmall * 2)
+    nh2Arc.fillStyle = "black"
+    nh2Arc.fill(); 
 
     nh2Arc.beginPath();
     nh2Arc.arc(0, 0, radiusSmall * 0.9, 2.61799, 4.85899);
     nh2Arc.strokeStyle = "white"
-    nh2Arc.lineWidth = radiusSmall / 25
+    nh2Arc.lineWidth = radiusSmall / 17
 
 
     nh2Arc.stroke();
 
     nh2Arc.beginPath();
     nh2Arc.arc(0, 0, radiusSmall * 0.9, 4.85899, 6.15061);
-    nh2Arc.strokeStyle = "#2eb82e"
+    nh2Arc.strokeStyle = "green"
     nh2Arc.stroke();
 
     nh2Arc.beginPath();
@@ -474,13 +579,48 @@ function nh2ARC(){
 
     nh2Arc.beginPath();
     nh2Arc.strokeStyle = "red";
-    nh2Arc.lineWidth = radiusSmall / 20
+    nh2Arc.lineWidth = radiusSmall / 17
     nh2Arc.moveTo((radiusSmall * 0.70),(-radiusSmall * 0.10));
     nh2Arc.lineTo(radiusSmall * 0.98,(-radiusSmall * 0.15))
     nh2Arc.stroke();
 }
 
+function nh2NtopARC(){
+    
+    //blank out previous arc
+    nh2Arc.beginPath()
+    nh2Arc.rect(-radiusSmall * 1,-radiusSmall * 1,radiusSmall * 2,radiusSmall * 2)
+    nh2Arc.fillStyle = "black"
+    nh2Arc.fill(); 
+
+    nh2Arc.beginPath();
+    nh2Arc.arc(0, 0, radiusSmall * 0.9, 2.61799, 4.85899);
+    nh2Arc.strokeStyle = "white"
+    nh2Arc.lineWidth = radiusSmall / 17
+
+
+    nh2Arc.stroke();
+
+    nh2Arc.beginPath();
+    nh2Arc.arc(0, 0, radiusSmall * 0.9, 4.85899, 6.05629);
+    nh2Arc.strokeStyle = "green"
+    nh2Arc.stroke();
+
+    nh2Arc.beginPath();
+    nh2Arc.arc(0, 0, radiusSmall * 0.9, 6.05629, 0.523599);
+    nh2Arc.strokeStyle = "#ffffff"
+    nh2Arc.stroke();
+
+    nh2Arc.beginPath();
+    nh2Arc.strokeStyle = "red";
+    nh2Arc.lineWidth = radiusSmall / 17
+    nh2Arc.moveTo((radiusSmall * 0.80),(-radiusSmall * 0.20));
+    nh2Arc.lineTo(radiusSmall * 0.95,(-radiusSmall * 0.25))
+    nh2Arc.stroke();
+}
+
 function nh2DN(nh2){
+    //nh2 = Math.floor(Math.random() * 122)
     nh2Rad = (nh2 * onenhInRad)
    
 
@@ -496,7 +636,7 @@ function nh2DN(nh2){
     nh2Arc.fillStyle = 'black';
     nh2Arc.fill()
 
-    if (nh2 > 101.2){
+    if (nh2 > 100 && engineParameters.mtop === true){
         
         nh2Arc.beginPath()
         nh2Arc.font = (radiusSmall * 0.3) + "px Arial";
@@ -506,7 +646,7 @@ function nh2DN(nh2){
 
         nh2Needle.beginPath()
         nh2Needle.lineCap = "round";
-        nh2Needle.lineWidth = radiusSmall / 20
+        nh2Needle.lineWidth = radiusSmall / 17
         //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
         
         nh2Needle.rotate(nh2Rad)
@@ -520,7 +660,7 @@ function nh2DN(nh2){
         nh2Needle.rotate(-nh2Rad)
         
         nh2Needle.stroke();
-    } else if (nh2 <= 101.2){
+    } else if (nh2 <= 100 && engineParameters.mtop === true){
         nh2Arc.beginPath()
         nh2Arc.font = (radiusSmall * 0.3) + "px Arial";
         nh2Arc.textAlign = "center"
@@ -529,7 +669,43 @@ function nh2DN(nh2){
     
         nh2Needle.beginPath()
         nh2Needle.lineCap = "round";
-        nh2Needle.lineWidth = radiusSmall / 20
+        nh2Needle.lineWidth = radiusSmall / 17
+    
+        nh2Needle.rotate(nh2Rad)
+        nh2Needle.moveTo(0,0)
+        nh2Needle.strokeStyle = "white"
+        //this is the initial position of the line at 0 trq
+        nh2Needle.lineTo(-(radiusSmall * 0.65),(radiusSmall * 0.38))
+        nh2Needle.rotate(-nh2Rad)
+        nh2Needle.stroke();
+    } else if (nh2 > 98.3 && engineParameters.mtop === false){
+        nh2Arc.beginPath()
+        nh2Arc.font = (radiusSmall * 0.3) + "px Arial";
+        nh2Arc.textAlign = "center"
+        nh2Arc.fillStyle = "red";
+        nh2Arc.fillText(nh2.toFixed(1), 0, radiusSmall * 0.5);
+    
+        nh2Needle.beginPath()
+        nh2Needle.lineCap = "round";
+        nh2Needle.lineWidth = radiusSmall / 17
+    
+        nh2Needle.rotate(nh2Rad)
+        nh2Needle.moveTo(0,0)
+        nh2Needle.strokeStyle = "red"
+        //this is the initial position of the line at 0 trq
+        nh2Needle.lineTo(-(radiusSmall * 0.65),(radiusSmall * 0.38))
+        nh2Needle.rotate(-nh2Rad)
+        nh2Needle.stroke();
+    } else if (nh2 <= 98.3 && engineParameters.mtop === false){
+        nh2Arc.beginPath()
+        nh2Arc.font = (radiusSmall * 0.3) + "px Arial";
+        nh2Arc.textAlign = "center"
+        nh2Arc.fillStyle = "white";
+        nh2Arc.fillText(nh2.toFixed(1), 0, radiusSmall * 0.5);
+    
+        nh2Needle.beginPath()
+        nh2Needle.lineCap = "round";
+        nh2Needle.lineWidth = radiusSmall / 17
     
         nh2Needle.rotate(nh2Rad)
         nh2Needle.moveTo(0,0)
@@ -558,14 +734,14 @@ function np1ARC(){
     np1Arc.beginPath();
     np1Arc.arc(0, 0, radiusBig * 0.9, 2.61799, 4.85899);
     np1Arc.strokeStyle = "white"
-    np1Arc.lineWidth = radiusBig / 25
+    np1Arc.lineWidth = radiusBig / 17
 
 
     np1Arc.stroke();
 
     np1Arc.beginPath();
     np1Arc.arc(0, 0, radiusBig * 0.9, 4.85899, 6.15061);
-    np1Arc.strokeStyle = "#2eb82e"
+    np1Arc.strokeStyle = "green"
     np1Arc.stroke();
 
     np1Arc.beginPath();
@@ -580,7 +756,7 @@ function np1ARC(){
 
     np1Arc.beginPath();
     np1Arc.strokeStyle = "red";
-    np1Arc.lineWidth = radiusBig / 20
+    np1Arc.lineWidth = radiusBig / 17
     np1Arc.moveTo((radiusBig * 0.85),0);
     np1Arc.lineTo(radiusBig * 0.98,0)
     np1Arc.stroke();
@@ -614,7 +790,7 @@ function np1DN(np1){
 
         np1Needle.beginPath()
         np1Needle.lineCap = "round";
-        np1Needle.lineWidth = radiusBig / 20
+        np1Needle.lineWidth = radiusBig / 17
         //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
         np1Needle.rotate(np1Rad)
         np1Needle.moveTo(0,0)
@@ -632,7 +808,7 @@ function np1DN(np1){
     
         np1Needle.beginPath()
         np1Needle.lineCap = "round";
-        np1Needle.lineWidth = radiusBig / 20
+        np1Needle.lineWidth = radiusBig / 17
     
         np1Needle.rotate(np1Rad)
         np1Needle.moveTo(0,0)
@@ -658,14 +834,14 @@ function np2ARC(){
     np2Arc.beginPath();
     np2Arc.arc(0, 0, radiusBig * 0.9, 2.61799, 4.85899);
     np2Arc.strokeStyle = "white"
-    np2Arc.lineWidth = radiusBig / 25
+    np2Arc.lineWidth = radiusBig / 17
 
 
     np2Arc.stroke();
 
     np2Arc.beginPath();
     np2Arc.arc(0, 0, radiusBig * 0.9, 4.85899, 6.15061);
-    np2Arc.strokeStyle = "#2eb82e"
+    np2Arc.strokeStyle = "green"
     np2Arc.stroke();
 
     np2Arc.beginPath();
@@ -680,7 +856,7 @@ function np2ARC(){
 
     np2Arc.beginPath();
     np2Arc.strokeStyle = "red";
-    np2Arc.lineWidth = radiusBig / 20
+    np2Arc.lineWidth = radiusBig / 17
     np2Arc.moveTo((radiusBig * 0.85),0);
     np2Arc.lineTo(radiusBig * 0.98,0)
     np2Arc.stroke();
@@ -714,7 +890,7 @@ function np2DN(np2){
 
         np2Needle.beginPath()
         np2Needle.lineCap = "round";
-        np2Needle.lineWidth = radiusBig / 20
+        np2Needle.lineWidth = radiusBig / 17
         //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
         np2Needle.rotate(np2Rad)
         np2Needle.moveTo(0,0)
@@ -732,7 +908,7 @@ function np2DN(np2){
     
         np2Needle.beginPath()
         np2Needle.lineCap = "round";
-        np2Needle.lineWidth = radiusBig / 20
+        np2Needle.lineWidth = radiusBig / 17
     
         np2Needle.rotate(np2Rad)
         np2Needle.moveTo(0,0)
@@ -765,7 +941,7 @@ function itt1EngStartARC(){
     itt1Arc.beginPath();
     itt1Arc.arc(0, 0, radiusBig * 0.9, 2.61799, 3.66518);
     itt1Arc.strokeStyle = "white"
-    itt1Arc.lineWidth = radiusBig / 25
+    itt1Arc.lineWidth = radiusBig / 17
     itt1Arc.stroke();
 
     itt1Arc.beginPath();
@@ -780,7 +956,7 @@ function itt1EngStartARC(){
 
     itt1Arc.beginPath();
     itt1Arc.strokeStyle = "red";
-    itt1Arc.lineWidth = radiusBig / 20
+    itt1Arc.lineWidth = radiusBig / 17
     itt1Arc.moveTo((radiusBig * 0.85),0);
     itt1Arc.lineTo(radiusBig * 0.98,0)
     itt1Arc.stroke();
@@ -801,7 +977,7 @@ function itt1MtopARC(){
     itt1Arc.beginPath();
     itt1Arc.arc(0, 0, radiusBig * 0.9, 2.61799, 3.66518);
     itt1Arc.strokeStyle = "white"
-    itt1Arc.lineWidth = radiusBig / 25
+    itt1Arc.lineWidth = radiusBig / 17
     itt1Arc.stroke();
 
     itt1Arc.beginPath();
@@ -816,7 +992,7 @@ function itt1MtopARC(){
 
     itt1Arc.beginPath();
     itt1Arc.strokeStyle = "red";
-    itt1Arc.lineWidth = radiusBig / 20
+    itt1Arc.lineWidth = radiusBig / 17
     itt1Arc.moveTo((radiusBig * 0.80),(-radiusBig * 0.15));
     itt1Arc.lineTo((radiusBig * 0.95),(-radiusBig * 0.17));
     itt1Arc.stroke();
@@ -836,7 +1012,7 @@ function itt1NtopARC(){
     itt1Arc.beginPath();
     itt1Arc.arc(0, 0, radiusBig * 0.9, 2.61799, 3.66518);
     itt1Arc.strokeStyle = "white"
-    itt1Arc.lineWidth = radiusBig / 25
+    itt1Arc.lineWidth = radiusBig / 17
     itt1Arc.stroke();
 
     itt1Arc.beginPath();
@@ -851,15 +1027,14 @@ function itt1NtopARC(){
 
     itt1Arc.beginPath();
     itt1Arc.strokeStyle = "red";
-    itt1Arc.lineWidth = radiusBig / 20
+    itt1Arc.lineWidth = radiusBig / 17
     itt1Arc.moveTo((radiusBig * 0.77),(-radiusBig * 0.27));
     itt1Arc.lineTo((radiusBig * 0.93),(-radiusBig * 0.32));
     itt1Arc.stroke();
 }
 
 function itt1DN(itt1){
-    
-
+    console.log('engstart,mtop,ntop : ' + engineParameters.engStart, engineParameters.mtop, engineParameters.ntop)
 
     itt1Rad = (itt1 * oneIttInRad)
    
@@ -887,7 +1062,7 @@ function itt1DN(itt1){
 
         itt1Needle.beginPath()
         itt1Needle.lineCap = "round";
-        itt1Needle.lineWidth = radiusBig / 20
+        itt1Needle.lineWidth = radiusBig / 17
         //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
         itt1Needle.rotate(itt1Rad)
         itt1Needle.moveTo(0,0)
@@ -905,7 +1080,7 @@ function itt1DN(itt1){
     
         itt1Needle.beginPath()
         itt1Needle.lineCap = "round";
-        itt1Needle.lineWidth = radiusBig / 20
+        itt1Needle.lineWidth = radiusBig / 17
     
         itt1Needle.rotate(itt1Rad)
         itt1Needle.moveTo(0,0)
@@ -924,7 +1099,7 @@ function itt1DN(itt1){
 
         itt1Needle.beginPath()
         itt1Needle.lineCap = "round";
-        itt1Needle.lineWidth = radiusBig / 20
+        itt1Needle.lineWidth = radiusBig / 17
         //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
         itt1Needle.rotate(itt1Rad)
         itt1Needle.moveTo(0,0)
@@ -938,12 +1113,12 @@ function itt1DN(itt1){
         itt1Arc.beginPath()
         itt1Arc.font = (radiusBig * 0.3) + "px Arial";
         itt1Arc.textAlign = "center"
-        itt1Arc.fillStyle = "red";
+        itt1Arc.fillStyle = "white";
         itt1Arc.fillText(itt1.toString(), (-radiusBig * 0.1) , radiusBig * 0.7);
 
         itt1Needle.beginPath()
         itt1Needle.lineCap = "round";
-        itt1Needle.lineWidth = radiusBig / 20
+        itt1Needle.lineWidth = radiusBig / 17
         //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
         itt1Needle.rotate(itt1Rad)
         itt1Needle.moveTo(0,0)
@@ -962,7 +1137,7 @@ function itt1DN(itt1){
 
         itt1Needle.beginPath()
         itt1Needle.lineCap = "round";
-        itt1Needle.lineWidth = radiusBig / 20
+        itt1Needle.lineWidth = radiusBig / 17
         //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
         itt1Needle.rotate(itt1Rad)
         itt1Needle.moveTo(0,0)
@@ -971,45 +1146,26 @@ function itt1DN(itt1){
         itt1Needle.lineTo(-(radiusBig * 0.67),(radiusBig * 0.37))
         itt1Needle.rotate(-itt1Rad)
         itt1Needle.stroke();
-    } else if (itt1 > 880 && engineParameters.mtop === true){
+    } else if (itt1 <= 839 && engineParameters.ntop === true){
         
         itt1Arc.beginPath()
         itt1Arc.font = (radiusBig * 0.3) + "px Arial";
         itt1Arc.textAlign = "center"
-        itt1Arc.fillStyle = "red";
+        itt1Arc.fillStyle = "white";
         itt1Arc.fillText(itt1.toString(), (-radiusBig * 0.1) , radiusBig * 0.7);
 
         itt1Needle.beginPath()
         itt1Needle.lineCap = "round";
-        itt1Needle.lineWidth = radiusBig / 20
+        itt1Needle.lineWidth = radiusBig / 17
         //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
         itt1Needle.rotate(itt1Rad)
         itt1Needle.moveTo(0,0)
-        itt1Needle.strokeStyle = "red"
+        itt1Needle.strokeStyle = "white"
         //this is the initial position of the line at 0 trq
         itt1Needle.lineTo(-(radiusBig * 0.67),(radiusBig * 0.37))
         itt1Needle.rotate(-itt1Rad)
         itt1Needle.stroke();
-    } else if (itt1 > 880 && engineParameters.mtop === true){
-        
-        itt1Arc.beginPath()
-        itt1Arc.font = (radiusBig * 0.3) + "px Arial";
-        itt1Arc.textAlign = "center"
-        itt1Arc.fillStyle = "red";
-        itt1Arc.fillText(itt1.toString(), (-radiusBig * 0.1) , radiusBig * 0.7);
-
-        itt1Needle.beginPath()
-        itt1Needle.lineCap = "round";
-        itt1Needle.lineWidth = radiusBig / 20
-        //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
-        itt1Needle.rotate(itt1Rad)
-        itt1Needle.moveTo(0,0)
-        itt1Needle.strokeStyle = "red"
-        //this is the initial position of the line at 0 trq
-        itt1Needle.lineTo(-(radiusBig * 0.67),(radiusBig * 0.37))
-        itt1Needle.rotate(-itt1Rad)
-        itt1Needle.stroke();
-    
+    }
 }
 
 //itt2 start
@@ -1034,7 +1190,7 @@ function itt2EngStartARC(){
     itt2Arc.beginPath();
     itt2Arc.arc(0, 0, radiusBig * 0.9, 2.61799, 3.66518);
     itt2Arc.strokeStyle = "white"
-    itt2Arc.lineWidth = radiusBig / 25
+    itt2Arc.lineWidth = radiusBig / 17
     
     itt2Arc.stroke();
     itt2Arc.beginPath();
@@ -1049,7 +1205,7 @@ function itt2EngStartARC(){
 
     itt2Arc.beginPath();
     itt2Arc.strokeStyle = "red";
-    itt2Arc.lineWidth = radiusBig / 20
+    itt2Arc.lineWidth = radiusBig / 17
     itt2Arc.moveTo((radiusBig * 0.85),0);
     itt2Arc.lineTo(radiusBig * 0.98,0)
     itt2Arc.stroke();
@@ -1069,7 +1225,7 @@ function itt2MtopARC(){
     itt2Arc.beginPath();
     itt2Arc.arc(0, 0, radiusBig * 0.9, 2.61799, 3.66518);
     itt2Arc.strokeStyle = "white"
-    itt2Arc.lineWidth = radiusBig / 25
+    itt2Arc.lineWidth = radiusBig / 17
     itt2Arc.stroke();
 
     itt2Arc.beginPath();
@@ -1084,7 +1240,7 @@ function itt2MtopARC(){
 
     itt2Arc.beginPath();
     itt2Arc.strokeStyle = "red";
-    itt2Arc.lineWidth = radiusBig / 20
+    itt2Arc.lineWidth = radiusBig / 17
     itt2Arc.moveTo((radiusBig * 0.80),(-radiusBig * 0.15));
     itt2Arc.lineTo((radiusBig * 0.95),(-radiusBig * 0.17));
     itt2Arc.stroke();
@@ -1104,7 +1260,7 @@ function itt2NtopARC(){
     itt2Arc.beginPath();
     itt2Arc.arc(0, 0, radiusBig * 0.9, 2.61799, 3.66518);
     itt2Arc.strokeStyle = "white"
-    itt2Arc.lineWidth = radiusBig / 25
+    itt2Arc.lineWidth = radiusBig / 17
     itt2Arc.stroke();
 
     itt2Arc.beginPath();
@@ -1119,7 +1275,7 @@ function itt2NtopARC(){
 
     itt2Arc.beginPath();
     itt2Arc.strokeStyle = "red";
-    itt2Arc.lineWidth = radiusBig / 20
+    itt2Arc.lineWidth = radiusBig / 17
     itt2Arc.moveTo((radiusBig * 0.77),(-radiusBig * 0.27));
     itt2Arc.lineTo((radiusBig * 0.93),(-radiusBig * 0.32));
     itt2Arc.stroke();
@@ -1154,7 +1310,7 @@ function itt2DN(itt2){
 
         itt2Needle.beginPath()
         itt2Needle.lineCap = "round";
-        itt2Needle.lineWidth = radiusBig / 20
+        itt2Needle.lineWidth = radiusBig / 17
         //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
         itt2Needle.rotate(itt2Rad)
         itt2Needle.moveTo(0,0)
@@ -1172,7 +1328,7 @@ function itt2DN(itt2){
     
         itt2Needle.beginPath()
         itt2Needle.lineCap = "round";
-        itt2Needle.lineWidth = radiusBig / 20
+        itt2Needle.lineWidth = radiusBig / 17
     
         itt2Needle.rotate(itt2Rad)
         itt2Needle.moveTo(0,0)
@@ -1209,31 +1365,31 @@ function oil1ARC(){
     oil1Arc.beginPath();
     oil1Arc.arc(0, 0, radiusSmall * 0.9, 1.8326, 2.00713);
     oil1Arc.strokeStyle = "white"
-    oil1Arc.lineWidth = radiusSmall / 25
+    oil1Arc.lineWidth = radiusSmall / 17
     oil1Arc.stroke();
 
     oil1Arc.beginPath();
     oil1Arc.arc(0, 0, radiusSmall * 0.9, 2.00713, 2.44346);
     oil1Arc.strokeStyle = "yellow"
-    oil1Arc.lineWidth = radiusSmall / 25
+    oil1Arc.lineWidth = radiusSmall / 17
     oil1Arc.stroke();
 
     oil1Arc.beginPath();
     oil1Arc.arc(0, 0, radiusSmall * 0.9, 2.44346, 3.75246);
     oil1Arc.strokeStyle = "green"
-    oil1Arc.lineWidth = radiusSmall / 25
+    oil1Arc.lineWidth = radiusSmall / 17
     oil1Arc.stroke();
 
     oil1Arc.beginPath();
     oil1Arc.arc(0, 0, radiusSmall * 0.9, 3.75246, 3.83972);
     oil1Arc.strokeStyle = "yellow"
-    oil1Arc.lineWidth = radiusSmall / 25
+    oil1Arc.lineWidth = radiusSmall / 17
     oil1Arc.stroke();
 
     oil1Arc.beginPath();
     oil1Arc.arc(0, 0, radiusSmall * 0.9, 3.83972, 4.27606);
     oil1Arc.strokeStyle = "white"
-    oil1Arc.lineWidth = radiusSmall / 25
+    oil1Arc.lineWidth = radiusSmall / 17
     oil1Arc.stroke();
 
 
@@ -1241,21 +1397,21 @@ function oil1ARC(){
     oil1Arc.beginPath();
     oil1Arc.arc(0, 0, radiusSmall * 0.9, 4.97419, 1.309);
     oil1Arc.strokeStyle = "white"
-    oil1Arc.lineWidth = radiusSmall / 25
+    oil1Arc.lineWidth = radiusSmall / 17
     oil1Arc.stroke();
 
     
 
     oil1Arc.beginPath();
     oil1Arc.strokeStyle = "red";
-    oil1Arc.lineWidth = radiusSmall / 20
+    oil1Arc.lineWidth = radiusSmall / 17
     oil1Arc.moveTo((-radiusSmall * 0.70),(-radiusSmall * 0.7));
     oil1Arc.lineTo(-radiusSmall * 0.60,(-radiusSmall * 0.6))
     oil1Arc.stroke();
 
     oil1Arc.beginPath();
     oil1Arc.strokeStyle = "red";
-    oil1Arc.lineWidth = radiusSmall / 20
+    oil1Arc.lineWidth = radiusSmall / 17
     oil1Arc.moveTo((-radiusSmall * 0.32),(radiusSmall * 0.75));
     oil1Arc.lineTo(-radiusSmall * 0.40,(radiusSmall * .9))
     oil1Arc.stroke();
@@ -1295,7 +1451,7 @@ function oil1DN(oil1){
         
         oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
         oil1Arc.textAlign = "center"
-        oil1Arc.fillStyle = "white";
+        oil1Arc.fillStyle = "red";
         oil1Arc.fillText(oil1, radiusSmall * -1.1, radiusSmall * -0.8);
 
         oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
@@ -1305,7 +1461,7 @@ function oil1DN(oil1){
 
         oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
         oil1Arc.textAlign = "center"
-        oil1Arc.fillStyle = "white";
+        oil1Arc.fillStyle = "red";
         oil1Arc.fillText(oil1, radiusSmall * 1.1, radiusSmall * -0.8);
 
         oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
@@ -1315,7 +1471,7 @@ function oil1DN(oil1){
 
         oil1Needle.beginPath()
         oil1Needle.lineCap = "round";
-        oil1Needle.lineWidth = radiusSmall / 20
+        oil1Needle.lineWidth = radiusSmall / 17
         //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
         
         oil1Needle.rotate(oil1CRad)
@@ -1353,7 +1509,7 @@ function oil1DN(oil1){
     
         oil1Needle.beginPath()
         oil1Needle.lineCap = "round";
-        oil1Needle.lineWidth = radiusSmall / 20
+        oil1Needle.lineWidth = radiusSmall / 17
     
         oil1Needle.rotate(oil1CRad)
         oil1Needle.moveTo(0,0)
@@ -1473,7 +1629,7 @@ function displayAllStatic(){
 
 //startup
 
-engineParameters.engStart = true;
+engineParameters.ntop = true;
 
 trq1ARC();
 trq2ARC();
@@ -1481,15 +1637,13 @@ trq2ARC();
 engineParameters.trq1 = 108
 engineParameters.trq2 = 106
 
+
+
 np1ARC();
 np2ARC();
 engineParameters.np1 = 1077;
 engineParameters.np2 = 1071;
 
-
-
-engineParameters.itt1 = 925;
-engineParameters.itt2 = 920;
 
 
 
