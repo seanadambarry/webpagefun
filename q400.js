@@ -1,3 +1,62 @@
+let engineParameters = {
+    _mtop: false,
+    set mtop(change){
+        if (change === true){
+            this._mtop = true;
+            this._ntop = false;
+            document.getElementById("mtopbutton").disabled = true;
+            document.getElementById("ntopbutton").disabled = false;
+        } else if (change === false){
+            this._mtop = false
+            this._ntop = true;
+            document.getElementById("mtopbutton").disabled = false;
+            document.getElementById("ntopbutton").disabled = true;
+        }
+    },
+    get mtop(){
+        return this._mtop;
+    },
+    _ntop: false,
+    set ntop(change){
+        if (change === true){ // if ntop is true, disable button
+            this._ntop = true;
+            this._mtop = false;
+            document.getElementById("mtopbutton").disabled = false;
+            document.getElementById("ntopbutton").disabled = true;
+        } else if (change === false){
+            this._ntop = false;
+            this._mtop = true;
+            document.getElementById("mtopbutton").disabled = true;
+            document.getElementById("ntopbutton").disabled = false;
+        }
+    },
+    get ntop(){
+        return this._ntop
+    },
+    engStart: true,
+    propSelectorOn: false
+}
+
+engineParameters.mtop = false;
+engineParameters.ntop = true;
+
+function turnOnMTOP(){
+    console.log('mtop value before: ' + engineParameters.mtop)
+    engineParameters.mtop = true
+    console.log('mtop value after: ' + engineParameters.mtop)
+    console.log('ntop value before: ' + engineParameters.ntop)
+    console.log('ntop value after: ' + engineParameters.ntop)
+}
+
+function turnOnNTOP(){
+    console.log('mtop value before: ' + engineParameters.mtop)
+    console.log('mtop value after: ' + engineParameters.mtop)
+    console.log('ntop value before: ' + engineParameters.ntop)
+    engineParameters.ntop = true
+    console.log('ntop value after: ' + engineParameters.ntop)
+}
+
+
 
 
 //TRQ1 start
@@ -17,7 +76,6 @@ let trq2Rad;
 //should be the same for everywhere--------------------------
 let radiusBig = trq1can.width / 2
 //should be the same for everywhere-------------------------
-console.log(radiusBig)
 
 function trq1ARC(){
     trq1Arc.translate(radiusBig,radiusBig)
@@ -104,14 +162,7 @@ function trq1DN(trq1){
         trq1Needle.stroke();
     }
 }
-
-
-
-
 //trq2 start
-
-
-console.log(radiusBig)
 
 function trq2ARC(){
     trq2Arc.translate(radiusBig,radiusBig)
@@ -200,7 +251,6 @@ function trq2DN(trq2){
     }
 }
 
-
 //--#1 NH-------
 
 let nh1can = document.getElementById("nh1");
@@ -210,9 +260,6 @@ let nh1Rad;
 //let nh1 = 101.6
 
 let radiusSmall = nh1can.width / 2
-
-console.log('nh1 radian value:' + nh1Rad)
-
 
 let onenhInRad = 4.188879 / 120
 
@@ -308,18 +355,12 @@ function nh1DN(nh1){
     }
 }
 
-
 //--#2 NH-------
-
-
 let nh2can = document.getElementById("nh2");
 let nh2Arc = nh2can.getContext("2d");
 let nh2Needle = nh2can.getContext("2d");
 let nh2Rad;
 //let nh2 = 64.2
-
-console.log('nh2 radian value:' + nh2Rad)
-
 
 function nh2ARC(){
     nh2Arc.translate(radiusSmall,radiusSmall)
@@ -411,11 +452,6 @@ function nh2DN(nh2){
         nh2Needle.stroke();
     }
 }
-
-
-
-
-
 
 //np1 start
 let np1can = document.getElementById("np1");
@@ -521,15 +557,12 @@ function np1DN(np1){
     }
 }
 
-
 //np2 start
 let np2can = document.getElementById("np2");
 let np2Arc = np2can.getContext("2d");
 let np2Needle = np2can.getContext("2d");
 let np2Rad;
 //let nh2 = 64.2
-
-console.log(radiusBig)
 
 function np2ARC(){
     np2Arc.translate(radiusBig,radiusBig)
@@ -624,17 +657,13 @@ function np2DN(np2){
     }
 }
 
-
 //itt1 start
 let itt1can = document.getElementById("itt1");
 let itt1Arc = itt1can.getContext("2d");
 let itt1Needle = itt1can.getContext("2d");
 let itt1Rad;
-//let nh2 = 64.2
 
 let oneIttInRad = 4.71239  / 1196
-
-console.log(radiusBig)
 
 function itt1ARC(){
     itt1Arc.translate(radiusBig,radiusBig)

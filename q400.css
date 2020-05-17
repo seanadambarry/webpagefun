@@ -1,5 +1,6 @@
 body{
     background-color: slategrey;
+    font: arial;
 }
 
 
@@ -44,10 +45,6 @@ table{
     vertical-align: bottom;
 }
 
-.nestTableL{
-    text-align: right;
-}
-
-.nestTableR{
-    text-align: left;
+div {
+    text-align: center;
 }
