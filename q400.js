@@ -6,6 +6,13 @@ let engineParameters = {
             this._ntop = false;
             document.getElementById("mtopbutton").disabled = true;
             document.getElementById("ntopbutton").disabled = false;
+            document.getElementById("startbutton").disabled = false;
+            document.getElementById("mtopntoprtop1").innerHTML = 'MTOP'
+            document.getElementById("mtopntoprtop2").innerHTML = 'MTOP'
+            itt1MtopARC()
+            itt2MtopARC()
+            engineParameters.itt1 = 890
+            engineParameters.itt2 = 880
         } else if (change === false){
             this._mtop = false
             this._ntop = true;
@@ -23,6 +30,14 @@ let engineParameters = {
             this._mtop = false;
             document.getElementById("mtopbutton").disabled = false;
             document.getElementById("ntopbutton").disabled = true;
+            document.getElementById("startbutton").disabled = false;
+            document.getElementById("mtopntoprtop1").innerHTML = 'NTOP'
+            document.getElementById("mtopntoprtop2").innerHTML = 'NTOP'
+            itt1NtopARC()
+            itt2NtopARC()
+            //showing the max for now
+            engineParameters.itt1 = 850
+            engineParameters.itt2 = 839
         } else if (change === false){
             this._ntop = false;
             this._mtop = true;
@@ -33,52 +48,122 @@ let engineParameters = {
     get ntop(){
         return this._ntop
     },
-    engStart: true,
-    propSelectorOn: false
+    _engStart: false,
+    set engStart(change){
+        if (change === true){
+            this._engStart = true;
+            document.getElementById("mtopbutton").disabled = false;
+            document.getElementById("ntopbutton").disabled = false;
+            document.getElementById("startbutton").disabled = true;
+            document.getElementById("mtopntoprtop1").innerHTML = '----'
+            document.getElementById("mtopntoprtop2").innerHTML = '----'
+            itt1EngStartARC()
+            itt2EngStartARC()
+            engineParameters.itt1 = 940
+            engineParameters.itt2 = 920
+        } else if (change === false){
+            this._engStart = false;
+            document.getElementById("startbutton").disabled = false;
+        }
+    },
+    get engStart(){
+        return this._engStart
+    },
+    propSelectorOn: false,
+    _trq1 : 0,
+    set trq1(newTrq){
+        this._trq1 = newTrq;
+        trq1DN(newTrq);
+    },
+    get trq1(){
+        return this._trq1;
+    },
+    _trq2 : 0,
+    set trq2(newTrq){
+        this._tq2 = newTrq;
+        trq2DN(newTrq);
+    },
+    get trq2(){
+        return this._trq2;
+    },
+    _itt1 : 0,
+    set itt1(newItt1){
+        this._itt1 = newItt1;
+        itt1DN(newItt1);
+    },
+    get itt1(){
+        return this._itt1;
+    },
+    _itt2 : 0,
+    set itt2(newItt2){
+        this._itt2 = newItt2;
+        itt2DN(newItt2);
+    },
+    get itt2(){
+        return this._itt2;
+    },
+    _np1 : 0,
+    set np1(newNp){
+        this._np1 = newNp
+        np1DN(newNp);
+    },
+    get np1(){
+        return this._np1;
+    },
+    _np2 : 0,
+    set np2(newNp){
+        this._np2 = newNp
+        np2DN(newNp);
+    },
+    get np2(){
+        return this._np2;
+    }
 }
 
-engineParameters.mtop = false;
-engineParameters.ntop = true;
+
+//engineParameters.engStart = true;
 
 function turnOnMTOP(){
-    console.log('mtop value before: ' + engineParameters.mtop)
     engineParameters.mtop = true
     console.log('mtop value after: ' + engineParameters.mtop)
-    console.log('ntop value before: ' + engineParameters.ntop)
-    console.log('ntop value after: ' + engineParameters.ntop)
 }
 
 function turnOnNTOP(){
-    console.log('mtop value before: ' + engineParameters.mtop)
-    console.log('mtop value after: ' + engineParameters.mtop)
-    console.log('ntop value before: ' + engineParameters.ntop)
     engineParameters.ntop = true
     console.log('ntop value after: ' + engineParameters.ntop)
 }
 
+function engineStart(){
+    engineParameters.engStart = true;
+}
 
 
 
 //TRQ1 start
 let trq1can = document.getElementById("trq1");
+
+let radiusBig = trq1can.width / 2
+
 let trq1Arc = trq1can.getContext("2d");
 let trq1Needle = trq1can.getContext("2d");
 let trq1Rad;
+trq1Arc.translate(radiusBig,radiusBig)
 //let trq1 = 106
 let oneTrqInRad = 4.01426/121.9
 
 let trq2can = document.getElementById("trq2");
 let trq2Arc = trq2can.getContext("2d");
 let trq2Needle = trq2can.getContext("2d");
+trq2Arc.translate(radiusBig,radiusBig)
 let trq2Rad;
 //let trq2 = 106
 
 //should be the same for everywhere--------------------------
-let radiusBig = trq1can.width / 2
+
 //should be the same for everywhere-------------------------
 
 function trq1ARC(){
-    trq1Arc.translate(radiusBig,radiusBig)
+    
 
 
     trq1Arc.beginPath();
@@ -165,7 +250,7 @@ function trq1DN(trq1){
 //trq2 start
 
 function trq2ARC(){
-    trq2Arc.translate(radiusBig,radiusBig)
+    
 
 
     trq2Arc.beginPath();
@@ -256,15 +341,17 @@ function trq2DN(trq2){
 let nh1can = document.getElementById("nh1");
 let nh1Arc = nh1can.getContext("2d");
 let nh1Needle = nh1can.getContext("2d");
+
 let nh1Rad;
 //let nh1 = 101.6
 
 let radiusSmall = nh1can.width / 2
+nh1Arc.translate(radiusSmall,radiusSmall)
 
 let onenhInRad = 4.188879 / 120
 
 function nh1ARC(){
-    nh1Arc.translate(radiusSmall,radiusSmall)
+    
 
 
     nh1Arc.beginPath();
@@ -359,11 +446,12 @@ function nh1DN(nh1){
 let nh2can = document.getElementById("nh2");
 let nh2Arc = nh2can.getContext("2d");
 let nh2Needle = nh2can.getContext("2d");
+nh2Arc.translate(radiusSmall,radiusSmall)
 let nh2Rad;
 //let nh2 = 64.2
 
 function nh2ARC(){
-    nh2Arc.translate(radiusSmall,radiusSmall)
+    
 
 
     nh2Arc.beginPath();
@@ -457,6 +545,7 @@ function nh2DN(nh2){
 let np1can = document.getElementById("np1");
 let np1Arc = np1can.getContext("2d");
 let np1Needle = np1can.getContext("2d");
+np1Arc.translate(radiusBig,radiusBig)
 let np1Rad;
 //let nh2 = 64.2
 
@@ -465,8 +554,6 @@ let oneNpInRad = 4.18879 / 1224
 console.log(radiusBig)
 
 function np1ARC(){
-    np1Arc.translate(radiusBig,radiusBig)
-
 
     np1Arc.beginPath();
     np1Arc.arc(0, 0, radiusBig * 0.9, 2.61799, 4.85899);
@@ -662,24 +749,28 @@ let itt1can = document.getElementById("itt1");
 let itt1Arc = itt1can.getContext("2d");
 let itt1Needle = itt1can.getContext("2d");
 let itt1Rad;
-
+itt1Arc.translate(radiusBig,radiusBig)
 let oneIttInRad = 4.71239  / 1196
 
-function itt1ARC(){
-    itt1Arc.translate(radiusBig,radiusBig)
+function itt1EngStartARC(){
+    
+    
+    //blank out previous arc
+    itt1Arc.beginPath()
+    itt1Arc.rect(-radiusBig * 1,-radiusBig * 1,radiusBig * 2,radiusBig * 2)
+    itt1Arc.fillStyle = "black"
+    itt1Arc.fill();
 
 
     itt1Arc.beginPath();
     itt1Arc.arc(0, 0, radiusBig * 0.9, 2.61799, 3.66518);
     itt1Arc.strokeStyle = "white"
     itt1Arc.lineWidth = radiusBig / 25
-
-
     itt1Arc.stroke();
 
     itt1Arc.beginPath();
     itt1Arc.arc(0, 0, radiusBig * 0.9, 3.66518, 0);
-    itt1Arc.strokeStyle = "#2eb82e"
+    itt1Arc.strokeStyle = "green"
     itt1Arc.stroke();
 
     itt1Arc.beginPath();
@@ -695,7 +786,80 @@ function itt1ARC(){
     itt1Arc.stroke();
 }
 
+
+//draw arc for ITT 1 at MTOP max 880 deg
+function itt1MtopARC(){
+    
+    
+    //blank out previous arc
+    itt1Arc.beginPath()
+    itt1Arc.rect(-radiusBig * 1,-radiusBig * 1,radiusBig * 2,radiusBig * 2)
+    itt1Arc.fillStyle = "black"
+    itt1Arc.fill();
+
+
+    itt1Arc.beginPath();
+    itt1Arc.arc(0, 0, radiusBig * 0.9, 2.61799, 3.66518);
+    itt1Arc.strokeStyle = "white"
+    itt1Arc.lineWidth = radiusBig / 25
+    itt1Arc.stroke();
+
+    itt1Arc.beginPath();
+    itt1Arc.arc(0, 0, radiusBig * 0.9, 3.66518, 6.10865);
+    itt1Arc.strokeStyle = "green"
+    itt1Arc.stroke();
+
+    itt1Arc.beginPath();
+    itt1Arc.arc(0, 0, radiusBig * 0.9, 6.10865, 1.0472);
+    itt1Arc.strokeStyle = "white"
+    itt1Arc.stroke();
+
+    itt1Arc.beginPath();
+    itt1Arc.strokeStyle = "red";
+    itt1Arc.lineWidth = radiusBig / 20
+    itt1Arc.moveTo((radiusBig * 0.80),(-radiusBig * 0.15));
+    itt1Arc.lineTo((radiusBig * 0.95),(-radiusBig * 0.17));
+    itt1Arc.stroke();
+}
+
+//draw arc for ITT 1 at N-TOP max 880 deg
+function itt1NtopARC(){
+    
+    
+    //blank out previous arc
+    itt1Arc.beginPath()
+    itt1Arc.rect(-radiusBig * 1,-radiusBig * 1,radiusBig * 2,radiusBig * 2)
+    itt1Arc.fillStyle = "black"
+    itt1Arc.fill();
+
+
+    itt1Arc.beginPath();
+    itt1Arc.arc(0, 0, radiusBig * 0.9, 2.61799, 3.66518);
+    itt1Arc.strokeStyle = "white"
+    itt1Arc.lineWidth = radiusBig / 25
+    itt1Arc.stroke();
+
+    itt1Arc.beginPath();
+    itt1Arc.arc(0, 0, radiusBig * 0.9, 3.66518, 5.93412);
+    itt1Arc.strokeStyle = "green"
+    itt1Arc.stroke();
+
+    itt1Arc.beginPath();
+    itt1Arc.arc(0, 0, radiusBig * 0.9, 5.93412, 1.0472);
+    itt1Arc.strokeStyle = "white"
+    itt1Arc.stroke();
+
+    itt1Arc.beginPath();
+    itt1Arc.strokeStyle = "red";
+    itt1Arc.lineWidth = radiusBig / 20
+    itt1Arc.moveTo((radiusBig * 0.77),(-radiusBig * 0.27));
+    itt1Arc.lineTo((radiusBig * 0.93),(-radiusBig * 0.32));
+    itt1Arc.stroke();
+}
+
 function itt1DN(itt1){
+    
+
 
     itt1Rad = (itt1 * oneIttInRad)
    
@@ -713,7 +877,7 @@ function itt1DN(itt1){
     itt1Arc.fill()
 
     //max value is 1224
-    if (itt1 > 920){
+    if (itt1 > 920 && engineParameters.engStart === true){
         
         itt1Arc.beginPath()
         itt1Arc.font = (radiusBig * 0.3) + "px Arial";
@@ -732,7 +896,7 @@ function itt1DN(itt1){
         itt1Needle.lineTo(-(radiusBig * 0.67),(radiusBig * 0.37))
         itt1Needle.rotate(-itt1Rad)
         itt1Needle.stroke();
-    } else if (itt1 <= 920){
+    } else if (itt1 <= 920 && engineParameters.engStart === true){
         itt1Arc.beginPath()
         itt1Arc.font = (radiusBig * 0.3) + "px Arial";
         itt1Arc.textAlign = "center"
@@ -750,33 +914,132 @@ function itt1DN(itt1){
         itt1Needle.lineTo(-(radiusBig * 0.67),(radiusBig * 0.37))
         itt1Needle.rotate(-itt1Rad)
         itt1Needle.stroke();
-    }
+    } else if (itt1 > 880 && engineParameters.mtop === true){
+        
+        itt1Arc.beginPath()
+        itt1Arc.font = (radiusBig * 0.3) + "px Arial";
+        itt1Arc.textAlign = "center"
+        itt1Arc.fillStyle = "red";
+        itt1Arc.fillText(itt1.toString(), (-radiusBig * 0.1) , radiusBig * 0.7);
+
+        itt1Needle.beginPath()
+        itt1Needle.lineCap = "round";
+        itt1Needle.lineWidth = radiusBig / 20
+        //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
+        itt1Needle.rotate(itt1Rad)
+        itt1Needle.moveTo(0,0)
+        itt1Needle.strokeStyle = "red"
+        //this is the initial position of the line at 0 trq
+        itt1Needle.lineTo(-(radiusBig * 0.67),(radiusBig * 0.37))
+        itt1Needle.rotate(-itt1Rad)
+        itt1Needle.stroke();
+    } else if (itt1 <= 880 && engineParameters.mtop === true){
+        
+        itt1Arc.beginPath()
+        itt1Arc.font = (radiusBig * 0.3) + "px Arial";
+        itt1Arc.textAlign = "center"
+        itt1Arc.fillStyle = "red";
+        itt1Arc.fillText(itt1.toString(), (-radiusBig * 0.1) , radiusBig * 0.7);
+
+        itt1Needle.beginPath()
+        itt1Needle.lineCap = "round";
+        itt1Needle.lineWidth = radiusBig / 20
+        //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
+        itt1Needle.rotate(itt1Rad)
+        itt1Needle.moveTo(0,0)
+        itt1Needle.strokeStyle = "white"
+        //this is the initial position of the line at 0 trq
+        itt1Needle.lineTo(-(radiusBig * 0.67),(radiusBig * 0.37))
+        itt1Needle.rotate(-itt1Rad)
+        itt1Needle.stroke();
+    } else if (itt1 > 839 && engineParameters.ntop === true){
+        
+        itt1Arc.beginPath()
+        itt1Arc.font = (radiusBig * 0.3) + "px Arial";
+        itt1Arc.textAlign = "center"
+        itt1Arc.fillStyle = "red";
+        itt1Arc.fillText(itt1.toString(), (-radiusBig * 0.1) , radiusBig * 0.7);
+
+        itt1Needle.beginPath()
+        itt1Needle.lineCap = "round";
+        itt1Needle.lineWidth = radiusBig / 20
+        //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
+        itt1Needle.rotate(itt1Rad)
+        itt1Needle.moveTo(0,0)
+        itt1Needle.strokeStyle = "red"
+        //this is the initial position of the line at 0 trq
+        itt1Needle.lineTo(-(radiusBig * 0.67),(radiusBig * 0.37))
+        itt1Needle.rotate(-itt1Rad)
+        itt1Needle.stroke();
+    } else if (itt1 > 880 && engineParameters.mtop === true){
+        
+        itt1Arc.beginPath()
+        itt1Arc.font = (radiusBig * 0.3) + "px Arial";
+        itt1Arc.textAlign = "center"
+        itt1Arc.fillStyle = "red";
+        itt1Arc.fillText(itt1.toString(), (-radiusBig * 0.1) , radiusBig * 0.7);
+
+        itt1Needle.beginPath()
+        itt1Needle.lineCap = "round";
+        itt1Needle.lineWidth = radiusBig / 20
+        //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
+        itt1Needle.rotate(itt1Rad)
+        itt1Needle.moveTo(0,0)
+        itt1Needle.strokeStyle = "red"
+        //this is the initial position of the line at 0 trq
+        itt1Needle.lineTo(-(radiusBig * 0.67),(radiusBig * 0.37))
+        itt1Needle.rotate(-itt1Rad)
+        itt1Needle.stroke();
+    } else if (itt1 > 880 && engineParameters.mtop === true){
+        
+        itt1Arc.beginPath()
+        itt1Arc.font = (radiusBig * 0.3) + "px Arial";
+        itt1Arc.textAlign = "center"
+        itt1Arc.fillStyle = "red";
+        itt1Arc.fillText(itt1.toString(), (-radiusBig * 0.1) , radiusBig * 0.7);
+
+        itt1Needle.beginPath()
+        itt1Needle.lineCap = "round";
+        itt1Needle.lineWidth = radiusBig / 20
+        //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
+        itt1Needle.rotate(itt1Rad)
+        itt1Needle.moveTo(0,0)
+        itt1Needle.strokeStyle = "red"
+        //this is the initial position of the line at 0 trq
+        itt1Needle.lineTo(-(radiusBig * 0.67),(radiusBig * 0.37))
+        itt1Needle.rotate(-itt1Rad)
+        itt1Needle.stroke();
+    
 }
 
 //itt2 start
 let itt2can = document.getElementById("itt2");
 let itt2Arc = itt2can.getContext("2d");
 let itt2Needle = itt2can.getContext("2d");
+itt2Arc.translate(radiusBig,radiusBig)
 let itt2Rad;
 //let nh2 = 64.2
 
 console.log(radiusBig)
 
-function itt2ARC(){
-    itt2Arc.translate(radiusBig,radiusBig)
+function itt2EngStartARC(){
+
+    //blank out previous arc
+    itt2Arc.beginPath()
+    itt2Arc.rect(-radiusBig * 1,-radiusBig * 1,radiusBig * 2,radiusBig * 2)
+    itt2Arc.fillStyle = "black"
+    itt2Arc.fill();
 
 
     itt2Arc.beginPath();
     itt2Arc.arc(0, 0, radiusBig * 0.9, 2.61799, 3.66518);
     itt2Arc.strokeStyle = "white"
     itt2Arc.lineWidth = radiusBig / 25
-
-
+    
     itt2Arc.stroke();
-
     itt2Arc.beginPath();
     itt2Arc.arc(0, 0, radiusBig * 0.9, 3.66518, 0);
-    itt2Arc.strokeStyle = "#2eb82e"
+    itt2Arc.strokeStyle = "green"
     itt2Arc.stroke();
 
     itt2Arc.beginPath();
@@ -791,6 +1054,77 @@ function itt2ARC(){
     itt2Arc.lineTo(radiusBig * 0.98,0)
     itt2Arc.stroke();
 }
+
+//draw arc for ITT 1 at MTOP max 880 deg
+function itt2MtopARC(){
+    
+    
+    //blank out previous arc
+    itt2Arc.beginPath()
+    itt2Arc.rect(-radiusBig * 1,-radiusBig * 1,radiusBig * 2,radiusBig * 2)
+    itt2Arc.fillStyle = "black"
+    itt2Arc.fill();
+
+
+    itt2Arc.beginPath();
+    itt2Arc.arc(0, 0, radiusBig * 0.9, 2.61799, 3.66518);
+    itt2Arc.strokeStyle = "white"
+    itt2Arc.lineWidth = radiusBig / 25
+    itt2Arc.stroke();
+
+    itt2Arc.beginPath();
+    itt2Arc.arc(0, 0, radiusBig * 0.9, 3.66518, 6.10865);
+    itt2Arc.strokeStyle = "green"
+    itt2Arc.stroke();
+
+    itt2Arc.beginPath();
+    itt2Arc.arc(0, 0, radiusBig * 0.9, 6.10865, 1.0472);
+    itt2Arc.strokeStyle = "white"
+    itt2Arc.stroke();
+
+    itt2Arc.beginPath();
+    itt2Arc.strokeStyle = "red";
+    itt2Arc.lineWidth = radiusBig / 20
+    itt2Arc.moveTo((radiusBig * 0.80),(-radiusBig * 0.15));
+    itt2Arc.lineTo((radiusBig * 0.95),(-radiusBig * 0.17));
+    itt2Arc.stroke();
+}
+
+//draw arc for ITT 1 at N-TOP max 880 deg
+function itt2NtopARC(){
+    
+    
+    //blank out previous arc
+    itt2Arc.beginPath()
+    itt2Arc.rect(-radiusBig * 1,-radiusBig * 1,radiusBig * 2,radiusBig * 2)
+    itt2Arc.fillStyle = "black"
+    itt2Arc.fill();
+
+
+    itt2Arc.beginPath();
+    itt2Arc.arc(0, 0, radiusBig * 0.9, 2.61799, 3.66518);
+    itt2Arc.strokeStyle = "white"
+    itt2Arc.lineWidth = radiusBig / 25
+    itt2Arc.stroke();
+
+    itt2Arc.beginPath();
+    itt2Arc.arc(0, 0, radiusBig * 0.9, 3.66518, 5.93412);
+    itt2Arc.strokeStyle = "green"
+    itt2Arc.stroke();
+
+    itt2Arc.beginPath();
+    itt2Arc.arc(0, 0, radiusBig * 0.9, 5.93412, 1.0472);
+    itt2Arc.strokeStyle = "white"
+    itt2Arc.stroke();
+
+    itt2Arc.beginPath();
+    itt2Arc.strokeStyle = "red";
+    itt2Arc.lineWidth = radiusBig / 20
+    itt2Arc.moveTo((radiusBig * 0.77),(-radiusBig * 0.27));
+    itt2Arc.lineTo((radiusBig * 0.93),(-radiusBig * 0.32));
+    itt2Arc.stroke();
+}
+
 
 function itt2DN(itt2){
 
@@ -1040,8 +1374,7 @@ function animateAll(){
     trq2ARC()
     nh1ARC()
     nh2ARC()
-    np1ARC()
-    np2ARC()
+ 
 
     itt1ARC()
     itt2ARC()
@@ -1128,7 +1461,7 @@ function displayAllStatic(){
     nh2DN(93.2)
     np1DN(850)
     np2DN(850)
-    itt1DN(1196)
+    itt1DN(920)
     itt2DN(1196)
     
 
@@ -1136,7 +1469,28 @@ function displayAllStatic(){
 }
 
 //animateAll()
-displayAllStatic()
+//displayAllStatic()
+
+//startup
+
+engineParameters.engStart = true;
+
+trq1ARC();
+trq2ARC();
+
+engineParameters.trq1 = 108
+engineParameters.trq2 = 106
+
+np1ARC();
+np2ARC();
+engineParameters.np1 = 1077;
+engineParameters.np2 = 1071;
+
+
+
+engineParameters.itt1 = 925;
+engineParameters.itt2 = 920;
+
 
 
 //let trqInt = setInterval(incrTrq90, 1000)
