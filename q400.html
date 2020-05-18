@@ -9,12 +9,21 @@
 <body>
 
     <div id="ed-disp" class="ed-disp">
+        Engine
+        <br>
         <button id="startbutton" onclick="engineStart()">Engine Start</button>
         <button id="mtopbutton" onclick="turnOnMTOP()">MTOP</button>
         <button id="ntopbutton" onclick="turnOnNTOP()">NTOP</button>
+        <br>
+        Engine Oil
+        <br>
         <button id="propsON">Prop Selector ON</button>
         <button id="propsON">Prop Selector OFF</button>
+        <button id="propsON">Power levers between FI and DISC</button>
         <br>
+        Values<br>
+        <button id="randomall" onclick="randomizeTimer()">Randomize On/Off</button>
+        <button id="halfabovemax" onclick="halfAboveMax()">Static Values</button>
         <br>
         <table>
             <tr>
@@ -53,7 +62,8 @@
                                 <canvas id="trq1" width="150" height="125""></canvas>
                             </td>
                             <td class="rowone" style="width: 75px;">
-                                TRQ %
+                                TRQ<br>
+                                %
                             </td>
                             <td class="rowone">
                                 <canvas id="trq2" width="150" height="125""></canvas>
@@ -124,7 +134,7 @@
                     </table>
                     <table>
                         <tr>
-                            <td id="nl1" class="rowone" style="width: 125px;">
+                            <td id="nl1" class="rowone" style="width: 125px; vertical-align: bottom; text-align: left;">
 
                             </td>
                            <td class="rowone">
@@ -138,14 +148,14 @@
                         <td class="rowone">
                             <canvas id="itt2" width="150" height="150""></canvas>  
                         </td>
-                       <td id="nl2" class="rowone" style="width: 125px;">
+                       <td id="nl2" class="rowone" style="width: 125px; vertical-align: bottom; text-align: right;">
 
                        </td>
                         </tr>
                     </table>
                     <table>
                         <tr>
-                         
+                        
                         <td class="rowone">
                             <canvas id="oil1" width="200" height="200""></canvas>
                         </td>

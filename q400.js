@@ -80,10 +80,13 @@ let engineParameters = {
     get engStart(){
         return this._engStart
     },
-    propSelectorOn: false,
+    _propSelectorOn: false,
+    _plaBetweenFIandDisc: false,
+    _threeMinsAfterTO: false,
     _trq1 : 0,
     set trq1(newTrq){
         this._trq1 = newTrq;
+        trq1ARC();
         trq1DN(newTrq);
     },
     get trq1(){
@@ -92,6 +95,7 @@ let engineParameters = {
     _trq2 : 0,
     set trq2(newTrq){
         this._tq2 = newTrq;
+        trq2ARC();
         trq2DN(newTrq);
     },
     get trq2(){
@@ -132,6 +136,8 @@ let engineParameters = {
     _np1 : 0,
     set np1(newNp){
         this._np1 = newNp
+        np1ARC();
+
         np1DN(newNp);
     },
     get np1(){
@@ -140,6 +146,7 @@ let engineParameters = {
     _np2 : 0,
     set np2(newNp){
         this._np2 = newNp
+        np2ARC();
         np2DN(newNp);
     },
     get np2(){
@@ -148,7 +155,7 @@ let engineParameters = {
     _ff1 : 0,
     set ff1(newFf){
         this._ff1 = newFf;
-        document.getElementById("ff1").innerHTML = '<p>FF<br></p><p style="color:#3399ff">PPH<BR></p>' + engineParameters.ff1;
+        document.getElementById("ff1").innerHTML = '<p>FF<br></p><p style="color:#3399ff">PPH<BR></p>' + newFf;
     },
     get ff1(){
         return this._ff1;
@@ -156,13 +163,52 @@ let engineParameters = {
     _ff2 : 0,
     set ff2(newFf){
         this._ff2 = newFf;
-        document.getElementById("ff2").innerHTML = '<p>FF<br></p><p style="color:#3399ff">PPH<BR></p>' + engineParameters.ff2;
+        document.getElementById("ff2").innerHTML = '<p>FF<br></p><p style="color:#3399ff">PPH<BR></p>' + newFf;
     },
     get ff2(){
         return this._ff2;
-    }
+    },
+    _nl1 : 0,
+    set nl1(newNl){
+        this._nl1 = newNl;
+        if (newNl > 100 && engineParameters.mtop === true){
+            document.getElementById("nl1").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + '<p style="color:red">' + newNl + '</p>';
+        } else if (newNl <= 100 && engineParameters.mtop === true){
+            document.getElementById("nl1").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + newNl;
+        } else if (newNl > 97.7 && engineParameters.mtop === false){
+            document.getElementById("nl1").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + '<p style="color:red">' + newNl + '</p>';
+        } else if (newNl <= 97.7 && engineParameters.mtop === false){
+            document.getElementById("nl1").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + newNl;
+        } 
+        
+    },
+    get nl1(){
+        return this._nl1;
+    },
+    _nl2 : 0,
+    set nl2(newNl){
+        this._nl2 = newNl;
+        if (newNl > 100 && engineParameters.mtop === true){
+            document.getElementById("nl2").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + '<p style="color:red">' + newNl + '</p>';
+        } else if (newNl <= 100 && engineParameters.mtop === true){
+            document.getElementById("nl2").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + newNl;
+        } else if (newNl > 97.7 && engineParameters.mtop === false){
+            document.getElementById("nl2").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + '<p style="color:red">' + newNl + '</p>';
+        } else if (newNl <= 97.7 && engineParameters.mtop === false){
+            document.getElementById("nl2").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + newNl;
+        } 
+    },
+    get nl2(){
+        return this._nl2;
+    },
+    randomAnimation : false,
+    oil1Temp : 0,
+    oil2Temp : 0,
+    oil1Press : 0,
+    oil2Press : 0,
 }
 
+let intervalId;
 
 //engineParameters.engStart = true;
 
@@ -242,8 +288,7 @@ function trq1DN(trq1){
     //green arc 0-100 yellow 100-106 red radial 106 over limit above 106. 0 trq = 0 rad, 122 trq = 4 rad, 106trq=3.49066
    
 
-    console.log('trq value : ' + trq1)
-    console.log('radian of trq : ' + trq1Rad)
+ 
 
     //this line blanks out the previous line drawings of the needle and text
     trq1Arc.beginPath()
@@ -330,8 +375,7 @@ function trq2DN(trq2){
     //green arc 0-100 yellow 100-106 red radial 106 over limit above 106. 0 trq = 0 rad, 122 trq = 4 rad, 106trq=3.49066
    
 
-    console.log('trq value : ' + trq2)
-    console.log('radian of trq : ' + trq2Rad)
+ 
 
     //this line blanks out the previous line drawings of the needle and text
     trq2Arc.beginPath()
@@ -469,8 +513,7 @@ function nh1DN(nh1){
     //green arc 0-100 yellow 100-106 red radial 106 over limit above 106. 0 trq = 0 rad, 122 trq = 4 rad, 106trq=3.49066
    
 
-    console.log('nh1 value : ' + nh1)
-    console.log('radian of nh1 : ' + nh1Rad)
+  
 
     //this line blanks out the previous line drawings of the needle and text
     nh1Arc.beginPath()
@@ -520,7 +563,7 @@ function nh1DN(nh1){
         nh1Needle.lineTo(-(radiusSmall * 0.65),(radiusSmall * 0.38))
         nh1Needle.rotate(-nh1Rad)
         nh1Needle.stroke();
-    } else if (nh1 > 98.3 && engineParameters.ntop === true){
+    } else if (nh1 > 98.3 && engineParameters.mtop === false){
         nh1Arc.beginPath()
         nh1Arc.font = (radiusSmall * 0.3) + "px Arial";
         nh1Arc.textAlign = "center"
@@ -538,7 +581,7 @@ function nh1DN(nh1){
         nh1Needle.lineTo(-(radiusSmall * 0.65),(radiusSmall * 0.38))
         nh1Needle.rotate(-nh1Rad)
         nh1Needle.stroke();
-    } else if (nh1 <= 98.3 && engineParameters.ntop === true){
+    } else if (nh1 <= 98.3 && engineParameters.mtop === false){
         nh1Arc.beginPath()
         nh1Arc.font = (radiusSmall * 0.3) + "px Arial";
         nh1Arc.textAlign = "center"
@@ -743,7 +786,7 @@ let np1Rad;
 
 let oneNpInRad = 4.18879 / 1224
 
-console.log(radiusBig)
+
 
 function np1ARC(){
 
@@ -786,8 +829,7 @@ function np1DN(np1){
     //green arc 0-100 yellow 100-106 red radial 106 over limit above 106. 0 trq = 0 rad, 122 trq = 4 rad, 106trq=3.49066
    
 
-    console.log('trq value : ' + np1)
-    console.log('radian of trq : ' + np1Rad)
+ 
 
     //this line blanks out the previous line drawings of the needle and text
     np1Arc.beginPath()
@@ -840,11 +882,12 @@ function np1DN(np1){
 let np2can = document.getElementById("np2");
 let np2Arc = np2can.getContext("2d");
 let np2Needle = np2can.getContext("2d");
+np2Arc.translate(radiusBig,radiusBig)
 let np2Rad;
 //let nh2 = 64.2
 
 function np2ARC(){
-    np2Arc.translate(radiusBig,radiusBig)
+    
 
 
     np2Arc.beginPath();
@@ -1050,7 +1093,7 @@ function itt1NtopARC(){
 }
 
 function itt1DN(itt1){
-    console.log('engstart,mtop,ntop : ' + engineParameters.engStart, engineParameters.mtop, engineParameters.ntop)
+
 
     itt1Rad = (itt1 * oneIttInRad)
    
@@ -1058,8 +1101,7 @@ function itt1DN(itt1){
     //green arc 0-100 yellow 100-106 red radial 106 over limit above 106. 0 trq = 0 rad, 122 trq = 4 rad, 106trq=3.49066
    
 
-    console.log('trq value : ' + itt1)
-    console.log('radian of trq : ' + itt1Rad)
+
 
     //this line blanks out the previous line drawings of the needle and text
     itt1Arc.beginPath()
@@ -1192,7 +1234,7 @@ itt2Arc.translate(radiusBig,radiusBig)
 let itt2Rad;
 //let nh2 = 64.2
 
-console.log(radiusBig)
+
 
 function itt2EngStartARC(){
 
@@ -1306,8 +1348,7 @@ function itt2DN(itt2){
     //green arc 0-100 yellow 100-106 red radial 106 over limit above 106. 0 trq = 0 rad, 122 trq = 4 rad, 106trq=3.49066
    
 
-    console.log('trq value : ' + itt2)
-    console.log('radian of trq : ' + itt2Rad)
+ 
 
     //this line blanks out the previous line drawings of the needle and text
     itt2Arc.beginPath()
@@ -1369,10 +1410,11 @@ let oil1Rad;
 
 radiusOil = (oil1can.width / 2)
 
-console.log('oil1 radian value:' + oil1Rad)
-
-
 let oneOilTempInRad = 2.44346 / 200
+
+let oneOilPsiInRadto44 = 0.523599 / 44
+let oneOilPsiInRadfrom44 = 1.91986 / 50
+let oneOilPsiInRadfrom61 = 1.22173 / 27
 
 function oil1ARC(){
     oil1Arc.translate((oil1can.width / 2),(oil1can.width / 2))
@@ -1411,12 +1453,31 @@ function oil1ARC(){
 
     //oil PSI
     oil1Arc.beginPath();
-    oil1Arc.arc(0, 0, radiusSmall * 0.9, 4.97419, 1.309);
+    oil1Arc.arc(0, 0, radiusSmall * 0.9, 4.97419, 5.75959);
+    oil1Arc.strokeStyle = "yellow"
+    oil1Arc.lineWidth = radiusSmall / 17
+    oil1Arc.stroke();
+
+    oil1Arc.beginPath();
+    oil1Arc.arc(0, 0, radiusSmall * 0.9, 5.75959, 0);
+    oil1Arc.strokeStyle = "green"
+    oil1Arc.lineWidth = radiusSmall / 17
+    oil1Arc.stroke();
+   
+    oil1Arc.beginPath();
+    oil1Arc.arc(0, 0, radiusSmall * 0.9, 0, 0.698132);
+    oil1Arc.strokeStyle = "yellow"
+    oil1Arc.lineWidth = radiusSmall / 17
+    oil1Arc.stroke();
+
+    oil1Arc.beginPath();
+    oil1Arc.arc(0, 0, radiusSmall * 0.9, 0.698132, 1.22173);
     oil1Arc.strokeStyle = "white"
     oil1Arc.lineWidth = radiusSmall / 17
     oil1Arc.stroke();
 
-    
+
+    //red ticks oil temp
 
     oil1Arc.beginPath();
     oil1Arc.strokeStyle = "red";
@@ -1432,20 +1493,29 @@ function oil1ARC(){
     oil1Arc.lineTo(-radiusSmall * 0.40,(radiusSmall * .9))
     oil1Arc.stroke();
 
+    //red ticks oil pressure
+    oil1Arc.beginPath();
+    oil1Arc.strokeStyle = "red";
+    oil1Arc.lineWidth = radiusSmall / 17
+    oil1Arc.moveTo((radiusSmall * 0.65),(radiusSmall * 0.55));
+    oil1Arc.lineTo(radiusSmall * 0.80,(radiusSmall * .65))
+    oil1Arc.stroke();
+    
+
 
     console.log('radius small : ' + radiusSmall * 0.5)
 }
 
-function oil1DN(oil1){
-    //oil1 = Math.floor(Math.random() * 122)
-    oil1CRad = (oil1 * oneOilTempInRad)
-   
+function oil1DN(oil1Temp, oil1Press){
+    console.log('oil function running')
 
+    let oil1TRad = (oil1Temp * oneOilTempInRad)
+    let oil1PRadto44 = (oil1Press * oneOilPsiInRadto44)
+    let oil1PRadfrom44 = ((oil1Press - 44) * oneOilPsiInRadfrom44)
+    let oil1PRadfrom61 = ((oil1Press - 61) * oneOilPsiInRadfrom61)
+
+    console.log('oil function running')
     //green arc 0-100 yellow 100-106 red radial 106 over limit above 106. 0 trq = 0 rad, 122 trq = 4 rad, 106trq=3.49066
-   
-
-    console.log('oil1 value : ' + oil1)
-    console.log('radian of oil1 : ' + oil1Rad)
 
     //this line blanks out the previous line drawings of the needle and text
     oil1Arc.beginPath()
@@ -1462,13 +1532,14 @@ function oil1DN(oil1){
     oil1Arc.rect((radiusOil * 0.50),(-radiusOil * 0.7),(radiusOil * 0.4),(radiusOil * 0.25))
     oil1Arc.fillStyle = "black";
     oil1Arc.fill();
-
-    if (oil1 > 107){
-        
+    console.log('oil function running')
+    if (oil1Temp > 107){
+        console.log('oil function running')
+        oil1Arc.beginPath()
         oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
         oil1Arc.textAlign = "center"
         oil1Arc.fillStyle = "red";
-        oil1Arc.fillText(oil1, radiusSmall * -1.1, radiusSmall * -0.8);
+        oil1Arc.fillText(oil1Temp, radiusSmall * -1.1, radiusSmall * -0.8);
 
         oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
         oil1Arc.textAlign = "center"
@@ -1478,7 +1549,7 @@ function oil1DN(oil1){
         oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
         oil1Arc.textAlign = "center"
         oil1Arc.fillStyle = "red";
-        oil1Arc.fillText(oil1, radiusSmall * 1.1, radiusSmall * -0.8);
+        oil1Arc.fillText(oil1Press, radiusSmall * 1.1, radiusSmall * -0.8);
 
         oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
         oil1Arc.textAlign = "center"
@@ -1490,90 +1561,145 @@ function oil1DN(oil1){
         oil1Needle.lineWidth = radiusSmall / 17
         //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
         
-        oil1Needle.rotate(oil1CRad)
+        oil1Needle.rotate(oil1TRad)
         
         oil1Needle.moveTo(0,0)
         oil1Needle.strokeStyle = "red"
         //this is the initial position of the line at 0 trq
         oil1Needle.lineTo(-(radiusSmall * 0.57),(radiusSmall * 0.48))
-        oil1Needle.rotate(-oil1CRad)
+        oil1Needle.rotate(-oil1TRad)
         
         oil1Needle.stroke();
-    } else if (oil1 <= 107){
-        oil1Arc.beginPath()
-
-        oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
-        oil1Arc.textAlign = "center"
-        oil1Arc.fillStyle = "white";
-        oil1Arc.fillText(oil1, radiusSmall * -1.1, radiusSmall * -0.8);
-
-        oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
-        oil1Arc.textAlign = "center"
-        oil1Arc.fillStyle = "#3399ff";
-        oil1Arc.fillText('°C', radiusSmall * -1.1, radiusSmall * -1.2);
-
-        oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
-        oil1Arc.textAlign = "center"
-        oil1Arc.fillStyle = "white";
-        oil1Arc.fillText(oil1, radiusSmall * 1.1, radiusSmall * -0.8);
-
-        oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
-        oil1Arc.textAlign = "center"
-        oil1Arc.fillStyle = "#3399ff";
-        oil1Arc.fillText('PSI', radiusSmall * 1.1, radiusSmall * -1.2);
-
-    
-        oil1Needle.beginPath()
-        oil1Needle.lineCap = "round";
-        oil1Needle.lineWidth = radiusSmall / 17
-    
-        oil1Needle.rotate(oil1CRad)
-        oil1Needle.moveTo(0,0)
-        oil1Needle.strokeStyle = "white"
-        //this is the initial position of the line at 0 trq
-        oil1Needle.lineTo(-(radiusSmall * 0.57),(radiusSmall * 0.48))
-        oil1Needle.rotate(-oil1CRad)
-        oil1Needle.stroke();
     }
+
+///oilpresure
+
+        if (oil1Press <= 44){
+            console.log('less than 44 psi ' + (-oil1PRadfrom44))
+            oil1Needle.beginPath()
+            oil1Needle.lineCap = "round";
+            oil1Needle.lineWidth = radiusSmall / 17
+            //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
+            console.log(-oil1PRadto44)
+
+            oil1Needle.rotate(-oil1PRadto44)
+            
+            oil1Needle.moveTo(0,0)
+            oil1Needle.strokeStyle = "red"
+            //this is the initial position of the line at 0 trq
+            oil1Needle.lineTo((radiusSmall * 0.27),(radiusSmall * 0.7))
+            oil1Needle.rotate(oil1PRadto44)
+            
+            oil1Needle.stroke();
+        } else if (oil1Press > 44 && oil1Press <= 61){
+            oil1Needle.beginPath()
+            oil1Needle.lineCap = "round";
+            oil1Needle.lineWidth = radiusSmall / 17
+            //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
+       
+            
+            console.log('over 44 psi ' + (-oil1PRadfrom44))
+
+            oil1Needle.rotate(-oil1PRadfrom44 - 0.523599)
+            
+            oil1Needle.moveTo(0,0)
+            oil1Needle.strokeStyle = "red"
+            //this is the initial position of the line at 0 trq
+            oil1Needle.lineTo((radiusSmall * 0.27),(radiusSmall * 0.7))
+
+         
+            console.log('over 44 psi ' + oil1PRadfrom44)
+            oil1Needle.rotate(oil1PRadfrom44 + 0.523599)
+            
+            oil1Needle.stroke();
+        } else if (oil1Press > 61){
+           
+            console.log('OVER 61')
+            oil1Needle.rotate(-oil1PRadfrom61 - 1.22173)
+            
+            oil1Needle.moveTo(0,0)
+            oil1Needle.strokeStyle = "red"
+            //this is the initial position of the line at 0 trq
+            oil1Needle.lineTo((radiusSmall * 0.27),(radiusSmall * 0.7))
+
+            //oil1PRadto44 -= 0.523599
+           
+            oil1Needle.rotate(oil1PRadfrom61 + 1.22173)
+            
+            oil1Needle.stroke();
+        }
+
+    
 }
 
 
 
 //-----everything runs after this
-function animateAll(){
+function randomizeTimer(){
+    if (engineParameters.randomAnimation === false){
+        intervalId = setInterval(randomAll, 500)
+        engineParameters.randomAnimation = true;
+    } else if (engineParameters.randomAnimation === true) {
+        clearInterval(intervalId)
+        engineParameters.randomAnimation = false;
+    }
+}
+
+function halfAboveMax(){
+    engineParameters.trq1 = 110
     
-    trq1ARC()
-    trq2ARC()
-    nh1ARC()
-    nh2ARC()
- 
+    engineParameters.trq2 = 55
+    
+    engineParameters.nh1 = 105
+    
+    engineParameters.nh2 = 64.2
+    
+    engineParameters.np1 = 1077
+    
+    engineParameters.np2 = 660
+    
+    engineParameters.ff1 = 4000
+    
+    engineParameters.ff2 = 2000
+    
+    engineParameters.itt1 = 1000
+    
+    engineParameters.itt2 = 250
+    
+    engineParameters.nl1 = 110
+    
+    engineParameters.nl2 = 55
 
-    itt1ARC()
-    itt2ARC()
-
-    setInterval(randomAll, 500)
-   
     
 }
 
 function randomAll(){
-    let randomNum = Math.floor(Math.random() * 122)
-    trq1DN(randomNum)
-    randomNum = Math.floor(Math.random() * 122)
-    trq2DN(randomNum)
-    randomNum = Math.floor(Math.random() * 120)
-    nh1DN(randomNum)
-    randomNum = Math.floor(Math.random() * 120)
-    nh2DN(randomNum)
-    randomNum = Math.floor(Math.random() * 1224)
-    np1DN(randomNum)
-    randomNum = Math.floor(Math.random() * 1224)
-    np2DN(randomNum)
-    randomNum = Math.floor(Math.random() * 1196)
-    itt1DN(randomNum)
-    randomNum = Math.floor(Math.random() * 1196)
-    itt2DN(randomNum)
+    let randomNum = Math.floor(Math.random() * 125)
+    engineParameters.trq1 = randomNum
+    randomNum = Math.floor(Math.random() * 125)
+    engineParameters.trq2 = randomNum
+    randomNum = Math.floor(Math.random() * 105)
+    engineParameters.nh1 = randomNum
+    randomNum = Math.floor(Math.random() * 105)
+    engineParameters.nh2 = randomNum
+    randomNum = Math.floor(Math.random() * 1100)
+    engineParameters.np1 = randomNum
+    randomNum = Math.floor(Math.random() * 1100)
+    engineParameters.np2 = randomNum
+    randomNum = Math.floor(Math.random() * 4000)
+    engineParameters.ff1 = randomNum
+    randomNum = Math.floor(Math.random() * 4000)
+    engineParameters.ff2 = randomNum
+    randomNum = Math.floor(Math.random() * 1000)
+    engineParameters.itt1 = randomNum
+    randomNum = Math.floor(Math.random() * 1000)
+    engineParameters.itt2 = randomNum
+    randomNum = Math.floor(Math.random() * 110)
+    engineParameters.nl1 = randomNum
+    randomNum = Math.floor(Math.random() * 110)
+    engineParameters.nl2 = randomNum
 
+    oil1DN(randomNum,randomNum)
 
 }
 let i = 0;
@@ -1616,52 +1742,30 @@ function incrTrq90(){
     }
 
 
-function displayAllStatic(){
-    trq1ARC()
-    trq2ARC()
-    nh1ARC()
-    nh2ARC()
-    np1ARC()
-    np2ARC()
-    itt1ARC()
-    itt2ARC()
-    oil1ARC()
 
-    trq1DN(80)
-    trq2DN(80)
-    nh1DN(92.7)
-    nh2DN(93.2)
-    np1DN(850)
-    np2DN(850)
-    itt1DN(920)
-    itt2DN(1196)
-    
-
-    oil1DN(107)
-}
-
-//animateAll()
-//displayAllStatic()
-
-//startup
 
 engineParameters.ntop = true;
 
-trq1ARC();
-trq2ARC();
-
-engineParameters.trq1 = 108
-engineParameters.trq2 = 106
 
 
+engineParameters.trq1 = 108;
+engineParameters.trq2 = 106;
 
-np1ARC();
-np2ARC();
+
+
+
 engineParameters.np1 = 1077;
 engineParameters.np2 = 1071;
 
-engineParameters.ff1 = 950
-engineParameters.ff2 = 950
+engineParameters.ff1 = 950;
+engineParameters.ff2 = 950;
+
+engineParameters.nl1 = 77;
+engineParameters.nl2 = 97.8;
+
+oil1ARC();
+oil1DN(111,55);
+
 
 
 //let trqInt = setInterval(incrTrq90, 1000)
