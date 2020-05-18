@@ -8,8 +8,8 @@ let engineParameters = {
             document.getElementById("mtopbutton").disabled = true;
             document.getElementById("ntopbutton").disabled = false;
             document.getElementById("startbutton").disabled = false;
-            document.getElementById("mtopntoprtop1").innerHTML = 'MTOP'
-            document.getElementById("mtopntoprtop2").innerHTML = 'MTOP'
+            document.getElementById("mtopntoprtop1").innerHTML = 'MTOP<br>-- %'
+            document.getElementById("mtopntoprtop2").innerHTML = 'MTOP<br>-- %'
             itt1MtopARC()
             itt2MtopARC()
             nh1MtopARC()
@@ -37,8 +37,8 @@ let engineParameters = {
             document.getElementById("mtopbutton").disabled = false;
             document.getElementById("ntopbutton").disabled = true;
             document.getElementById("startbutton").disabled = false;
-            document.getElementById("mtopntoprtop1").innerHTML = 'NTOP'
-            document.getElementById("mtopntoprtop2").innerHTML = 'NTOP'
+            document.getElementById("mtopntoprtop1").innerHTML = 'NTOP<br>-- %'
+            document.getElementById("mtopntoprtop2").innerHTML = 'NTOP<br>-- %'
             itt1NtopARC()
             itt2NtopARC()
             nh1NtopARC()
@@ -66,8 +66,8 @@ let engineParameters = {
             document.getElementById("mtopbutton").disabled = false;
             document.getElementById("ntopbutton").disabled = false;
             document.getElementById("startbutton").disabled = true;
-            document.getElementById("mtopntoprtop1").innerHTML = '----'
-            document.getElementById("mtopntoprtop2").innerHTML = '----'
+            document.getElementById("mtopntoprtop1").innerHTML = '----<br>-- %'
+            document.getElementById("mtopntoprtop2").innerHTML = '----<br>-- %'
             itt1EngStartARC()
             itt2EngStartARC()
             engineParameters.itt1 = 940
@@ -144,6 +144,22 @@ let engineParameters = {
     },
     get np2(){
         return this._np2;
+    },
+    _ff1 : 0,
+    set ff1(newFf){
+        this._ff1 = newFf;
+        document.getElementById("ff1").innerHTML = '<p>FF<br></p><p style="color:#3399ff">PPH<BR></p>' + engineParameters.ff1;
+    },
+    get ff1(){
+        return this._ff1;
+    },
+    _ff2 : 0,
+    set ff2(newFf){
+        this._ff2 = newFf;
+        document.getElementById("ff2").innerHTML = '<p>FF<br></p><p style="color:#3399ff">PPH<BR></p>' + engineParameters.ff2;
+    },
+    get ff2(){
+        return this._ff2;
     }
 }
 
@@ -1644,7 +1660,8 @@ np2ARC();
 engineParameters.np1 = 1077;
 engineParameters.np2 = 1071;
 
-
+engineParameters.ff1 = 950
+engineParameters.ff2 = 950
 
 
 //let trqInt = setInterval(incrTrq90, 1000)

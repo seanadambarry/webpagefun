@@ -16,11 +16,10 @@ table{
     margin: auto;
     background-color: black;
     table-layout: fixed;
-    font: Arial;
 }
 .rowone {
     white-space: nowrap;
-    /*border : 2px white solid;*/
+    border : 2px white solid;
     color: white;
     width: 150px;
     padding: 0px;
@@ -29,7 +28,7 @@ table{
 
 .rowtwo {
     white-space: nowrap;
-    /*border : 2px white solid;*/
+    border : 2px white solid;
     color: white;
     width: 125px;
     padding: 0px;
@@ -38,4 +37,9 @@ table{
 
 div {
     text-align: center;
+}
+
+p {
+    margin: 0;
+    padding: 0;
 }
