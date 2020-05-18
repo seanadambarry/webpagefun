@@ -8,8 +8,8 @@ let engineParameters = {
             document.getElementById("mtopbutton").disabled = true;
             document.getElementById("ntopbutton").disabled = false;
             document.getElementById("startbutton").disabled = false;
-            document.getElementById("mtopntoprtop1").innerHTML = 'MTOP<br>-- %'
-            document.getElementById("mtopntoprtop2").innerHTML = 'MTOP<br>-- %'
+            document.getElementById("mtopntoprtop1").innerHTML = 'MTOP<br><p style="color: #3399ff;">-- %</p> '
+            document.getElementById("mtopntoprtop2").innerHTML = 'MTOP<br><p style="color: #3399ff;">-- %</p> '
             itt1MtopARC()
             itt2MtopARC()
             nh1MtopARC()
@@ -37,8 +37,8 @@ let engineParameters = {
             document.getElementById("mtopbutton").disabled = false;
             document.getElementById("ntopbutton").disabled = true;
             document.getElementById("startbutton").disabled = false;
-            document.getElementById("mtopntoprtop1").innerHTML = 'NTOP<br>-- %'
-            document.getElementById("mtopntoprtop2").innerHTML = 'NTOP<br>-- %'
+            document.getElementById("mtopntoprtop1").innerHTML = 'NTOP<br><p style="color: #3399ff;">-- %</p> '
+            document.getElementById("mtopntoprtop2").innerHTML = 'NTOP<br><p style="color: #3399ff;">-- %</p> '
             itt1NtopARC()
             itt2NtopARC()
             nh1NtopARC()
@@ -66,8 +66,8 @@ let engineParameters = {
             document.getElementById("mtopbutton").disabled = false;
             document.getElementById("ntopbutton").disabled = false;
             document.getElementById("startbutton").disabled = true;
-            document.getElementById("mtopntoprtop1").innerHTML = '----<br>-- %'
-            document.getElementById("mtopntoprtop2").innerHTML = '----<br>-- %'
+            document.getElementById("mtopntoprtop1").innerHTML = '----<br><p style="color: #3399ff;">-- %</p> '
+            document.getElementById("mtopntoprtop2").innerHTML = '----<br><p style="color: #3399ff;">-- %</p> '
             itt1EngStartARC()
             itt2EngStartARC()
             engineParameters.itt1 = 940
