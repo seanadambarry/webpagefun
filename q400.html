@@ -25,7 +25,7 @@
         <button id="randomall" onclick="randomizeTimer()">Randomize On/Off</button>
         <button id="halfabovemax" onclick="halfAboveMax()">Static Values</button>
         <br>
-        <table>
+        <table class="rcorners">
             <tr>
                 <td><table>
                     <tr>
@@ -61,9 +61,9 @@
                             <td class="rowone">
                                 <canvas id="trq1" width="150" height="125""></canvas>
                             </td>
-                            <td class="rowone" style="width: 75px;">
+                            <td class="rowone" style="width: 75px; vertical-align: top;">
                                 TRQ<br>
-                                %
+                                <p style="color: #3399ff;">%</p> 
                             </td>
                             <td class="rowone">
                                 <canvas id="trq2" width="150" height="125""></canvas>
@@ -82,13 +82,13 @@
                                 <canvas id="nh1" width="125" height="100""></canvas>
                             </td>
                             <td class="rowtwo">
-                                test
+                                
                             </td>
                             <td class="rowtwo">
-                                test
+                                
                             </td>
                             <td class="rowtwo">
-                                test
+                                
                             </td>
                             <td class="rowtwo">
                                 <canvas id="nh2" width="125" height="100""></canvas>
@@ -101,10 +101,10 @@
                            <td class="rowone">
                             <canvas id="np1" width="150" height="125""></canvas>
                         </td>
-                        <td class="rowone" style="width: 75px;">
+                        <td class="rowone" style="width: 75px; vertical-align: top;">
                             PROP 
                             <br>
-                            %RPM
+                            <p style="color: #3399ff;">%RPM</p> 
                         </td>
                         <td class="rowone">
                             <canvas id="np2" width="150" height="125""></canvas>  
@@ -115,19 +115,19 @@
                     <table>
                         <tr>
                             <td id="ff1" class="rowone" style="width: 125px; text-align: left;">
-                            test
+                            
                             </td>
                         <td class="rowone" style="width: 125px;">
-                            test
+                            
                         </td>
                         <td class="rowone" style="width: 125px;">
-                             test
+                             
                         </td>
                         <td class="rowone" style="width: 125px;">
-                            test
+                            
                        </td>
                        <td id="ff2" class="rowone" style="width: 125px; text-align: right;">
-                        test
+                        
                    </td>
                        
                         </tr>
@@ -140,10 +140,10 @@
                            <td class="rowone">
                             <canvas id="itt1" width="150" height="150""></canvas>
                         </td>
-                        <td class="rowone" style="width: 75px;">
+                        <td class="rowone" style="width: 75px; vertical-align: top;">
                             ITT
                             <br>
-                            °C
+                            <p style="color: #3399ff;">°C</p> 
                         </td>
                         <td class="rowone">
                             <canvas id="itt2" width="150" height="150""></canvas>  
@@ -153,18 +153,57 @@
                        </td>
                         </tr>
                     </table>
+                    <br>
                     <table>
                         <tr>
-                        
-                        <td class="rowone">
-                            <canvas id="oil1" width="200" height="200""></canvas>
+                        <td class="rowone" style="width: 250px; text-align: left;">
+                            <canvas id="oil1" width="200" height="200"></canvas>
                         </td>
                         <td class="rowone">
-                            ITT
-                            <br>
-                            °C
+                            <table>
+                                <tr>
+                                    <td>
+
+                                    </td>
+                                    <td class="rowone">
+                                        FUEL
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="rowone">
+                                        4000
+                                    </td>
+                                    <td class="rowone">
+                                        LBS
+                                    </td>
+                                    <td class="rowone">
+                                        3999
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="rowone">
+                                        + 25
+                                    </td>
+                                    <td class="rowone">
+                                        <p style="color: #3399ff;">°C</p>
+                                    </td>
+                                    <td class="rowone">
+                                        +27
+                                    </td>
+                                </tr>
+                            </table>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <p>SAT + 0 <span style="color: #3399ff;">°C</span> 
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
-                        <td class="rowone">
+                        <td class="rowone" style="width: 250px; text-align: right;">
                             <canvas id="oil2" width="200" height="200""></canvas>  
                         </td>
                        

@@ -1526,11 +1526,6 @@ function runOils(oil1Temp, oil1Press){
 function oil1TempDN(oil1Temp){
     console.log('oil temp function running')
     let oil1TRad = (oil1Temp * oneOilTempInRad)
-    
-    
-
-    console.log('oil function running')
-    //green arc 0-100 yellow 100-106 red radial 106 over limit above 106. 0 trq = 0 rad, 122 trq = 4 rad, 106trq=3.49066
 
     //this line blanks out the previous line drawings of the needle and text
     oil1Arc.beginPath()
@@ -1545,8 +1540,35 @@ function oil1TempDN(oil1Temp){
 
     
     console.log('oil function running')
-    if (oil1Temp > 107){
-        console.log('oil function running')
+    if (oil1Temp < 107){
+        console.log('oil temp below 107')
+        oil1Arc.beginPath()
+        oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
+        oil1Arc.textAlign = "center"
+        oil1Arc.fillStyle = "white";
+        oil1Arc.fillText(oil1Temp, radiusSmall * -1.1, radiusSmall * -0.8);
+
+        oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
+        oil1Arc.textAlign = "center"
+        oil1Arc.fillStyle = "#3399ff";
+        oil1Arc.fillText('°C', radiusSmall * -1.1, radiusSmall * -1.2);
+
+        oil1Needle.beginPath()
+        oil1Needle.lineCap = "round";
+        oil1Needle.lineWidth = radiusSmall / 17
+        //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
+        
+        oil1Needle.rotate(oil1TRad)
+        
+        oil1Needle.moveTo(0,0)
+        oil1Needle.strokeStyle = "white"
+        //this is the initial position of the line at 0 temp
+        oil1Needle.lineTo(-(radiusSmall * 0.57),(radiusSmall * 0.48))
+        oil1Needle.rotate(-oil1TRad)
+        
+        oil1Needle.stroke();
+    } else if (oil1Temp >= 107){
+        console.log('oil temp over 107')
         oil1Arc.beginPath()
         oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
         oil1Arc.textAlign = "center"
@@ -1558,8 +1580,6 @@ function oil1TempDN(oil1Temp){
         oil1Arc.fillStyle = "#3399ff";
         oil1Arc.fillText('°C', radiusSmall * -1.1, radiusSmall * -1.2);
 
-        
-
         oil1Needle.beginPath()
         oil1Needle.lineCap = "round";
         oil1Needle.lineWidth = radiusSmall / 17
@@ -1569,7 +1589,7 @@ function oil1TempDN(oil1Temp){
         
         oil1Needle.moveTo(0,0)
         oil1Needle.strokeStyle = "red"
-        //this is the initial position of the line at 0 trq
+        //this is the initial position of the line at 0 temp
         oil1Needle.lineTo(-(radiusSmall * 0.57),(radiusSmall * 0.48))
         oil1Needle.rotate(-oil1TRad)
         
@@ -1744,6 +1764,8 @@ function halfAboveMax(){
 
 function randomAll(){
     let randomNum = Math.floor(Math.random() * 125)
+    let randomOilTemp;
+    let randomOilPress;
     engineParameters.trq1 = randomNum
     randomNum = Math.floor(Math.random() * 125)
     engineParameters.trq2 = randomNum
@@ -1768,7 +1790,10 @@ function randomAll(){
     randomNum = Math.floor(Math.random() * 110)
     engineParameters.nl2 = randomNum
 
-    oil1DN(randomNum,randomNum)
+    randomOilTemp = Math.floor(Math.random() * 125)
+    randomOilPress = Math.floor(Math.random() * 100)
+    runOils(randomOilTemp, randomOilPress)
+    
 
 }
 let i = 0;
