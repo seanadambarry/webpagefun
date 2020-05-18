@@ -202,10 +202,21 @@ let engineParameters = {
         return this._nl2;
     },
     randomAnimation : false,
-    oil1Temp : 0,
-    oil2Temp : 0,
-    oil1Press : 0,
-    oil2Press : 0,
+    _oil1Temp : 0,
+    _oil2Temp : 0,
+    set oil1Temp(newOilTemp){
+        this._oil1Temp = newOilTemp;
+        runOils(newOilTemp, this._oil1Press);
+    },
+    get oil1Temp(){
+        return this._oil1Temp;
+    },
+    _oil1Press : 0,
+    set oil1Press(newOilPress){
+        this._oil1Press = newOilPress;
+        runOils(this._oil1Temp, newOilPress)
+    },
+    _oil2Press : 0,
 }
 
 let intervalId;
@@ -1412,12 +1423,11 @@ radiusOil = (oil1can.width / 2)
 
 let oneOilTempInRad = 2.44346 / 200
 
-let oneOilPsiInRadto44 = 0.523599 / 44
-let oneOilPsiInRadfrom44 = 1.91986 / 50
-let oneOilPsiInRadfrom61 = 1.22173 / 27
+let oneOilPsiInRad;
 
+//34.5 deg is 0.6021377 radians
+oil1Arc.translate((oil1can.width / 2),(oil1can.width / 2))
 function oil1ARC(){
-    oil1Arc.translate((oil1can.width / 2),(oil1can.width / 2))
 
     //oil Temp
     oil1Arc.beginPath();
@@ -1453,25 +1463,25 @@ function oil1ARC(){
 
     //oil PSI
     oil1Arc.beginPath();
-    oil1Arc.arc(0, 0, radiusSmall * 0.9, 4.97419, 5.75959);
+    oil1Arc.arc(0, 0, radiusSmall * 0.9, 4.97419, 5.67232);
     oil1Arc.strokeStyle = "yellow"
     oil1Arc.lineWidth = radiusSmall / 17
     oil1Arc.stroke();
 
     oil1Arc.beginPath();
-    oil1Arc.arc(0, 0, radiusSmall * 0.9, 5.75959, 0);
+    oil1Arc.arc(0, 0, radiusSmall * 0.9, 5.67232, 0);
     oil1Arc.strokeStyle = "green"
     oil1Arc.lineWidth = radiusSmall / 17
     oil1Arc.stroke();
    
     oil1Arc.beginPath();
-    oil1Arc.arc(0, 0, radiusSmall * 0.9, 0, 0.698132);
+    oil1Arc.arc(0, 0, radiusSmall * 0.9, 0, 0.785398);
     oil1Arc.strokeStyle = "yellow"
     oil1Arc.lineWidth = radiusSmall / 17
     oil1Arc.stroke();
 
     oil1Arc.beginPath();
-    oil1Arc.arc(0, 0, radiusSmall * 0.9, 0.698132, 1.22173);
+    oil1Arc.arc(0, 0, radiusSmall * 0.9, 0.785398, 1.309);
     oil1Arc.strokeStyle = "white"
     oil1Arc.lineWidth = radiusSmall / 17
     oil1Arc.stroke();
@@ -1506,13 +1516,18 @@ function oil1ARC(){
     console.log('radius small : ' + radiusSmall * 0.5)
 }
 
-function oil1DN(oil1Temp, oil1Press){
-    console.log('oil function running')
+function runOils(oil1Temp, oil1Press){
+    oil1ARC();
+    oil1TempDN(oil1Temp);
+    oil1PressDN(oil1Press);
+}
 
+
+function oil1TempDN(oil1Temp){
+    console.log('oil temp function running')
     let oil1TRad = (oil1Temp * oneOilTempInRad)
-    let oil1PRadto44 = (oil1Press * oneOilPsiInRadto44)
-    let oil1PRadfrom44 = ((oil1Press - 44) * oneOilPsiInRadfrom44)
-    let oil1PRadfrom61 = ((oil1Press - 61) * oneOilPsiInRadfrom61)
+    
+    
 
     console.log('oil function running')
     //green arc 0-100 yellow 100-106 red radial 106 over limit above 106. 0 trq = 0 rad, 122 trq = 4 rad, 106trq=3.49066
@@ -1528,10 +1543,7 @@ function oil1DN(oil1Temp, oil1Press){
     oil1Arc.fillStyle = "black";
     oil1Arc.fill();
 
-    oil1Arc.beginPath()
-    oil1Arc.rect((radiusOil * 0.50),(-radiusOil * 0.7),(radiusOil * 0.4),(radiusOil * 0.25))
-    oil1Arc.fillStyle = "black";
-    oil1Arc.fill();
+    
     console.log('oil function running')
     if (oil1Temp > 107){
         console.log('oil function running')
@@ -1546,15 +1558,7 @@ function oil1DN(oil1Temp, oil1Press){
         oil1Arc.fillStyle = "#3399ff";
         oil1Arc.fillText('°C', radiusSmall * -1.1, radiusSmall * -1.2);
 
-        oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
-        oil1Arc.textAlign = "center"
-        oil1Arc.fillStyle = "red";
-        oil1Arc.fillText(oil1Press, radiusSmall * 1.1, radiusSmall * -0.8);
-
-        oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
-        oil1Arc.textAlign = "center"
-        oil1Arc.fillStyle = "#3399ff";
-        oil1Arc.fillText('PSI', radiusSmall * 1.1, radiusSmall * -1.2);
+        
 
         oil1Needle.beginPath()
         oil1Needle.lineCap = "round";
@@ -1571,65 +1575,130 @@ function oil1DN(oil1Temp, oil1Press){
         
         oil1Needle.stroke();
     }
-
+}
 ///oilpresure
 
-        if (oil1Press <= 44){
-            console.log('less than 44 psi ' + (-oil1PRadfrom44))
+function oil1PressDN(oil1Press){
+    console.log('oil PRESS function running')
+    let oil1PRad;
+
+    oil1Arc.beginPath()
+    oil1Arc.rect((radiusOil * 0.50),(-radiusOil * 0.7),(radiusOil * 0.4),(radiusOil * 0.25))
+    oil1Arc.fillStyle = "white";
+    oil1Arc.fill();
+
+    oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
+    oil1Arc.textAlign = "center"
+    oil1Arc.fillStyle = "red";
+    oil1Arc.fillText(oil1Press, radiusSmall * 1.1, radiusSmall * -0.8);
+    
+    oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
+    oil1Arc.textAlign = "center"
+    oil1Arc.fillStyle = "#3399ff";
+    oil1Arc.fillText('PSI', radiusSmall * 1.1, radiusSmall * -1.2);
+
+    if (oil1Press < 44){
+            //clearning the background of the PSI Value
+            
+            oneOilPsiInRad = 0.6021377 / 44
+            oil1PRad = (oil1Press * oneOilPsiInRad)
+            
+            console.log('less than 44 psi ' + (-oil1PRad))
             oil1Needle.beginPath()
             oil1Needle.lineCap = "round";
             oil1Needle.lineWidth = radiusSmall / 17
             //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
-            console.log(-oil1PRadto44)
+            console.log(-oil1PRad)
 
-            oil1Needle.rotate(-oil1PRadto44)
+            oil1Needle.rotate(-oil1PRad)
             
             oil1Needle.moveTo(0,0)
             oil1Needle.strokeStyle = "red"
             //this is the initial position of the line at 0 trq
-            oil1Needle.lineTo((radiusSmall * 0.27),(radiusSmall * 0.7))
-            oil1Needle.rotate(oil1PRadto44)
+            oil1Needle.lineTo((radiusSmall * 0.20),(radiusSmall * 0.72))
+            oil1Needle.rotate(oil1PRad)
             
             oil1Needle.stroke();
-        } else if (oil1Press > 44 && oil1Press <= 61){
+    } else if (oil1Press >= 44 && oil1Press < 61){
+
+            //total movement is 1.309 to 61 psi
+            // from 44 to 61 is 0.698132 radians and 17 psi
+
+            oneOilPsiInRad = 0.698132 / 17
+            oil1PRad = ((oil1Press - 44) * oneOilPsiInRad) + 0.6021377 // plus old movement of 30 degrees
+
+
             oil1Needle.beginPath()
             oil1Needle.lineCap = "round";
             oil1Needle.lineWidth = radiusSmall / 17
             //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
        
             
-            console.log('over 44 psi ' + (-oil1PRadfrom44))
+            console.log('over 44 psi ' + (-oil1PRad))
 
-            oil1Needle.rotate(-oil1PRadfrom44 - 0.523599)
+            oil1Needle.rotate(-oil1PRad)
             
             oil1Needle.moveTo(0,0)
-            oil1Needle.strokeStyle = "red"
+            oil1Needle.strokeStyle = "white"
             //this is the initial position of the line at 0 trq
-            oil1Needle.lineTo((radiusSmall * 0.27),(radiusSmall * 0.7))
+            oil1Needle.lineTo((radiusSmall * 0.20),(radiusSmall * 0.72))
 
-         
-            console.log('over 44 psi ' + oil1PRadfrom44)
-            oil1Needle.rotate(oil1PRadfrom44 + 0.523599)
+            oil1Needle.rotate(oil1PRad)
             
             oil1Needle.stroke();
-        } else if (oil1Press > 61){
-           
-            console.log('OVER 61')
-            oil1Needle.rotate(-oil1PRadfrom61 - 1.22173)
+    } else if (oil1Press >= 61 && oil1Press < 72) {
+              //total movement is 1.916268523529412 to 72 psi
+            // from 61 to 72 is 0.610865 radians and 11 psi
+
+            oneOilPsiInRad = 0.610865 / 11
+            oil1PRad = ((oil1Press - 61) * oneOilPsiInRad) + 1.309 // plus old movement of 75 degrees
+
+
+            oil1Needle.beginPath()
+            oil1Needle.lineCap = "round";
+            oil1Needle.lineWidth = radiusSmall / 17
+            //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
+       
+            
+            console.log('over 44 psi ' + (-oil1PRad))
+
+            oil1Needle.rotate(-oil1PRad)
             
             oil1Needle.moveTo(0,0)
-            oil1Needle.strokeStyle = "red"
+            oil1Needle.strokeStyle = "white"
             //this is the initial position of the line at 0 trq
-            oil1Needle.lineTo((radiusSmall * 0.27),(radiusSmall * 0.7))
+            oil1Needle.lineTo((radiusSmall * 0.20),(radiusSmall * 0.72))
 
-            //oil1PRadto44 -= 0.523599
-           
-            oil1Needle.rotate(oil1PRadfrom61 + 1.22173)
+            oil1Needle.rotate(oil1PRad)
             
             oil1Needle.stroke();
-        }
+    } else if (oil1Press >= 72) {
+            //total movement is 2.5862631818181816 to 100 psi
+          // from 72 to 100 is 0.698132 radians and 28 psi
 
-    
+          oneOilPsiInRad = 0.698132 / 28
+          oil1PRad = ((oil1Press - 72) * oneOilPsiInRad) + 1.91986 // plus old movement of 75 degrees
+
+
+          oil1Needle.beginPath()
+          oil1Needle.lineCap = "round";
+          oil1Needle.lineWidth = radiusSmall / 17
+          //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
+     
+          
+          console.log('over 44 psi ' + (-oil1PRad))
+
+          oil1Needle.rotate(-oil1PRad)
+          
+          oil1Needle.moveTo(0,0)
+          oil1Needle.strokeStyle = "white"
+          //this is the initial position of the line at 0 trq
+          oil1Needle.lineTo((radiusSmall * 0.20),(radiusSmall * 0.72))
+
+          oil1Needle.rotate(oil1PRad)
+          
+          oil1Needle.stroke();
+    }
 }
 
 
@@ -1763,8 +1832,8 @@ engineParameters.ff2 = 950;
 engineParameters.nl1 = 77;
 engineParameters.nl2 = 97.8;
 
-oil1ARC();
-oil1DN(111,55);
+engineParameters.oil1Temp = 111;
+engineParameters.oil1Press = 67;
 
 
 
