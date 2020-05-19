@@ -316,8 +316,8 @@ function trq1DN(trq1){
         trq1Arc.fillText(trq1.toString(), 0, radiusBig * 0.5);
 
         trq1Needle.beginPath()
-        trq1Needle.lineCap = "round";
-        trq1Needle.lineWidth = radiusBig / 17
+        //trq1Needle.lineCap = "round";
+        trq1Needle.lineWidth = radiusBig / 13
         //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
         trq1Needle.rotate(trq1Rad)
         trq1Needle.moveTo(0,0)
@@ -334,8 +334,8 @@ function trq1DN(trq1){
         trq1Arc.fillText(trq1.toString(), 0, radiusBig * 0.5);
     
         trq1Needle.beginPath()
-        trq1Needle.lineCap = "round";
-        trq1Needle.lineWidth = radiusBig / 17
+        //trq1Needle.lineCap = "round";
+        trq1Needle.lineWidth = radiusBig / 13
     
         trq1Needle.rotate(trq1Rad)
         trq1Needle.moveTo(0,0)
