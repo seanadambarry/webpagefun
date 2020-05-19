@@ -14,11 +14,6 @@ let engineParameters = {
             itt2MtopARC()
             nh1MtopARC()
             nh2MtopARC()
-
-            engineParameters.itt1 = 890
-            engineParameters.itt2 = 880
-            engineParameters.nh1 = 101.1
-            engineParameters.nh2 = 95
         } else if (change === false){
             this._mtop = false
             document.getElementById("mtopbutton").disabled = false;
@@ -43,11 +38,6 @@ let engineParameters = {
             itt2NtopARC()
             nh1NtopARC()
             nh2NtopARC()
-            //showing the max for now
-            engineParameters.nh1 = 98.4
-            engineParameters.nh2 = 95
-            engineParameters.itt1 = 850
-            engineParameters.itt2 = 839
         } else if (change === false){
             this._ntop = false;
             document.getElementById("mtopbutton").disabled = true;
@@ -70,8 +60,6 @@ let engineParameters = {
             document.getElementById("mtopntoprtop2").innerHTML = '----<br><p style="color: #3399ff;">-- %</p> '
             itt1EngStartARC()
             itt2EngStartARC()
-            engineParameters.itt1 = 940
-            engineParameters.itt2 = 920
         } else if (change === false){
             this._engStart = false;
             document.getElementById("startbutton").disabled = false;
@@ -94,7 +82,7 @@ let engineParameters = {
     },
     _trq2 : 0,
     set trq2(newTrq){
-        this._tq2 = newTrq;
+        this._trq2 = newTrq;
         trq2ARC();
         trq2DN(newTrq);
     },
@@ -155,7 +143,7 @@ let engineParameters = {
     _ff1 : 0,
     set ff1(newFf){
         this._ff1 = newFf;
-        document.getElementById("ff1").innerHTML = '<p>FF<br></p><p style="color:#3399ff">PPH<BR></p>' + newFf;
+        document.getElementById("ff1").innerHTML = '<p>FF<br></p><p style="color:#3399ff">PPH<BR></p>' + newFf.toFixed(0);
     },
     get ff1(){
         return this._ff1;
@@ -163,7 +151,7 @@ let engineParameters = {
     _ff2 : 0,
     set ff2(newFf){
         this._ff2 = newFf;
-        document.getElementById("ff2").innerHTML = '<p>FF<br></p><p style="color:#3399ff">PPH<BR></p>' + newFf;
+        document.getElementById("ff2").innerHTML = '<p>FF<br></p><p style="color:#3399ff">PPH<BR></p>' + newFf.toFixed(0);
     },
     get ff2(){
         return this._ff2;
@@ -172,13 +160,13 @@ let engineParameters = {
     set nl1(newNl){
         this._nl1 = newNl;
         if (newNl > 100 && engineParameters.mtop === true){
-            document.getElementById("nl1").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + '<p style="color:red">' + newNl + '</p>';
+            document.getElementById("nl1").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + '<p style="color:red">' + newNl.toFixed(0) + '</p>';
         } else if (newNl <= 100 && engineParameters.mtop === true){
-            document.getElementById("nl1").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + newNl;
+            document.getElementById("nl1").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + newNl.toFixed(0);
         } else if (newNl > 97.7 && engineParameters.mtop === false){
-            document.getElementById("nl1").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + '<p style="color:red">' + newNl + '</p>';
+            document.getElementById("nl1").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + '<p style="color:red">' + newNl.toFixed(0) + '</p>';
         } else if (newNl <= 97.7 && engineParameters.mtop === false){
-            document.getElementById("nl1").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + newNl;
+            document.getElementById("nl1").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + newNl.toFixed(0);
         } 
         
     },
@@ -189,13 +177,13 @@ let engineParameters = {
     set nl2(newNl){
         this._nl2 = newNl;
         if (newNl > 100 && engineParameters.mtop === true){
-            document.getElementById("nl2").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + '<p style="color:red">' + newNl + '</p>';
+            document.getElementById("nl2").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + '<p style="color:red">' + newNl.toFixed(0) + '</p>';
         } else if (newNl <= 100 && engineParameters.mtop === true){
-            document.getElementById("nl2").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + newNl;
+            document.getElementById("nl2").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + newNl.toFixed(0);
         } else if (newNl > 97.7 && engineParameters.mtop === false){
-            document.getElementById("nl2").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + '<p style="color:red">' + newNl + '</p>';
+            document.getElementById("nl2").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + '<p style="color:red">' + newNl.toFixed(0) + '</p>';
         } else if (newNl <= 97.7 && engineParameters.mtop === false){
-            document.getElementById("nl2").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + newNl;
+            document.getElementById("nl2").innerHTML = '<p>NL<br></p><p style="color:#3399ff">%RPM<BR></p>' + newNl.toFixed(0);
         } 
     },
     get nl2(){
@@ -203,10 +191,9 @@ let engineParameters = {
     },
     randomAnimation : false,
     _oil1Temp : 0,
-    _oil2Temp : 0,
     set oil1Temp(newOilTemp){
         this._oil1Temp = newOilTemp;
-        runOils(newOilTemp, this._oil1Press);
+        runOils(newOilTemp, this._oil2Temp, this._oil1Press, this.oil2Press);
     },
     get oil1Temp(){
         return this._oil1Temp;
@@ -214,9 +201,27 @@ let engineParameters = {
     _oil1Press : 0,
     set oil1Press(newOilPress){
         this._oil1Press = newOilPress;
-        runOils(this._oil1Temp, newOilPress)
+        runOils(this._oil1Temp, this._oil2Temp, newOilPress, this.oil2Press);
+    },
+    get oil1Press(){
+        return this._oil1Press;
+    },
+    _oil2Temp : 0,
+    set oil2Temp(newOilTemp){
+        this._oil2Temp = newOilTemp;
+        runOils(this._oil1Temp, newOilTemp, this._oil1Press, this.oil2Press);
+    },
+    get oil2Temp(){
+        return this._oil2Temp;
     },
     _oil2Press : 0,
+    set oil2Press(newOilPress){
+        this._oil2Press = newOilPress;
+        runOils(this._oil1Temp, this._oil2Temp, this._oil1Press, newOilPress);
+    },
+    get oil2Press(){
+        return this._oil2Press
+    }
 }
 
 let intervalId;
@@ -313,7 +318,7 @@ function trq1DN(trq1){
         trq1Arc.font = (radiusBig * 0.3) + "px Arial";
         trq1Arc.textAlign = "center"
         trq1Arc.fillStyle = "red";
-        trq1Arc.fillText(trq1.toString(), 0, radiusBig * 0.5);
+        trq1Arc.fillText(trq1.toFixed(0), 0, radiusBig * 0.5);
 
         trq1Needle.beginPath()
         //trq1Needle.lineCap = "round";
@@ -331,7 +336,7 @@ function trq1DN(trq1){
         trq1Arc.font = (radiusBig * 0.31) + "px Arial";
         trq1Arc.textAlign = "center"
         trq1Arc.fillStyle = "white";
-        trq1Arc.fillText(trq1.toString(), 0, radiusBig * 0.5);
+        trq1Arc.fillText(trq1.toFixed(0), 0, radiusBig * 0.5);
     
         trq1Needle.beginPath()
         //trq1Needle.lineCap = "round";
@@ -400,7 +405,7 @@ function trq2DN(trq2){
         trq2Arc.font = (radiusBig * 0.3) + "px Arial";
         trq2Arc.textAlign = "center"
         trq2Arc.fillStyle = "red";
-        trq2Arc.fillText(trq2.toString(), 0, radiusBig * 0.5);
+        trq2Arc.fillText(trq2.toFixed(0), 0, radiusBig * 0.5);
 
         trq2Needle.beginPath()
         trq2Needle.lineCap = "round";
@@ -418,7 +423,7 @@ function trq2DN(trq2){
         trq2Arc.font = (radiusBig * 0.3) + "px Arial";
         trq2Arc.textAlign = "center"
         trq2Arc.fillStyle = "white";
-        trq2Arc.fillText(trq2.toString(), 0, radiusBig * 0.5);
+        trq2Arc.fillText(trq2.toFixed(0), 0, radiusBig * 0.5);
     
         trq2Needle.beginPath()
         trq2Needle.lineCap = "round";
@@ -855,7 +860,7 @@ function np1DN(np1){
         np1Arc.font = (radiusBig * 0.3) + "px Arial";
         np1Arc.textAlign = "center"
         np1Arc.fillStyle = "red";
-        np1Arc.fillText(np1.toString(), 0, radiusBig * 0.5);
+        np1Arc.fillText(np1.toFixed(0), 0, radiusBig * 0.5);
 
         np1Needle.beginPath()
         np1Needle.lineCap = "round";
@@ -873,7 +878,7 @@ function np1DN(np1){
         np1Arc.font = (radiusBig * 0.3) + "px Arial";
         np1Arc.textAlign = "center"
         np1Arc.fillStyle = "white";
-        np1Arc.fillText(np1.toString(), 0, radiusBig * 0.5);
+        np1Arc.fillText(np1.toFixed(0), 0, radiusBig * 0.5);
     
         np1Needle.beginPath()
         np1Needle.lineCap = "round";
@@ -956,7 +961,7 @@ function np2DN(np2){
         np2Arc.font = (radiusBig * 0.3) + "px Arial";
         np2Arc.textAlign = "center"
         np2Arc.fillStyle = "red";
-        np2Arc.fillText(np2.toString(), 0, radiusBig * 0.5);
+        np2Arc.fillText(np2.toFixed(0), 0, radiusBig * 0.5);
 
         np2Needle.beginPath()
         np2Needle.lineCap = "round";
@@ -974,7 +979,7 @@ function np2DN(np2){
         np2Arc.font = (radiusBig * 0.3) + "px Arial";
         np2Arc.textAlign = "center"
         np2Arc.fillStyle = "white";
-        np2Arc.fillText(np2.toString(), 0, radiusBig * 0.5);
+        np2Arc.fillText(np2.toFixed(0), 0, radiusBig * 0.5);
     
         np2Needle.beginPath()
         np2Needle.lineCap = "round";
@@ -1127,7 +1132,7 @@ function itt1DN(itt1){
         itt1Arc.font = (radiusBig * 0.3) + "px Arial";
         itt1Arc.textAlign = "center"
         itt1Arc.fillStyle = "red";
-        itt1Arc.fillText(itt1.toString(), (-radiusBig * 0.1) , radiusBig * 0.7);
+        itt1Arc.fillText(itt1.toFixed(0), (-radiusBig * 0.1) , radiusBig * 0.7);
 
         itt1Needle.beginPath()
         itt1Needle.lineCap = "round";
@@ -1392,7 +1397,7 @@ function itt2DN(itt2){
         itt2Arc.font = (radiusBig * 0.3) + "px Arial";
         itt2Arc.textAlign = "center"
         itt2Arc.fillStyle = "white";
-        itt2Arc.fillText(itt2.toString(), (-radiusBig * 0.1) , radiusBig * 0.7);
+        itt2Arc.fillText(itt2.toFixed(0), (-radiusBig * 0.1) , radiusBig * 0.7);
     
         itt2Needle.beginPath()
         itt2Needle.lineCap = "round";
@@ -1516,11 +1521,7 @@ function oil1ARC(){
     console.log('radius small : ' + radiusSmall * 0.5)
 }
 
-function runOils(oil1Temp, oil1Press){
-    oil1ARC();
-    oil1TempDN(oil1Temp);
-    oil1PressDN(oil1Press);
-}
+
 
 
 function oil1TempDN(oil1Temp){
@@ -1546,7 +1547,7 @@ function oil1TempDN(oil1Temp){
         oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
         oil1Arc.textAlign = "center"
         oil1Arc.fillStyle = "white";
-        oil1Arc.fillText(oil1Temp, radiusSmall * -1.1, radiusSmall * -0.8);
+        oil1Arc.fillText(oil1Temp.toFixed(0), radiusSmall * -1.1, radiusSmall * -0.8);
 
         oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
         oil1Arc.textAlign = "center"
@@ -1573,7 +1574,7 @@ function oil1TempDN(oil1Temp){
         oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
         oil1Arc.textAlign = "center"
         oil1Arc.fillStyle = "red";
-        oil1Arc.fillText(oil1Temp, radiusSmall * -1.1, radiusSmall * -0.8);
+        oil1Arc.fillText(oil1Temp.toFixed(0), radiusSmall * -1.1, radiusSmall * -0.8);
 
         oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
         oil1Arc.textAlign = "center"
@@ -1604,13 +1605,8 @@ function oil1PressDN(oil1Press){
 
     oil1Arc.beginPath()
     oil1Arc.rect((radiusOil * 0.50),(-radiusOil * 0.7),(radiusOil * 0.4),(radiusOil * 0.25))
-    oil1Arc.fillStyle = "white";
+    oil1Arc.fillStyle = "black";
     oil1Arc.fill();
-
-    oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
-    oil1Arc.textAlign = "center"
-    oil1Arc.fillStyle = "red";
-    oil1Arc.fillText(oil1Press, radiusSmall * 1.1, radiusSmall * -0.8);
     
     oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
     oil1Arc.textAlign = "center"
@@ -1619,6 +1615,11 @@ function oil1PressDN(oil1Press){
 
     if (oil1Press < 44){
             //clearning the background of the PSI Value
+
+            oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
+            oil1Arc.textAlign = "center"
+            oil1Arc.fillStyle = "red";
+            oil1Arc.fillText(oil1Press.toFixed(0), radiusSmall * 1.1, radiusSmall * -0.8);
             
             oneOilPsiInRad = 0.6021377 / 44
             oil1PRad = (oil1Press * oneOilPsiInRad)
@@ -1640,6 +1641,11 @@ function oil1PressDN(oil1Press){
             
             oil1Needle.stroke();
     } else if (oil1Press >= 44 && oil1Press < 61){
+
+        oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
+        oil1Arc.textAlign = "center"
+        oil1Arc.fillStyle = "white";
+        oil1Arc.fillText(oil1Press.toFixed(0), radiusSmall * 1.1, radiusSmall * -0.8);
 
             //total movement is 1.309 to 61 psi
             // from 44 to 61 is 0.698132 radians and 17 psi
@@ -1667,6 +1673,13 @@ function oil1PressDN(oil1Press){
             
             oil1Needle.stroke();
     } else if (oil1Press >= 61 && oil1Press < 72) {
+
+        oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
+        oil1Arc.textAlign = "center"
+        oil1Arc.fillStyle = "white";
+        oil1Arc.fillText(oil1Press.toFixed(0), radiusSmall * 1.1, radiusSmall * -0.8);
+
+
               //total movement is 1.916268523529412 to 72 psi
             // from 61 to 72 is 0.610865 radians and 11 psi
 
@@ -1693,6 +1706,11 @@ function oil1PressDN(oil1Press){
             
             oil1Needle.stroke();
     } else if (oil1Press >= 72) {
+
+        oil1Arc.font = (radiusSmall * 0.35) + "px Arial";
+        oil1Arc.textAlign = "center"
+        oil1Arc.fillStyle = "white";
+        oil1Arc.fillText(oil1Press.toFixed(0), radiusSmall * 1.1, radiusSmall * -0.8);
             //total movement is 2.5862631818181816 to 100 psi
           // from 72 to 100 is 0.698132 radians and 28 psi
 
@@ -1722,11 +1740,343 @@ function oil1PressDN(oil1Press){
 }
 
 
+//--#2 OIL temp and PSI-------
+
+let oil2can = document.getElementById("oil2");
+let oil2Arc = oil2can.getContext("2d");
+let oil2Needle = oil2can.getContext("2d");
+let oil2Rad;
+//let oil2 = 101.6
+
+let twoOilTempInRad = 2.44346 / 200
+
+let twoOilPsiInRad;
+
+//34.5 deg is 0.6021377 radians
+oil2Arc.translate((oil2can.width / 2),(oil2can.width / 2))
+function oil2ARC(){
+
+    //oil Temp
+    oil2Arc.beginPath();
+    oil2Arc.arc(0, 0, radiusSmall * 0.9, 1.8326, 2.00713);
+    oil2Arc.strokeStyle = "white"
+    oil2Arc.lineWidth = radiusSmall / 17
+    oil2Arc.stroke();
+
+    oil2Arc.beginPath();
+    oil2Arc.arc(0, 0, radiusSmall * 0.9, 2.00713, 2.44346);
+    oil2Arc.strokeStyle = "yellow"
+    oil2Arc.lineWidth = radiusSmall / 17
+    oil2Arc.stroke();
+
+    oil2Arc.beginPath();
+    oil2Arc.arc(0, 0, radiusSmall * 0.9, 2.44346, 3.75246);
+    oil2Arc.strokeStyle = "green"
+    oil2Arc.lineWidth = radiusSmall / 17
+    oil2Arc.stroke();
+
+    oil2Arc.beginPath();
+    oil2Arc.arc(0, 0, radiusSmall * 0.9, 3.75246, 3.83972);
+    oil2Arc.strokeStyle = "yellow"
+    oil2Arc.lineWidth = radiusSmall / 17
+    oil2Arc.stroke();
+
+    oil2Arc.beginPath();
+    oil2Arc.arc(0, 0, radiusSmall * 0.9, 3.83972, 4.27606);
+    oil2Arc.strokeStyle = "white"
+    oil2Arc.lineWidth = radiusSmall / 17
+    oil2Arc.stroke();
+
+
+    //oil PSI
+    oil2Arc.beginPath();
+    oil2Arc.arc(0, 0, radiusSmall * 0.9, 4.97419, 5.67232);
+    oil2Arc.strokeStyle = "yellow"
+    oil2Arc.lineWidth = radiusSmall / 17
+    oil2Arc.stroke();
+
+    oil2Arc.beginPath();
+    oil2Arc.arc(0, 0, radiusSmall * 0.9, 5.67232, 0);
+    oil2Arc.strokeStyle = "green"
+    oil2Arc.lineWidth = radiusSmall / 17
+    oil2Arc.stroke();
+   
+    oil2Arc.beginPath();
+    oil2Arc.arc(0, 0, radiusSmall * 0.9, 0, 0.785398);
+    oil2Arc.strokeStyle = "yellow"
+    oil2Arc.lineWidth = radiusSmall / 17
+    oil2Arc.stroke();
+
+    oil2Arc.beginPath();
+    oil2Arc.arc(0, 0, radiusSmall * 0.9, 0.785398, 1.309);
+    oil2Arc.strokeStyle = "white"
+    oil2Arc.lineWidth = radiusSmall / 17
+    oil2Arc.stroke();
+
+
+    //red ticks oil temp
+
+    oil2Arc.beginPath();
+    oil2Arc.strokeStyle = "red";
+    oil2Arc.lineWidth = radiusSmall / 17
+    oil2Arc.moveTo((-radiusSmall * 0.70),(-radiusSmall * 0.7));
+    oil2Arc.lineTo(-radiusSmall * 0.60,(-radiusSmall * 0.6))
+    oil2Arc.stroke();
+
+    oil2Arc.beginPath();
+    oil2Arc.strokeStyle = "red";
+    oil2Arc.lineWidth = radiusSmall / 17
+    oil2Arc.moveTo((-radiusSmall * 0.32),(radiusSmall * 0.75));
+    oil2Arc.lineTo(-radiusSmall * 0.40,(radiusSmall * .9))
+    oil2Arc.stroke();
+
+    //red ticks oil pressure
+    oil2Arc.beginPath();
+    oil2Arc.strokeStyle = "red";
+    oil2Arc.lineWidth = radiusSmall / 17
+    oil2Arc.moveTo((radiusSmall * 0.65),(radiusSmall * 0.55));
+    oil2Arc.lineTo(radiusSmall * 0.80,(radiusSmall * .65))
+    oil2Arc.stroke();
+    
+
+
+    console.log('radius small : ' + radiusSmall * 0.5)
+}
+
+
+
+
+function oil2TempDN(oil2Temp){
+    console.log('oil temp function running')
+    let oil2TRad = (oil2Temp * twoOilTempInRad)
+
+    //this line blanks out the previous line drawings of the needle and text
+    oil2Arc.beginPath()
+    oil2Arc.arc(0, 0, radiusSmall * 0.83, 0, Math.PI * 2);
+    oil2Arc.fillStyle = 'black';
+    oil2Arc.fill()
+
+    oil2Arc.beginPath()
+    oil2Arc.rect((-radiusOil * 0.9),(-radiusOil * 0.7),(radiusOil * 0.5),(radiusOil * 0.23))
+    oil2Arc.fillStyle = "black";
+    oil2Arc.fill();
+
+    
+    console.log('oil function running')
+    if (oil2Temp < 107){
+        console.log('oil temp below 107')
+        oil2Arc.beginPath()
+        oil2Arc.font = (radiusSmall * 0.35) + "px Arial";
+        oil2Arc.textAlign = "center"
+        oil2Arc.fillStyle = "white";
+        oil2Arc.fillText(oil2Temp.toFixed(0), radiusSmall * -1.1, radiusSmall * -0.8);
+
+        oil2Arc.font = (radiusSmall * 0.35) + "px Arial";
+        oil2Arc.textAlign = "center"
+        oil2Arc.fillStyle = "#3399ff";
+        oil2Arc.fillText('°C', radiusSmall * -1.1, radiusSmall * -1.2);
+
+        oil2Needle.beginPath()
+        oil2Needle.lineCap = "round";
+        oil2Needle.lineWidth = radiusSmall / 17
+        //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
+        
+        oil2Needle.rotate(oil2TRad)
+        
+        oil2Needle.moveTo(0,0)
+        oil2Needle.strokeStyle = "white"
+        //this is the initial position of the line at 0 temp
+        oil2Needle.lineTo(-(radiusSmall * 0.57),(radiusSmall * 0.48))
+        oil2Needle.rotate(-oil2TRad)
+        
+        oil2Needle.stroke();
+    } else if (oil2Temp >= 107){
+        console.log('oil temp over 107')
+        oil2Arc.beginPath()
+        oil2Arc.font = (radiusSmall * 0.35) + "px Arial";
+        oil2Arc.textAlign = "center"
+        oil2Arc.fillStyle = "red";
+        oil2Arc.fillText(oil2Temp.toFixed(0), radiusSmall * -1.1, radiusSmall * -0.8);
+
+        oil2Arc.font = (radiusSmall * 0.35) + "px Arial";
+        oil2Arc.textAlign = "center"
+        oil2Arc.fillStyle = "#3399ff";
+        oil2Arc.fillText('°C', radiusSmall * -1.1, radiusSmall * -1.2);
+
+        oil2Needle.beginPath()
+        oil2Needle.lineCap = "round";
+        oil2Needle.lineWidth = radiusSmall / 17
+        //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
+        
+        oil2Needle.rotate(oil2TRad)
+        
+        oil2Needle.moveTo(0,0)
+        oil2Needle.strokeStyle = "red"
+        //this is the initial position of the line at 0 temp
+        oil2Needle.lineTo(-(radiusSmall * 0.57),(radiusSmall * 0.48))
+        oil2Needle.rotate(-oil2TRad)
+        
+        oil2Needle.stroke();
+    }
+}
+///oilpresure
+
+function oil2PressDN(oil2Press){
+    console.log('oil PRESS function running')
+    let oil2PRad;
+
+    oil2Arc.beginPath()
+    oil2Arc.rect((radiusOil * 0.50),(-radiusOil * 0.7),(radiusOil * 0.4),(radiusOil * 0.25))
+    oil2Arc.fillStyle = "black";
+    oil2Arc.fill();
+
+    
+    
+    oil2Arc.font = (radiusSmall * 0.35) + "px Arial";
+    oil2Arc.textAlign = "center"
+    oil2Arc.fillStyle = "#3399ff";
+    oil2Arc.fillText('PSI', radiusSmall * 1.1, radiusSmall * -1.2);
+
+    if (oil2Press < 44){
+            //clearning the background of the PSI Value
+            
+        oil2Arc.font = (radiusSmall * 0.35) + "px Arial";
+        oil2Arc.textAlign = "center"
+        oil2Arc.fillStyle = "red";
+        oil2Arc.fillText(oil2Press.toFixed(0), radiusSmall * 1.1, radiusSmall * -0.8);
+
+            twoOilPsiInRad = 0.6021377 / 44
+            oil2PRad = (oil2Press * twoOilPsiInRad)
+            
+            console.log('less than 44 psi ' + (-oil2PRad))
+            oil2Needle.beginPath()
+            oil2Needle.lineCap = "round";
+            oil2Needle.lineWidth = radiusSmall / 17
+            //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
+            console.log(-oil2PRad)
+
+            oil2Needle.rotate(-oil2PRad)
+            
+            oil2Needle.moveTo(0,0)
+            oil2Needle.strokeStyle = "red"
+            //this is the initial position of the line at 0 trq
+            oil2Needle.lineTo((radiusSmall * 0.20),(radiusSmall * 0.72))
+            oil2Needle.rotate(oil2PRad)
+            
+            oil2Needle.stroke();
+    } else if (oil2Press >= 44 && oil2Press < 61){
+
+        oil2Arc.font = (radiusSmall * 0.35) + "px Arial";
+        oil2Arc.textAlign = "center"
+        oil2Arc.fillStyle = "white";
+        oil2Arc.fillText(oil2Press.toFixed(0), radiusSmall * 1.1, radiusSmall * -0.8);
+
+            //total movement is 1.309 to 61 psi
+            // from 44 to 61 is 0.698132 radians and 17 psi
+
+            twoOilPsiInRad = 0.698132 / 17
+            oil2PRad = ((oil2Press - 44) * twoOilPsiInRad) + 0.6021377 // plus old movement of 30 degrees
+
+
+            oil2Needle.beginPath()
+            oil2Needle.lineCap = "round";
+            oil2Needle.lineWidth = radiusSmall / 17
+            //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
+       
+            
+            console.log('over 44 psi ' + (-oil2PRad))
+
+            oil2Needle.rotate(-oil2PRad)
+            
+            oil2Needle.moveTo(0,0)
+            oil2Needle.strokeStyle = "white"
+            //this is the initial position of the line at 0 trq
+            oil2Needle.lineTo((radiusSmall * 0.20),(radiusSmall * 0.72))
+
+            oil2Needle.rotate(oil2PRad)
+            
+            oil2Needle.stroke();
+    } else if (oil2Press >= 61 && oil2Press < 72) {
+
+        oil2Arc.font = (radiusSmall * 0.35) + "px Arial";
+        oil2Arc.textAlign = "center"
+        oil2Arc.fillStyle = "white";
+        oil2Arc.fillText(oil2Press.toFixed(0), radiusSmall * 1.1, radiusSmall * -0.8);
+
+              //total movement is 1.916268523529412 to 72 psi
+            // from 61 to 72 is 0.610865 radians and 11 psi
+
+            twoOilPsiInRad = 0.610865 / 11
+            oil2PRad = ((oil2Press - 61) * twoOilPsiInRad) + 1.309 // plus old movement of 75 degrees
+
+
+            oil2Needle.beginPath()
+            oil2Needle.lineCap = "round";
+            oil2Needle.lineWidth = radiusSmall / 17
+            //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
+       
+            
+            console.log('over 44 psi ' + (-oil2PRad))
+
+            oil2Needle.rotate(-oil2PRad)
+            
+            oil2Needle.moveTo(0,0)
+            oil2Needle.strokeStyle = "white"
+            //this is the initial position of the line at 0 trq
+            oil2Needle.lineTo((radiusSmall * 0.20),(radiusSmall * 0.72))
+
+            oil2Needle.rotate(oil2PRad)
+            
+            oil2Needle.stroke();
+    } else if (oil2Press >= 72) {
+
+        oil2Arc.font = (radiusSmall * 0.35) + "px Arial";
+        oil2Arc.textAlign = "center"
+        oil2Arc.fillStyle = "white";
+        oil2Arc.fillText(oil2Press.toFixed(0), radiusSmall * 1.1, radiusSmall * -0.8);
+
+            //total movement is 2.5862631818181816 to 100 psi
+          // from 72 to 100 is 0.698132 radians and 28 psi
+
+          twoOilPsiInRad = 0.698132 / 28
+          oil2PRad = ((oil2Press - 72) * twoOilPsiInRad) + 1.91986 // plus old movement of 75 degrees
+
+
+          oil2Needle.beginPath()
+          oil2Needle.lineCap = "round";
+          oil2Needle.lineWidth = radiusSmall / 17
+          //radius value is was built on a 400 x 400 canvas so the values with radius in it are based on that
+     
+          
+          console.log('over 44 psi ' + (-oil2PRad))
+
+          oil2Needle.rotate(-oil2PRad)
+          
+          oil2Needle.moveTo(0,0)
+          oil2Needle.strokeStyle = "white"
+          //this is the initial position of the line at 0 trq
+          oil2Needle.lineTo((radiusSmall * 0.20),(radiusSmall * 0.72))
+
+          oil2Needle.rotate(oil2PRad)
+          
+          oil2Needle.stroke();
+    }
+}
+
+
+
+
+
+
+
+
+
+
 
 //-----everything runs after this
 function randomizeTimer(){
     if (engineParameters.randomAnimation === false){
-        intervalId = setInterval(randomAll, 500)
+        intervalId = setInterval(randomAll, 100)
         engineParameters.randomAnimation = true;
     } else if (engineParameters.randomAnimation === true) {
         clearInterval(intervalId)
@@ -1839,27 +2189,64 @@ function incrTrq90(){
 
 
 engineParameters.ntop = true;
-
-
-
-engineParameters.trq1 = 108;
-engineParameters.trq2 = 106;
-
-
-
-
-engineParameters.np1 = 1077;
-engineParameters.np2 = 1071;
-
-engineParameters.ff1 = 950;
-engineParameters.ff2 = 950;
-
-engineParameters.nl1 = 77;
-engineParameters.nl2 = 97.8;
-
-engineParameters.oil1Temp = 111;
-engineParameters.oil1Press = 67;
-
+engineParameters.trq1 = 0;
+engineParameters.trq2 = 0;
+engineParameters.np1 = 0;
+engineParameters.np2 = 0;
+engineParameters.itt1 = 0;
+engineParameters.itt2 = 0;
+engineParameters.nh1 = 0
+engineParameters.nh2 = 0;
+engineParameters.ff1 = 0;
+engineParameters.ff2 = 0;
+engineParameters.nl1 = 0;
+engineParameters.nl2 = 0;
+engineParameters.oil1Temp = 0;
+engineParameters.oil1Press = 0;
+engineParameters.oil1Temp = 0;
+engineParameters.oil1Press = 0;
 
 
 //let trqInt = setInterval(incrTrq90, 1000)
+
+function runOils(oil1Temp, oil2Temp, oil1Press, oil2Press){
+    oil1ARC();
+    oil1TempDN(oil1Temp);
+    oil1PressDN(oil1Press);
+    oil2ARC();
+    oil2TempDN(oil2Temp);
+    oil2PressDN(oil2Press);
+}
+
+//NORMALS trq-0-100 nh-
+
+let startinterval;
+function testStart(){
+    startinterval = setInterval(start, 7)
+    engineParameters.itt1 = 0
+    engineParameters.itt2 = 0
+    
+}
+
+function start(){
+
+engineParameters.trq1 +=0.11
+engineParameters.trq2 +=0.12
+engineParameters.np1 +=1.3
+engineParameters.np2 +=1
+engineParameters.itt1 +=1
+engineParameters.itt2 +=0.9
+engineParameters.nh1 +=0.11
+engineParameters.nh2 +=0.12
+engineParameters.ff1 +=3
+engineParameters.ff2 +=2.7
+engineParameters.nl1 +=0.11
+engineParameters.nl2 +=0.08
+engineParameters.oil1Temp +=.12
+engineParameters.oil1Press +=.07
+engineParameters.oil2Temp +=.055
+engineParameters.oil2Press +=.088
+    if (engineParameters.itt1 === 920){
+        clearInterval(startinterval)
+    }
+}
