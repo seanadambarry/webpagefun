@@ -22,7 +22,6 @@ function starOne(){
     }
 }
 
-
 let randomy2 = Math.floor(Math.random() * 75) + 100
 let xvalue2 = 500;
 function starTwo(){
@@ -86,15 +85,12 @@ function starFour(){
     }
 }
 
-
-
 function spaceShip(){
     ctx.drawImage(img, 200, 75);  
 }
 
-
 function animateStars(){
-    ctx.fillStyle = "slategrey";
+    ctx.fillStyle = "black";
     ctx.fillRect(0,0,600,300)
 
     starOne()

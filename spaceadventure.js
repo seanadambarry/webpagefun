@@ -49,8 +49,7 @@ let st = 0
 let ssp = 0;
 let cr = 0;
 let ssFlying;
-let ssAnimation;
-
+let ssAnimateInterval;
 
 
 
@@ -657,128 +656,6 @@ function computerRunning(){
     } 
 }
 
-let str = 0;
-function flyAnimation(){
-    
-    if (str === 0){
-        document.getElementById("spacetravel1").innerHTML = "*";
-        document.getElementById("spacetravel2").innerHTML = "\\\\";
-        document.getElementById("spacetravel3").innerHTML = "*";
-        document.getElementById("spacetravel4").innerHTML = "--";
-        document.getElementById("spacetravel5").innerHTML = "*";
-        document.getElementById("spacetravel6").innerHTML = "--";
-        document.getElementById("spacetravel7").innerHTML = "*";
-        document.getElementById("spacetravel8").innerHTML = "--";
-        document.getElementById("spacetravel9").innerHTML = "*";
-        document.getElementById("spacetravel10").innerHTML = "--";
-
-        document.getElementById("spacetravel11").innerHTML = "--";
-        document.getElementById("spacetravel12").innerHTML = "\\\\\\__";
-        document.getElementById("spacetravel13").innerHTML = "\\\\\\__";
-        document.getElementById("spacetravel14").innerHTML = "___";
-        document.getElementById("spacetravel15").innerHTML = "___";
-        document.getElementById("spacetravel16").innerHTML = "*";
-        document.getElementById("spacetravel17").innerHTML = "--";
-        document.getElementById("spacetravel18").innerHTML = "*";
-        document.getElementById("spacetravel19").innerHTML = "--";
-        document.getElementById("spacetravel10").innerHTML = "*";
-
-        document.getElementById("spacetravel21").innerHTML = "*";
-        document.getElementById("spacetravel22").innerHTML = "\\\\\\";
-        document.getElementById("spacetravel23").innerHTML = "o";
-        document.getElementById("spacetravel24").innerHTML = "o";
-        document.getElementById("spacetravel25").innerHTML = "o";
-        document.getElementById("spacetravel26").innerHTML = "\\\\";
-        document.getElementById("spacetravel27").innerHTML = "*";
-        document.getElementById("spacetravel28").innerHTML = "--";
-        document.getElementById("spacetravel29").innerHTML = "*";
-        document.getElementById("spacetravel30").innerHTML = "--";
-
-        document.getElementById("spacetravel31").innerHTML = "--";
-        document.getElementById("spacetravel32").innerHTML = "{__";
-        document.getElementById("spacetravel33").innerHTML = "___";
-        document.getElementById("spacetravel34").innerHTML = "___";
-        document.getElementById("spacetravel35").innerHTML = "___";
-        document.getElementById("spacetravel36").innerHTML = "//";
-        document.getElementById("spacetravel37").innerHTML = "--";
-        document.getElementById("spacetravel38").innerHTML = "*";
-        document.getElementById("spacetravel39").innerHTML = "--";
-        document.getElementById("spacetravel40").innerHTML = "*";
-
-        document.getElementById("spacetravel41").innerHTML = "*";
-        document.getElementById("spacetravel42").innerHTML = "--";
-        document.getElementById("spacetravel43").innerHTML = "*";
-        document.getElementById("spacetravel44").innerHTML = "--";
-        document.getElementById("spacetravel45").innerHTML = "*";
-        document.getElementById("spacetravel46").innerHTML = "--";
-        document.getElementById("spacetravel47").innerHTML = "*";
-        document.getElementById("spacetravel48").innerHTML = "--";
-        document.getElementById("spacetravel49").innerHTML = "*";
-        document.getElementById("spacetravel50").innerHTML = "--";
-
-        str++
-    } else if (str === 1){
-        document.getElementById("spacetravel1").innerHTML = "--";
-        document.getElementById("spacetravel2").innerHTML = "\\\\";
-        document.getElementById("spacetravel3").innerHTML = "--";
-        document.getElementById("spacetravel4").innerHTML = "*";
-        document.getElementById("spacetravel5").innerHTML = "--";
-        document.getElementById("spacetravel6").innerHTML = "*";
-        document.getElementById("spacetravel7").innerHTML = "--";
-        document.getElementById("spacetravel8").innerHTML = "*";
-        document.getElementById("spacetravel9").innerHTML = "--";
-        document.getElementById("spacetravel10").innerHTML = "*";
-
-        document.getElementById("spacetravel11").innerHTML = "--";
-        document.getElementById("spacetravel12").innerHTML = "\\\\\\__";
-        document.getElementById("spacetravel13").innerHTML = "\\\\\\__";
-        document.getElementById("spacetravel14").innerHTML = "___";
-        document.getElementById("spacetravel15").innerHTML = "___";
-        document.getElementById("spacetravel16").innerHTML = "--";
-        document.getElementById("spacetravel17").innerHTML = "*";
-        document.getElementById("spacetravel18").innerHTML = "--";
-        document.getElementById("spacetravel19").innerHTML = "*";
-        document.getElementById("spacetravel10").innerHTML = "--";
-
-        document.getElementById("spacetravel21").innerHTML = "--";
-        document.getElementById("spacetravel22").innerHTML = "\\\\\\";
-        document.getElementById("spacetravel23").innerHTML = "o";
-        document.getElementById("spacetravel24").innerHTML = "o";
-        document.getElementById("spacetravel25").innerHTML = "o";
-        document.getElementById("spacetravel26").innerHTML = "\\\\";
-        document.getElementById("spacetravel27").innerHTML = "--";
-        document.getElementById("spacetravel28").innerHTML = "*";
-        document.getElementById("spacetravel29").innerHTML = "--";
-        document.getElementById("spacetravel30").innerHTML = "*";
-
-        document.getElementById("spacetravel31").innerHTML = "--";
-        document.getElementById("spacetravel32").innerHTML = "{__";
-        document.getElementById("spacetravel33").innerHTML = "___";
-        document.getElementById("spacetravel34").innerHTML = "___";
-        document.getElementById("spacetravel35").innerHTML = "___";
-        document.getElementById("spacetravel36").innerHTML = "//";
-        document.getElementById("spacetravel37").innerHTML = "--";
-        document.getElementById("spacetravel38").innerHTML = "--";
-        document.getElementById("spacetravel39").innerHTML = "*";
-        document.getElementById("spacetravel40").innerHTML = "--";
-
-        document.getElementById("spacetravel41").innerHTML = "--";
-        document.getElementById("spacetravel42").innerHTML = "--";
-        document.getElementById("spacetravel43").innerHTML = "--";
-        document.getElementById("spacetravel44").innerHTML = "--";
-        document.getElementById("spacetravel45").innerHTML = "--";
-        document.getElementById("spacetravel46").innerHTML = "--";
-        document.getElementById("spacetravel47").innerHTML = "--";
-        document.getElementById("spacetravel48").innerHTML = "--";
-        document.getElementById("spacetravel49").innerHTML = "--";
-        document.getElementById("spacetravel50").innerHTML = "--";
-
-        str = 0;
-    }
-}
-
-
-
 function takeOff(){
     if (fuelRequired > spaceShip.fuelAmount){
         document.getElementById("ssFromMessage").style.color = "red"
@@ -787,7 +664,7 @@ function takeOff(){
     } else if (fuelRequired < spaceShip.fuelAmount){
             if (spaceShip.isRunning === true){
                 if (spaceShip.toFromChecked === true){
-                ssAnimation =  setInterval(flyAnimation, 200);
+                ssAnimateInterval = setInterval(animateStars, 10)
                 ssFlying = setInterval(spaceTravel, 100);
                 document.getElementById("ssStatusMessage").style.color = "black"
                 document.getElementById("ssStatusMessage").innerHTML = "&nbsp;"
@@ -814,7 +691,7 @@ function spaceTravel(){
 
         console.log(spaceShip.fuelAmount+ ' ' + fuelRequired)
     } else if (fuelRequired < 0.1){
-        clearInterval(ssAnimation)
+        clearInterval(ssAnimateInterval)
         clearInterval(ssFlying)
         changeTodesttoFromdest()
         document.getElementById("ssStatusMessage").style.color = "green"
@@ -1063,3 +940,112 @@ console.log(universes)
 console.log(myself)
 console.log(spaceShip)
 console.log(myself._currentUniverse.planetsInRange)
+
+///animated spaceship
+
+var canvas = document.getElementById("spaceship");
+var ctx = canvas.getContext("2d");
+var img = document.getElementById("image");
+
+
+let randomy1 = Math.floor(Math.random() * 75) + 100
+let xvalue1 = 300;
+function starOne(){
+    ctx.beginPath()
+    ctx.moveTo(xvalue1,randomy1)
+    ctx.strokeStyle = "white"
+    ctx.lineTo(xvalue1 + 100, randomy1)
+    ctx.stroke()
+
+    xvalue1 = xvalue1 - 20
+
+    if (xvalue1 < -150){
+        
+        randomy1 = Math.floor(Math.random() * 300)
+        console.log('random y1 value' + randomy1)
+        xvalue1 = 700;
+    }
+}
+
+let randomy2 = Math.floor(Math.random() * 75) + 100
+let xvalue2 = 500;
+function starTwo(){
+    ctx.beginPath()
+    ctx.moveTo(xvalue2,randomy2)
+    ctx.strokeStyle = "white"
+    ctx.lineTo(xvalue2 + 50, randomy2)
+    ctx.stroke()
+
+    xvalue2 = xvalue2 - 9
+
+    if (xvalue2 === -100){
+        
+        randomy2 = Math.floor(Math.random() * 300)
+        console.log('random y2 value' + randomy2)
+        xvalue2 = 700;
+    }
+}
+
+let randomy3 = Math.floor(Math.random() * 33) + 100
+let xvalue3 = 100;
+function starThree(){
+    ctx.beginPath()
+    ctx.moveTo(xvalue3,randomy3)
+    ctx.strokeStyle = "white"
+    ctx.lineTo(xvalue3 + 30, randomy3)
+    ctx.stroke()
+
+    xvalue3 = xvalue3 - 15
+
+    if (xvalue3 < -100){
+        
+        randomy3 = Math.floor(Math.random() * 300)
+        console.log('random y3 value' + randomy3)
+        xvalue3 = 700;
+    }
+}
+
+
+let randomy4 = Math.floor(Math.random() * 44) + 100
+let xvalue4 = 222;
+function starFour(){
+    ctx.beginPath()
+    ctx.moveTo(xvalue4,randomy4)
+    ctx.strokeStyle = "white"
+    ctx.lineTo(xvalue4 + 2, randomy4)
+    ctx.lineTo(xvalue4 + 2, randomy4 - 2)
+    ctx.lineTo(xvalue4, randomy4 - 2)
+    ctx.lineTo(xvalue4, randomy4)
+    
+    ctx.stroke()
+    console.log(xvalue4)
+    xvalue4 = xvalue4 - 2
+
+    if (xvalue4 < -50){
+        
+        randomy4 = Math.floor(Math.random() * 222)
+        console.log('random y4 value' + randomy4)
+        xvalue4 = 700;
+        console.log(xvalue4)
+    }
+}
+
+function spaceShipDraw(){
+    ctx.drawImage(img, 200, 75);  
+}
+
+function animateStars(){
+    ctx.fillStyle = "black";
+    ctx.fillRect(0,0,700,300)
+
+    starOne()
+    starTwo()
+    starThree()
+    starFour()
+    spaceShipDraw()
+
+}
+
+
+
+
