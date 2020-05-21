@@ -75,7 +75,7 @@ function starFour(){
     
     ctx.stroke()
     console.log(xvalue4)
-    xvalue4 = xvalue4 - 13
+    xvalue4 = xvalue4 - 2
 
     if (xvalue4 < -50){
         
