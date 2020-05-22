@@ -1070,3 +1070,4 @@ function animateStars(){
 
 
 
+// player navigation area
