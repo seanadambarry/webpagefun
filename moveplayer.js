@@ -4,8 +4,8 @@ let player = {
     _x: 0,
     set x(newX){
       this._x = newX;
-      this.myLeft = this.x;
-      this.myRight = this.x + 50;
+      this.myLeft = this.x + 15;
+      this.myRight = this.x + 35;
     },
     get x(){
       return this._x
@@ -13,8 +13,8 @@ let player = {
     _y : 0,
     set y(newY){
       this._y = newY;
-      this.myTop = this.y;
-      this.myBottom = this.y + 88;
+      this.myTop = this.y + 30;
+      this.myBottom = this.y + 58;
     },
     get y(){
       return this._y;
