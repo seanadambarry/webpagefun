@@ -129,6 +129,7 @@ function updateGameArea() {
         alert('You found gold!');
         player.addGold(gold[i].value);
         gold.splice(i,1)
+        console.log(gold)
       }
 
     }
