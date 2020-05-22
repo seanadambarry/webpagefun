@@ -1068,6 +1068,5 @@ function animateStars(){
 
 }
 
-let intervalId = setInterval(animateStars, 10)
 
 
