@@ -1,5 +1,11 @@
-let canvas = document.getElementById("canvas")
-let context = canvas.getContext("2d");
+let playcanvas = document.getElementById("playcanvas")
+let context = playcanvas.getContext("2d");
+let img = document.getElementById("char");
+
+
+let money = []
+
+/*
 let player = {
     _x: 0,
     set x(newX){
@@ -66,9 +72,9 @@ let enemy = {
     
   };
 
-  let money = []
 
-let img = document.getElementById("char");
+
+
 
 
 for (let i = 0; i < 10; i++){
@@ -92,24 +98,26 @@ for (let i = 0; i < 10; i++){
       return this._y;
     },
     value : 100,
-    height : 20,
-    width : 20,
+    height : 10,
+    width : 10,
     itsLeft : 0,
     itsRight : 0,
     itsTop :0,
     itsBottom : 0
   }
 }
-
+*/
 
 //startup stuff
 player.x = 200;
 player.y = 100;
-enemy.x = Math.floor(Math.random() * (canvas.width - enemy.width));
-enemy.y = Math.floor(Math.random() * (canvas.height - enemy.height));
+enemy.x = Math.floor(Math.random() * (playcanvas.width - enemy.width));
+enemy.y = Math.floor(Math.random() * (playcanvas.height - enemy.height));
+
+
 for (let i = 0; i < 10; i++){
-  money[i].x = Math.floor(Math.random() * (canvas.width - 20))
-  money[i].y = Math.floor(Math.random() * (canvas.height - 20))
+  money[i].x = Math.floor(Math.random() * (playcanvas.width - 20))
+  money[i].y = Math.floor(Math.random() * (playcanvas.height - 20))
 }
 
 
@@ -118,7 +126,7 @@ console.log(money)
 
 function updateGameArea() {
     context.fillStyle = "slategrey"
-    context.fillRect(0, 0, canvas.width, canvas.height)
+    context.fillRect(0, 0, playcanvas.width, playcanvas.height)
 
     //put money on screen
     for (let i = 0; i < money.length; i++){

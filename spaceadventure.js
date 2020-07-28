@@ -1,4 +1,4 @@
-"use strict"
+    "use strict"
 
 window.onload = function() {
     document.getElementById("userInput").focus();
@@ -50,6 +50,7 @@ let ssp = 0;
 let cr = 0;
 let ssFlying;
 let ssAnimateInterval;
+let money = []
 
 
 
@@ -334,16 +335,16 @@ myself = {
     _age : '',
     set age(newAge){
         myself._age = newAge;
-        document.getElementById("age").innerHTML = newAge;
+        document.getElementById("myage").innerHTML = newAge;
     },
     _health : 0,
     set health(newHealth){
         //if health is lower than 20, just display 'low' on page
         this._health = newHealth
         if (newHealth <= 20){
-            document.getElementById("health").innerHTML = 'Low'
+            document.getElementById("myhealth").innerHTML = 'Low'
         } else if (newHealth > 20 ){
-            document.getElementById("health").innerHTML = newHealth;
+            document.getElementById("myhealth").innerHTML = newHealth;
         }
     },
     get health (){
@@ -353,6 +354,7 @@ myself = {
     _strength : 50,
     set strength(newStrength){
         this._strength = newStrength
+        document.getElementById("mystrength").innerHTML = myself.strength;
     },
     get strength(){
         return this._strength
@@ -383,7 +385,51 @@ myself = {
     storyProgNum : 0,
     money : 500,
     skill : 80,
-    weapon : weapons[2]
+    _weapon : {},
+    set weapon(newWeapon){
+        this._weapon = newWeapon;
+        document.getElementById("myweapon").innerHTML = myself.weapon.type;
+        document.getElementById("myweaponpwr").innerHTML = myself.weapon.power;
+    },
+    get weapon(){
+        return this._weapon;
+    },
+    _x: 0,
+    set x(newX){
+      this._x = newX;
+      this.myLeft = this.x;
+      this.myRight = this.x + 55;
+    },
+    get x(){
+      return this._x
+    },
+    _y : 0,
+    set y(newY){
+      this._y = newY;
+      this.myTop = this.y;
+      this.myBottom = this.y + 88;
+    },
+    get y(){
+      return this._y;
+    },
+    myLeft : 0,
+    myRight : 0,
+    myTop : 0,
+    myBottom : 0,
+    speedX: 0.0,
+    speedY: 0.0,
+    _money : 0,
+    set money(newmoney){
+      this._money = newmoney;
+      document.getElementById("moneytotal").innerHTML = `$ ${this._money}`
+      console.log('add money method');
+    },
+    get money(){
+      return this._money;
+    },
+    addmoney(addmoney){
+      this.money = this.money + addmoney;
+    }
 }
 }
 
@@ -448,12 +494,67 @@ function monsterGenerator(){
             alive : true,
             money : Math.floor(Math.random() * 1000),
             weapon : weapons[Math.floor(Math.random() * weapons.length)],
-            skill : Math.floor(Math.random() * 30 + 50)
+            skill : Math.floor(Math.random() * 30 + 50),
+            x_ : 0,
+            set x(newX){
+                this._x = newX;
+                this.itsLeft = this.x;
+                this.itsRight = this.x + this.width;
+              },
+              get x(){
+                return this._x;
+              },
+              _y : 0,
+              set y(newY){
+                this._y = newY;
+                this.itsTop = this.y;
+                this.itsBottom = this.y + this.height;
+              },
+              get y(){
+                return this._y;
+              },
+              height : 30,
+              width : 30,
+              itsLeft : 0,
+              itsRight : 0,
+              itsTop :0,
+              itsBottom : 0
         }
     
     }
 }
 //---------------MONSTERS--------------
+
+//Money----------
+for (let i = 0; i < 10; i++){
+    money[i] = {
+      _x : 0,
+      set x(newX){
+        this._x = newX;
+        this.itsLeft = this.x;
+        this.itsRight = this.x + this.width;
+      },
+      get x(){
+        return this._x;
+      },
+      _y : 0,
+      set y(newY){
+        this._y = newY;
+        this.itsTop = this.y;
+        this.itsBottom = this.y + this.height;
+      },
+      get y(){
+        return this._y;
+      },
+      value : 100,
+      height : 10,
+      width : 10,
+      itsLeft : 0,
+      itsRight : 0,
+      itsTop :0,
+      itsBottom : 0
+    }
+  }
 
 //---------------UNIVERSE - it is randomized--------------
 
@@ -748,9 +849,9 @@ inputField.addEventListener("keyup", function(event) {
   // Number 13 is the "Enter" key on the keyboard
   if (event.keyCode === 13) {
     // Cancel the default action, if needed
-    event.preventDefault();
+    //event.preventDefault();
     // Trigger the button element with a click
-    document.getElementById("userCommandButton").click();
+    userCommand()
     //after pressing enter, clear the text box --maybe add fucntonality to log the previous commands below with a loop etc
     document.getElementById("userInput").value = "";
     
@@ -775,11 +876,11 @@ function userCommand() {
     console.log(entCom)
     if (entCom === 'my stats'){
         //displays the persons stats from the myself object
-        document.getElementById("name").innerHTML = myself._name;
-        document.getElementById("age").innerHTML = myself._age;
-        document.getElementById("health").innerHTML = myself._health;
-        document.getElementById("hunger").innerHTML = myself._hunger;
-        document.getElementById("strength").innerHTML = myself._strength;
+        document.getElementById("myname").innerHTML = myself._name;
+        document.getElementById("myage").innerHTML = myself._age;
+        document.getElementById("myhealth").innerHTML = myself._health;
+        document.getElementById("myhunger").innerHTML = myself._hunger;
+        document.getElementById("my strength").innerHTML = myself._strength;
     } else if (entCom === 'change'){
         myself.age = Number(prompt("What is your new age?"));
        
@@ -807,12 +908,13 @@ function userCommand() {
     
     } else if (entCom === 'fight'){
 
-        document.getElementById("name").innerHTML = myself._name;
-        document.getElementById("age").innerHTML = myself._age;
-        document.getElementById("health").innerHTML = myself._health;
-        document.getElementById("hunger").innerHTML = myself._hunger;
-        document.getElementById("strength").innerHTML = myself._strength;
-        document.getElementById("weaponANDpower").innerHTML = myself.weapon.power;
+        document.getElementById("myname").innerHTML = myself._name;
+        document.getElementById("myage").innerHTML = myself._age;
+        document.getElementById("myhealth").innerHTML = myself._health;
+        document.getElementById("myhunger").innerHTML = myself._hunger;
+        document.getElementById("mystrength").innerHTML = myself._strength;
+        document.getElementById("myweapon").innerHTML = myself.weapon.type;
+        document.getElementById("myweaponpwr").innerHTML = myself.weapon.power;
 
         document.getElementById("ename").innerHTML = myself.currentEnemy.name;
         document.getElementById("etype").innerHTML = myself.currentEnemy.type;
@@ -823,6 +925,8 @@ function userCommand() {
 
         fightEnemy()
 
+    } else if (entCom === 'playgame'){
+        playGame()
     } else if (entCom === 'start computer'){
         spaceShip.computerRunning = true;
     } else if (entCom === 'stop computer'){
@@ -871,12 +975,13 @@ function userCommand() {
         document.getElementById("eweaponANDpower").innerHTML = myself.currentEnemy.weapon.power;
         console.log(myself.currentEnemy)
 
-        document.getElementById("name").innerHTML = myself._name;
-        document.getElementById("age").innerHTML = myself._age;
-        document.getElementById("health").innerHTML = myself._health;
-        document.getElementById("hunger").innerHTML = myself._hunger;
-        document.getElementById("strength").innerHTML = myself._strength;
-        document.getElementById("weaponANDpower").innerHTML = myself.weapon.power;
+        document.getElementById("myname").innerHTML = myself._name;
+        document.getElementById("myage").innerHTML = myself._age;
+        document.getElementById("myhealth").innerHTML = myself._health;
+        document.getElementById("myhunger").innerHTML = myself._hunger;
+        document.getElementById("mystrength").innerHTML = myself._strength;
+        document.getElementById("myweapon").innerHTML = myself.weapon.type;
+        document.getElementById("myweaponpwr").innerHTML = myself.weapon.power;
     } else {
         document.getElementById("errorinput").innerHTML = 'Command not recognized'
     }
@@ -918,8 +1023,11 @@ document.getElementById("storyArea1").innerHTML = story[0];
 document.getElementById("storyArea2").innerHTML = '';
 
 //initialize stats and vairables
-myself.health = (Math.floor(Math.random() * 30)) + 70
-document.getElementById("hunger").innerHTML = myself._hunger;
+myself.health = (Math.floor(Math.random() * 30)) + 70;
+myself.weapon = weapons[2]
+myself.money = 0;
+myself.strength = 70
+document.getElementById("myhunger").innerHTML = myself._hunger;
 spaceShip.isRunning = false;
 spaceShip.fuelAmount = 40000;
 spaceShip.generatorOut = 0;
@@ -940,6 +1048,8 @@ console.log(universes)
 console.log(myself)
 console.log(spaceShip)
 console.log(myself._currentUniverse.planetsInRange)
+console.log(money)
+console.log(weapons)
 
 ///animated spaceship
 
@@ -1071,3 +1181,78 @@ function animateStars(){
 
 
 // player navigation area
+let playcanvas = document.getElementById("playcanvas")
+let context = playcanvas.getContext("2d");
+let img = document.getElementById("char");
+
+let animFrame
+
+myself._currentEnemy.x = Math.floor(Math.random() * 650);
+myself._currentEnemy.y = Math.floor(Math.random() * 650);
+
+for (let i = 0; i < 10; i++){
+    money[i].x = Math.floor(Math.random() * (playcanvas.width - 40))
+    money[i].y = Math.floor(Math.random() * (playcanvas.height - 40))
+  }
+
+function updateGameArea() {
+    context.fillStyle = "slategrey"
+    context.fillRect(0, 0, playcanvas.width, playcanvas.height)
+
+    //put money on screen
+    for (let i = 0; i < money.length; i++){
+      context.fillStyle = "yellow"
+      context.fillRect(money[i].x, money[i].y, money[i].width, money[i].height)
+
+      if (myself.myLeft < money[i].itsRight && myself.myRight > money[i].itsLeft && myself.myTop < money[i].itsBottom && myself.myBottom > money[i].itsTop){
+        myself.addmoney(money[i].value);
+        money.splice(i,1)
+        console.log(money)
+      }
+     
+
+    }
+
+    if (myself.money === 1000){
+        console.log(myself.money)
+        money.splice(0,1)
+        context.fillStyle = "grey"
+        context.fillRect(0, 0, playcanvas.width, playcanvas.height)
+        window.cancelAnimationFrame(animFrame)
+        window.onkeydown = null;
+        return;
+    }
+
+    context.fillStyle = "red"
+    context.fillRect(myself._currentEnemy.x, myself._currentEnemy.y, myself._currentEnemy.width, myself._currentEnemy.height)
+    
+    context.drawImage(img, myself.x, myself.y, 50, 88)
+
+    if (myself.myLeft < myself._currentEnemy.itsRight && myself.myRight > myself._currentEnemy.itsLeft && myself.myTop < myself._currentEnemy.itsBottom && myself.myBottom > myself._currentEnemy.itsTop){
+        alert('enemy!')
+        myself.x = myself._currentEnemy.x + 50
+    }
+    
+
+    //console.log('PLAYER X and Y : ' + myself.x + ' ' + myself.y + 'myself :  ' + myself.myLeft + ' ' + myself.myRight + ' ' + myself.myTop + ' ' + myself.myBottom)
+    //console.log('ENEMY : ' + myself._currentEnemy.itsLeft + ' ' +  myself._currentEnemy.itsRight + ' ' +  myself._currentEnemy.itsTop + ' ' +  myself._currentEnemy.itsBottom)
+
+    animFrame = window.requestAnimationFrame(updateGameArea);  
+}
+
+function playGame(){
+window.onkeydown = function(event) {
+  event.preventDefault() // stops the button scrolling the page
+  if(event.keyCode == 40) { // down
+    myself.y += 10
+  } else if(event.keyCode == 38) { // up
+    myself.y -= 10   
+  } else if(event.keyCode == 39) { // right 
+    myself.x += 10  
+  } else if(event.keyCode == 37) { // left
+    myself.x -= 10        
+  } 
+}
+
+animFrame = window.requestAnimationFrame(updateGameArea); 
+}

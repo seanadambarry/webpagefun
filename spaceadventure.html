@@ -8,60 +8,67 @@
 </head>
 <body>
     <div class="topnav">
-        <a href="#">Link</a>
-        <a href="#">Link</a>
-        <a href="#">Link</a>
+        <table>
+            <tr>
+                <td>
+                    Name
+                </td>
+                <td>
+                    Age
+                </td>
+                <td>
+                    Health
+                </td>
+                <td>
+                    Hunger
+                </td>
+                <td>
+                    Strength
+                </td>
+                <td>
+                    Weapon
+                </td>
+                <td>
+                    Weapon PWR
+                </td>
+                <td>
+                    Money
+                </td>
+            </tr>
+            <tr>
+                <td id="myname">
+                    BLNK
+                </td>
+                <td id="myage">
+                    BLNK
+                </td>
+                <td id="myhealth">
+                    BLNK
+                </td>
+                <td id="myhunger">
+                    BLNK
+                </td>
+                <td id="mystrength">
+                    BLNK
+                </td>
+                <td id="myweapon">
+                    BLNK
+                </td>
+                <td id="myweaponpwr">
+                    BLNK
+                </td>
+                <td  id="moneytotal">
+                    BLNK
+                </td>
+           </tr>
+        </table>
       </div>
     <div class="header">
         Hello this is a game
       </div>
     <div class="col-container">
         <div class="col" style="background-color:#c1d7c0;">
-            <h2>
-                Player Stats!
-            </h2>
-            <table>
-                <tr>
-                    <td>
-                        Name
-                    </td>
-                    <td>
-                        Age
-                    </td>
-                    <td>
-                        Health
-                    </td>
-                    <td>
-                        Hunger
-                    </td>
-                    <td>
-                        Strength
-                    </td>
-                    <td>
-                        Weapon & Power
-                    </td>
-                </tr>
-                <tr>
-                    <td id="name">
-                        BLNK
-                    </td>
-                    <td id="age">
-                        BLNK
-                    </td>
-                    <td id="health">
-                        BLNK
-                    </td>
-                    <td id="hunger">
-                        BLNK
-                    </td>
-                    <td id="strength">
-                        BLNK
-                    </td>
-                    <td id="weaponANDpower">
-
-                    </td>
-               </tr>
-            </table>
+           
             <h2>
                 Enemy Stats!
             </h2>
@@ -115,67 +122,25 @@
                     <td>
                         Player Batt NUM
                     </td>
-                    <td>
-                        Typesss
-                    </td>
-                    <td>
-                        Healthsss
-                    </td>
-                    <td>
-                        Hungersss
-                    </td>
-                    <td>
-                        Strengthsss
-                    </td>
+
                 </tr>
                 <tr>
                     <td id="battleNumber">
                         BLNK
                     </td>
-                    <td id="">
-                        BLNK
-                    </td>
-                    <td id="">
-                        BLNK
-                    </td>
-                    <td id="">
-                        BLNK
-                    </td>
-                    <td id="">
-                        BLNK
-                    </td>
+               </tr>
+               <tr>
+                   <td>
+                       &nbsp;
+                   </td>
                </tr>
                <tr>
                 <td>
                     Enemy Batt NUM
                 </td>
-                <td>
-                    Typesss
-                </td>
-                <td>
-                    Healthsss
-                </td>
-                <td>
-                    Hungersss
-                </td>
-                <td>
-                    Strengthsss
-                </td>
             </tr>
             <tr>
                 <td id="ebattleNumber">
-                    BLNK
-                </td>
-                <td id="">
-                    BLNK
-                </td>
-                <td id="">
-                    BLNK
-                </td>
-                <td id="">
-                    BLNK
-                </td>
-                <td id="">
                     BLNK
                 </td>
            </tr>
@@ -190,9 +155,8 @@
             <p id="storyArea2">
                 Afer User Command
             </p>
-            <br>
-            <br>
-            <canvas id="navcanvas" height="700px" width="700px"></canvas>
+            <canvas id="playcanvas" height="700px" width="700px"></canvas>
+           
             </div>
         <div class="col" style="background-color:#c1d7c0;">
             <font size="2">
@@ -363,7 +327,6 @@
                     <td>
                         <input type="text" id="userInput" class="userinput" value ="">
                         <div class="errorinput" id="errorinput"></div>
-                        <button id="userCommandButton" onclick="userCommand()">Enter!</button>
                     </td>
                 </tr>
             </table>
@@ -372,6 +335,8 @@
       <img id="image1" src="ss1.png" hidden>
       <img id="image2" src="ss2.png" hidden>
       <img id="image3" src="ss3.png" hidden>
+      <img src="char.png" id="char" hidden>
+    
 <script src="spaceadventure.js"></script>
 
 </body>
