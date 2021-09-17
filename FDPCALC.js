@@ -30,6 +30,7 @@ function calculate() {
             } else {
                 console.log("error")
             }
+            document.getElementById("output").innerHTML = averageft + " " + numberofflts + " " + startoffdp
             break;
         case "30m-l50":
             console.log("30 mins or more less than 50");
@@ -42,6 +43,7 @@ function calculate() {
             } else {
                 console.log("error")
             }
+            document.getElementById("output").innerHTML = averageft + " " + numberofflts + " " + startoffdp
             break;
         case "l30":
             console.log("less than 30");
@@ -54,6 +56,7 @@ function calculate() {
             } else {
                 console.log("error")
             }
+            document.getElementById("output").innerHTML = averageft + " " + numberofflts + " " + startoffdp
             break;
     }
 };
