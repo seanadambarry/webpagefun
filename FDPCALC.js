@@ -6,11 +6,21 @@ const columnData = [
     [9,10,11,12,13,12.5,12,11,10],
     [9,9,10,11,12,11.5,11,10,9 ],
     [9,9,9,10,11,10.5,10,9,9]
-    
 ]
+console.log(columnData)
 let columnNum = 0
-let cdat = columnData[0][5]
-console.log(cdat)
+
+let startFDPHH = 0
+let startFDPMM = 0
+let startFDPHH60 = 0
+let startFDPMM60 = 0
+let startFDPdec = 0
+
+let maxFDPdec = 0
+
+let endFDPdec = 0
+let endFDPHH = 0
+let endFDPMM = 0
 
 console.log(averageft + ' averageft default')
 console.log(numberofflts + ' numberofflts default')
@@ -94,40 +104,101 @@ function MaxFdp(){
         case "24:00-03:59":
             console.log("MAX FDP " + columnData[columnNum][0] + " hrs")
             document.getElementById("maxFDP").innerHTML = "Maximum FDP (hours) = " + columnData[columnNum][0]
+            maxFDPdec = columnData[columnNum][0]
+            endFDP()
             break;
         case "04:00-04:59":
             console.log("MAX FDP " + columnData[columnNum][1] + " hrs")
             document.getElementById("maxFDP").innerHTML = "Maximum FDP (hours) = " + columnData[columnNum][1]
+            maxFDPdec = columnData[columnNum][1]
+            endFDP()
             break;
         case "05:00-05:59":
             console.log("MAX FDP " + columnData[columnNum][2] + " hrs")
             document.getElementById("maxFDP").innerHTML = "Maximum FDP (hours) = " + columnData[columnNum][2]
+            maxFDPdec = columnData[columnNum][2]
+            endFDP()
             break;
         case "06:00-06:59":
             console.log("MAX FDP " + columnData[columnNum][3] + " hrs")
             document.getElementById("maxFDP").innerHTML = "Maximum FDP (hours) = " + columnData[columnNum][3]
+            maxFDPdec = columnData[columnNum][3]
+            endFDP()
             break;
         case "07:00-12:59":
             console.log("MAX FDP " + columnData[columnNum][4] + " hrs")
             document.getElementById("maxFDP").innerHTML = "Maximum FDP (hours) = " + columnData[columnNum][4]
+            maxFDPdec = columnData[columnNum][4]
+            endFDP()
             break;
         case "13:00-16:59":
             console.log("MAX FDP " + columnData[columnNum][5] + " hrs")
             document.getElementById("maxFDP").innerHTML = "Maximum FDP (hours) = " + columnData[columnNum][5]
+            maxFDPdec = columnData[columnNum][5]
+            endFDP()
             break;
         case "17:00-21:59":
             console.log("MAX FDP " + columnData[columnNum][6] + " hrs")
             document.getElementById("maxFDP").innerHTML = "Maximum FDP (hours) = " + columnData[columnNum][6]
+            maxFDPdec = columnData[columnNum][6]
+            endFDP()
             break;
         case "22:00-22:59":
             console.log("MAX FDP " + columnData[columnNum][7] + " hrs")
             document.getElementById("maxFDP").innerHTML = "Maximum FDP (hours) = " + columnData[columnNum][7]
+            maxFDPdec = columnData[columnNum][7]
+            endFDP()
             break;
         case "23:00-23:59":
             console.log("MAX FDP " + columnData[columnNum][8] + " hrs")
             document.getElementById("maxFDP").innerHTML = "Maximum FDP (hours) = " + columnData[columnNum][8]
+            maxFDPdec = columnData[columnNum][8]
+            endFDP()
             break;   
                             
+    }
+}
+
+function endFDP(){
+    console.log("change time")
+    startFDPHH = document.getElementById("startFDPHH").value
+    startFDPMM = document.getElementById("startFDPMM").value
+
+    startFDPHH60 = Number(startFDPHH)
+    startFDPMM60 = Number(startFDPMM) / 60
+    startFDPdec = startFDPHH60 + startFDPMM60
+    
+    
+    endFDPdec = startFDPdec + maxFDPdec
+
+    console.log(typeof startFDPHH60)
+    console.log(typeof startFDPMM60)
+    console.log(startFDPHH60)
+
+    console.log(startFDPdec + " start of FDP")
+    console.log(maxFDPdec + " max FDP")
+    console.log(endFDPdec + " end of FDP")
+
+    if (endFDPdec > 24){
+        endFDPdec = endFDPdec - 24
+        endFDPHH = Math.floor(endFDPdec)
+        endFDPMM = Math.floor((endFDPdec - Math.floor(endFDPdec)) * 60)
+        console.log(endFDPHH + " end FDP hour")
+        console.log(endFDPMM + " end fdp minutes")
+        console.log(endFDPdec + " end of FDP was greater than 24")
+
+        document.getElementById("endFDPHH").value = endFDPHH
+        document.getElementById("endFDPMM").value = endFDPMM
+
+    } else {
+        endFDPHH = Math.floor(endFDPdec)
+        endFDPMM = Math.floor((endFDPdec - Math.floor(endFDPdec)) * 60)
+        console.log(endFDPHH + " end FDP hour")
+        console.log(endFDPMM + " end fdp minutes")
+        console.log(endFDPdec + " end of FDP was less than 24")
+
+        document.getElementById("endFDPHH").value = endFDPHH
+        document.getElementById("endFDPMM").value = endFDPMM
     }
 }
 

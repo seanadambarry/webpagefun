@@ -17,6 +17,14 @@
     <br>
     <br>
     <form id="FDPCALC">
+        Start of FDP at acclimatized zone
+    <br>
+    <label for="startFDPHH">HOURS</label>
+    <input id="startFDPHH" type="text" value="HH" onfocusout="calculate()">
+    <label for="startFDPMM">MINUTES</label>
+    <input id="startFDPMM" type="text" value="MM" onfocusout="calculate()">
+    <br>
+    <br>
         <label for="averageft">Average flight time:</label>
         <br>
         <select id="averageft" onchange="calculate()">
@@ -81,6 +89,14 @@
             </td>
         </tr>
     </table>
+    <br>
+    
+    End of FDP at acclimatized zone
+    <br>
+    <label for="endFDPMM">HOURS</label>
+    <input id="endFDPHH" type="text" value="HH">
+    <label for="endFDPMM">MINUTES</label>
+    <input id="endFDPMM" type="text" value="MM">
 
     <script src="FDPCALC.js"></script>
 </body>
