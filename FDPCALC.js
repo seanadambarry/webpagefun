@@ -11,7 +11,7 @@ console.log(averageft + ' averageft default')
 console.log(numberofflts + ' numberofflts default')
 console.log(startoffdp + ' startoffdp default')
 document.getElementById("output").innerHTML = averageft + " " + numberofflts + " " + startoffdp
-
+calculate()
 
 function calculate() {
     averageft = document.getElementById("averageft").value;
