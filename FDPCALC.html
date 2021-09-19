@@ -17,12 +17,12 @@
     <br>
     <br>
     <form id="FDPCALC">
-        Start of FDP at acclimatized zone
+    Start of FDP at acclimatized zone
     <br>
     <label for="startFDPHH">HOURS</label>
-    <input id="startFDPHH" type="text" value="HH" onfocusout="calculate()">
+    <input id="startFDPHH" type="text" value=18 onfocusout="calculate()">
     <label for="startFDPMM">MINUTES</label>
-    <input id="startFDPMM" type="text" value="MM" onfocusout="calculate()">
+    <input id="startFDPMM" type="text" value=00 onfocusout="calculate()">
     <br>
     <br>
         <label for="averageft">Average flight time:</label>
@@ -80,6 +80,28 @@
         </select>
         <br>
         <br>
+        <br>
+        <label for="splitDuty">Split flight?</label>
+        <br>
+        <select id="splitDuty" onchange="calculate()">
+          <option value="yes">YES</option>
+          <option value="no">NO</option>
+        </select>
+        <br>
+        At hotel
+        <br>
+    <label for="atHotelHH">HOURS</label>
+    <input id="atHotelHH" type="text" value=0 onfocusout="calculate()">
+    <label for="atHotelMM">MINUTES</label>
+    <input id="atHotelMM" type="text" value=0 onfocusout="calculate()">
+        <br>
+        Leave hotel 
+        <br>
+    <label for="leaveHotelHH">HOURS</label>
+    <input id="leaveHotelHH" type="text" value=6 onfocusout="calculate()">
+    <label for="leaveHotelMM">MINUTES</label>
+    <input id="leaveHotelMM" type="text" value=30 onfocusout="calculate()">
+        <br>
       </form>
       <BR>
     <table>
@@ -94,9 +116,9 @@
     End of FDP at acclimatized zone
     <br>
     <label for="endFDPMM">HOURS</label>
-    <input id="endFDPHH" type="text" value="HH">
+    <input id="endFDPHH" type="text" value="HH" onfocusout="calculate()">
     <label for="endFDPMM">MINUTES</label>
-    <input id="endFDPMM" type="text" value="MM">
+    <input id="endFDPMM" type="text" value="MM" onfocusout="calculate()">
 
     <script src="FDPCALC.js"></script>
 </body>

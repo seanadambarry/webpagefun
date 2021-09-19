@@ -21,12 +21,15 @@ let maxFDPdec = 0
 let endFDPdec = 0
 let endFDPHH = 0
 let endFDPMM = 0
+let isSplit = ""
+let extension100 = 0
+let extension50 = 0
 
 console.log(averageft + ' averageft default')
 console.log(numberofflts + ' numberofflts default')
 console.log(startoffdp + ' startoffdp default')
 document.getElementById("output").innerHTML = averageft + " " + numberofflts + " " + startoffdp
-calculate()
+//calculate()
 
 function calculate() {
     averageft = document.getElementById("averageft").value;
@@ -178,8 +181,10 @@ function endFDP(){
     console.log(startFDPdec + " start of FDP")
     console.log(maxFDPdec + " max FDP")
     console.log(endFDPdec + " end of FDP")
+    splitDuty()
 
     if (endFDPdec > 24){
+        
         endFDPdec = endFDPdec - 24
         endFDPHH = Math.floor(endFDPdec)
         endFDPMM = Math.floor((endFDPdec - Math.floor(endFDPdec)) * 60)
@@ -189,8 +194,9 @@ function endFDP(){
 
         document.getElementById("endFDPHH").value = endFDPHH
         document.getElementById("endFDPMM").value = endFDPMM
-
+        
     } else {
+        
         endFDPHH = Math.floor(endFDPdec)
         endFDPMM = Math.floor((endFDPdec - Math.floor(endFDPdec)) * 60)
         console.log(endFDPHH + " end FDP hour")
@@ -199,6 +205,121 @@ function endFDP(){
 
         document.getElementById("endFDPHH").value = endFDPHH
         document.getElementById("endFDPMM").value = endFDPMM
+
     }
 }
 
+function splitDuty(){
+    isSplit = document.getElementById("splitDuty").value 
+    console.log(isSplit + " before IF")
+
+    let atHotelHH = Number(document.getElementById("atHotelHH").value)
+    let atHotelMM = Number(document.getElementById("atHotelMM").value)
+    let leaveHotelHH = Number(document.getElementById("leaveHotelHH").value)
+    let leaveHotelMM = Number(document.getElementById("leaveHotelMM").value)
+    let atHoteldec = atHotelHH + (atHotelMM/60)
+    let leaveHoteldec = leaveHotelHH + (leaveHotelMM/60)
+    let totalRest = 0
+    let rest0600to2359 = 0
+    let rest2400to0559 = 0
+    let restExtension = 0
+    console.log(totalRest + " total rest calc")
+    console.log(atHotelHH)
+    console.log(atHoteldec + " at hotel decimal")
+
+    console.log(leaveHotelHH)
+    console.log(leaveHoteldec + " leave hotel decimal")
+
+    if (isSplit == "yes") {
+        console.log("-----it is a split-----")
+        console.log(startFDPdec + " start of FDP")
+        console.log(endFDPdec + " end of FDP")
+        
+        if (atHoteldec < 24 & leaveHoteldec < atHoteldec){
+            
+            console.log("at hotel before midnight")
+
+            totalRest = (24 - atHoteldec) + leaveHoteldec 
+
+            console.log(totalRest + " total rest hrs before sectioning it out")
+
+            if (leaveHoteldec >= 6){
+                console.log(leaveHoteldec + " leave hotel at or after 6am")
+             
+                rest0600to2359 = ((23 + (59/60)) - atHoteldec) + (leaveHoteldec - (5 + (59/60)))
+
+                rest2400to0559 = (5 + (59/60))
+
+                console.log(rest0600to2359 + " total rest 0600 to 2359 midnight leave hotel at or after 6am")
+                console.log(rest2400to0559 + " total rest 2400 to 0559 leave hote at or after 6 am")
+            } else if (leaveHoteldec < 6){
+                console.log(leaveHoteldec + " leave hotel before 6am")
+                rest0600to2359 = (23 + (59/60)) - atHoteldec
+                rest2400to0559 = leaveHoteldec
+                console.log(rest0600to2359 + " rest before midnight leave hotel before 6am")
+                console.log(rest2400to0559 + " rest after midnight leave before 6 am")
+            } 
+            
+            let totalRestm45 = (rest0600to2359 + rest2400to0559) - 0.75
+
+            console.log(totalRestm45 + " rest minue 45 mins")
+
+            restExtension = totalRestm45 - (rest0600to2359 * 0.5)
+
+            console.log(restExtension + " rest extension ")
+            endFDPdec += restExtension
+
+        } else if (atHoteldec >= 0 & leaveHoteldec > atHoteldec) {
+
+            console.log("at hotel after midnight")
+
+            totalRest = leaveHoteldec - atHoteldec 
+
+            console.log(totalRest + " total rest hrs before sectioning it out")
+
+            if (leaveHoteldec >= 6){
+                console.log(leaveHoteldec + " leave hotel at or after 6am")
+             
+                rest0600to2359 = leaveHoteldec - 6
+
+                rest2400to0559 = (5 + (59/60)) - atHoteldec
+
+                console.log(rest0600to2359 + " total rest 0600 to 2359 arrive after midnight leave hotel at or after 6am")
+                console.log(rest2400to0559 + " total rest 2400 to 0559 arrive after midnight leave hote at or after 6 am")
+
+                
+
+            } else if (leaveHoteldec < 6){
+                console.log(leaveHoteldec + " leave hotel before 6am")
+
+                rest0600to2359 = 0
+                rest2400to0559 = leaveHoteldec - atHoteldec
+
+                console.log(rest0600to2359 + " rest before midnight leave hotel before 6am")
+                console.log(rest2400to0559 + " rest after midnight leave before 6 am")
+
+
+            } 
+
+            
+            let totalRestm45 = (rest0600to2359 + rest2400to0559) - 0.75
+
+            console.log(totalRestm45 + " rest minus 45 mins")
+
+            restExtension = totalRestm45 - (rest0600to2359 * 0.5)
+            
+            console.log(restExtension + " rest extension ")
+            
+            endFDPdec += restExtension
+
+        }
+
+
+    } else if (isSplit == "no"){
+        console.log("-----it is NOT a split----")
+        console.log(startFDPdec + " start of FDP")
+        console.log(endFDPdec + " end of FDP - no rest extension")
+        
+    }
+    console.log(isSplit + " end of function")
+}
